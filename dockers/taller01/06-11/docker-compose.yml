@@ -1,0 +1,26 @@
+version: "3.7"
+services:
+  servidor_service:
+    build: ./servidor
+    restart: always
+    ports:
+      - "8080:80"
+    environment:
+      ROOT: prueba
+  cliente_service:
+    build: ./cliente
+    restart: "no"
+    depends_on:
+      - servidor_service
+    environment:
+      SERVER: servidor_service
+      CLIENTE: pedro
+  administrador_service:
+    build: ./cliente
+    restart: "no"
+    depends_on:
+      - servidor_service
+    environment:
+      SERVER: servidor_service
+      CLIENTE: prueba
+
