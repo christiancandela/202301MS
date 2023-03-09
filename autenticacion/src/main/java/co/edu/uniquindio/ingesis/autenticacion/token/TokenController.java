@@ -1,12 +1,14 @@
 package co.edu.uniquindio.ingesis.autenticacion.token;
 
+import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.UriBuilder;
 
+import java.net.URI;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Objects;
 
 /**
@@ -17,9 +19,18 @@ import java.util.Objects;
 @Singleton
 public class TokenController {
 
+    @Inject
+    private TokenRepository repository;
+
     @POST
     public Response create( Credential credential) {
-        throw new WebApplicationException("Operación en construcción", Response.Status.INTERNAL_SERVER_ERROR);
+        if( !credential.getUserName().equals(credential.getPassword()) ){
+            throw new WebApplicationException("Nombre de usuario o clave incorrectas.", Response.Status.UNAUTHORIZED);
+        }
+        Token token = repository.save(Token.of(credential.getUserName()));
+        URI uri = UriBuilder.fromPath("/{id}").build(token.getToken());
+        return Response.created(uri)
+                .entity(token).header("Authorization","Bearer "+token.getToken()).build() ;
     }
 
     @DELETE
@@ -38,6 +49,6 @@ public class TokenController {
 
     @GET
     public Collection<Token> list(){
-        return Collections.EMPTY_LIST;
+        return repository.getAll();
     }
 }

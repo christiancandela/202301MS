@@ -40,9 +40,15 @@ Puede ver la aplicación en la URL
 
 ### login 
 
+Solicitud correcta
 ```shell  
-curl -i -X POST http://localhost:8080/api/tokens -H 'Content-Type: application/json' -d '{"usuario":"pedro","login":"pedro"}'
+curl -i -X POST http://localhost:8080/api/tokens -H 'Content-Type: application/json' -d '{"usuario":"pedro","clave":"pedro"}'
 ```
+
+```shell  
+curl -i -X POST http://localhost:8080/api/tokens -H 'Content-Type: application/json' -d '{"usuario":"pedro","clave":"juan"}'
+```
+
 
 ### logout
 
@@ -56,4 +62,8 @@ curl -i -H"'Authorization: Bearer ${token}'" DELETE http://localhost:8080/api/to
 curl -i -X GET http://localhost:8080/api/tokens/${token} 
 ```
 
+### list
 
+```shell  
+curl -i -X GET http://localhost:8080/api/tokens/ 
+```

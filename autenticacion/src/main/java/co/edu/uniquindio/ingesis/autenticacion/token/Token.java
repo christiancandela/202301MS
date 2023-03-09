@@ -4,10 +4,11 @@ import jakarta.json.bind.annotation.JsonbProperty;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public class Token implements Serializable {
     @JsonbProperty("token")
-    private String uuid;
+    private String token;
     @JsonbProperty("vigencia")
     private LocalDateTime expirationDate;
     @JsonbProperty("usuario")
@@ -20,22 +21,29 @@ public class Token implements Serializable {
 
     private Token(String userName) {
         this.userName = userName;
+        this.token = UUID.randomUUID().toString();
         expirationDate = LocalDateTime.now().plusMinutes(TIME_LIVE_LIMIT);
-    }
-
-    public LocalDateTime getExpirationDate() {
-        return expirationDate;
-    }
-
-
-    public String getUserName() {
-        return userName;
     }
 
     public static Token of(String userName){
         return new Token(userName);
     }
 
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public LocalDateTime getExpirationDate() {
+        return expirationDate;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
 
     public void setExpirationDate(LocalDateTime expirationDate) {
         this.expirationDate = expirationDate;
