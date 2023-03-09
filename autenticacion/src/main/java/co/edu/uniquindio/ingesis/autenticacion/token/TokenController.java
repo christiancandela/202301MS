@@ -2,6 +2,7 @@ package co.edu.uniquindio.ingesis.autenticacion.token;
 
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -23,7 +24,7 @@ public class TokenController {
     private TokenRepository repository;
 
     @POST
-    public Response create( Credential credential) {
+    public Response create( @Valid Credential credential) {
         if( !credential.getUserName().equals(credential.getPassword()) ){
             throw new WebApplicationException("Nombre de usuario o clave incorrectas.", Response.Status.UNAUTHORIZED);
         }
