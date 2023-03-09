@@ -36,4 +36,24 @@ Puede ver la aplicación en la URL
 
    [http://localhost:8080/index.html](http://localhost:8080/index.html)  
 
+## Test
+
+### login 
+
+```shell  
+curl -i -X POST http://localhost:8080/api/tokens -H 'Content-Type: application/json' -d '{"usuario":"pedro","login":"pedro"}'
+```
+
+### logout
+
+```shell  
+curl -i -H"'Authorization: Bearer ${token}'" DELETE http://localhost:8080/api/tokens/${token}  
+```
+
+### check token
+
+```shell  
+curl -i -X GET http://localhost:8080/api/tokens/${token} 
+```
+
 
