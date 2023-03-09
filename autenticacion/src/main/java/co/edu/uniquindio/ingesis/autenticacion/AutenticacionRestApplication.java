@@ -7,7 +7,7 @@ import jakarta.ws.rs.core.Application;
 /**
  *
  */
-@ApplicationPath("/data")
+@ApplicationPath("/api")
 @ApplicationScoped
 public class AutenticacionRestApplication extends Application {
 }

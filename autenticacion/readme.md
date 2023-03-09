@@ -1,33 +1,39 @@
-# MicroProfile generated Application
+# Seguridad - API
 
 ## Introduction
 
-MicroProfile Starter has generated this MicroProfile application for you.
+Ejemplo generado usando microprofile, de forma particular la implementación de payaramicro.
 
-The generation of the executable jar file can be performed by issuing the following command
+## Tools
+- java 11
+- maven 3.8
+- microprofile 6.0
+- payaramicro 6.2023.2
 
+## compile and build
 
+La compilación y construcción se realiza mediante el siguiente comando
+
+```shell
     mvn clean package
+```
 
-This will create an executable jar file **autenticacion-microbundle.jar** within the _target_ maven folder. This can be started by executing the following command
-
-    java -jar target/autenticacion-microbundle.jar
-
+El comando genera un jar denominado  **autenticacion-microbundle.jar** tipicamente en la carpeta target.
 
 
+## Run
 
-To launch the test page, open your browser at the following URL
+Finalmente se puede proceder con la ejecución de la aplicación.
 
-    http://localhost:8080/index.html  
+```shell  
+java -jar target/autenticacion-microbundle.jar --nocluster
+```
 
 
 
-## Specification examples
 
-By default, there is always the creation of a JAX-RS application class to define the path on which the JAX-RS endpoints are available.
+Puede ver la aplicación en la URL
 
-Also, a simple Hello world endpoint is created, have a look at the class **HelloController**.
-
-More information on MicroProfile can be found [here](https://microprofile.io/)
+   [http://localhost:8080/index.html](http://localhost:8080/index.html)  
 
 
