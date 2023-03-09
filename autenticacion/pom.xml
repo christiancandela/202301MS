@@ -13,6 +13,7 @@
     <payaraVersion>6.2023.2</payaraVersion>
     <microprofileVersion>6.0</microprofileVersion>
     <final.name>autenticacion</final.name>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
   <dependencies>
     <dependency>

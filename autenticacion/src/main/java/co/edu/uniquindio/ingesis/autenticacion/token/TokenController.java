@@ -13,17 +13,11 @@ import java.util.Objects;
  *
  */
 @Path("/tokens")
+@Produces(MediaType.APPLICATION_JSON+"; charset=UTF-8")
 @Singleton
 public class TokenController {
 
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public Collection<Token> obtenerTokens() {
-        return Collections.EMPTY_LIST;
-    }
-
     @POST
-    @Produces(MediaType.APPLICATION_JSON)
     public Response create( Credential credential) {
         throw new WebApplicationException("Operación en construcción", Response.Status.INTERNAL_SERVER_ERROR);
     }
