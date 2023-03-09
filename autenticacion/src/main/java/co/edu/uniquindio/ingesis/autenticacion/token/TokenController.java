@@ -64,7 +64,7 @@ public class TokenController {
     public Response check(@PathParam("token") String token){
         LOGGER.info("Operacion check");
         Objects.requireNonNull(token,"El token no puede ser nulo");
-        throw new WebApplicationException("Token no encontrado.", Response.Status.NOT_FOUND);
+        return Response.ok(getAndVerify(token)).build();
     }
 
     @GET

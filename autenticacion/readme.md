@@ -73,9 +73,13 @@ curl -i -H "Authorization: Bearer ${token}" -X DELETE http://localhost:8080/api/
 
 
 ### check token
-
+Solicitud correcta
 ```shell  
 curl -i -X GET http://localhost:8080/api/tokens/${token} 
+```
+Solicitud 404
+```shell  
+curl -i -X GET http://localhost:8080/api/tokens/123  
 ```
 
 ### list
