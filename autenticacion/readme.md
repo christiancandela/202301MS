@@ -44,17 +44,33 @@ Solicitud correcta
 ```shell  
 curl -i -X POST http://localhost:8080/api/tokens -H 'Content-Type: application/json' -d '{"usuario":"pedro","clave":"pedro"}'
 ```
-
+Solicitud con respuesta 401
 ```shell  
 curl -i -X POST http://localhost:8080/api/tokens -H 'Content-Type: application/json' -d '{"usuario":"pedro","clave":"juan"}'
+```
+Solicitud con respuesta 400
+```shell  
+curl -i -X POST http://localhost:8080/api/tokens -H 'Content-Type: application/json' -d '{}'
 ```
 
 
 ### logout
-
+Solicitud correcta
 ```shell  
-curl -i -H"'Authorization: Bearer ${token}'" DELETE http://localhost:8080/api/tokens/${token}  
+curl -i -H "Authorization: Bearer ${token}" -X DELETE http://localhost:8080/api/tokens/${token}  
 ```
+Solicitud 401
+```shell  
+curl -i -X DELETE http://localhost:8080/api/tokens/123  
+```
+```shell  
+curl -i -H "Authorization: Bearer 123" -X DELETE http://localhost:8080/api/tokens/123  
+```
+Solicitud 403
+```shell  
+curl -i -H "Authorization: Bearer ${token}" -X DELETE http://localhost:8080/api/tokens/123  
+```
+
 
 ### check token
 
