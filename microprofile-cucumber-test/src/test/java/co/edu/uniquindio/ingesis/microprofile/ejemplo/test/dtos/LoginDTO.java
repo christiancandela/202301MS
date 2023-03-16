@@ -1,5 +1,10 @@
 package co.edu.uniquindio.ingesis.microprofile.ejemplo.test.dtos;
 
+import lombok.Builder;
+import lombok.Getter;
+
+@Getter
+@Builder
 public class LoginDTO {
     private final String usuario;
     private final String clave;
@@ -9,15 +14,4 @@ public class LoginDTO {
         this.clave = clave;
     }
 
-    public String getUsuario() {
-        return usuario;
-    }
-
-    public String getClave() {
-        return clave;
-    }
-
-    public static LoginDTO of(String usuario, String clave) {
-        return new LoginDTO(usuario, clave);
-    }
 }

@@ -6,13 +6,14 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
+
 public class LoginSteps {
 
     private LoginDTO loginDTO;
 
     @Given("Soy un usuario registrado del sistema usando credenciales validas")
     public void soyUnUsuarioRegistradoDelSistemaUsandoCredencialesValidas() {
-        loginDTO = LoginDTO.of("pedro","pedro");
+        loginDTO = LoginDTO.builder().usuario("pedro").clave("pedro").build();
     }
 
     @When("invoco el servicio de autenticación")
