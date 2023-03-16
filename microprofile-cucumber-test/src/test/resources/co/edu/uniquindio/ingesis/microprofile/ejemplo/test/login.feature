@@ -5,7 +5,7 @@ Feature: The Login API provide to user the function for Login and Logout of appl
   para poder hacer uso de las funcionalidades
     Given Soy un usuario registrado del sistema usando credenciales validas
     When invoco el servicio de autenticación
-    Then obtengo un status code "201"
+    Then obtengo un status code 200
     And un token de autenticación
 
 
