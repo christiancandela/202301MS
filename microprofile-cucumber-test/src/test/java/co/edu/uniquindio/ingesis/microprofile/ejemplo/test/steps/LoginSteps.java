@@ -5,11 +5,15 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import io.restassured.http.ContentType;
 
+import static io.restassured.RestAssured.*;
+import static io.restassured.matcher.RestAssuredMatchers.*;
 
 public class LoginSteps {
 
     private LoginDTO loginDTO;
+    private static final String BASE_URL = "http://localhost:8080/api/tokens";
 
     @Given("Soy un usuario registrado del sistema usando credenciales validas")
     public void soyUnUsuarioRegistradoDelSistemaUsandoCredencialesValidas() {
@@ -18,6 +22,8 @@ public class LoginSteps {
 
     @When("invoco el servicio de autenticación")
     public void invocoElServicioDeAutenticacion() {
+        baseURI = BASE_URL;
+        given().contentType(ContentType.JSON).body(loginDTO).when().post();
     }
 
     @Then("obtengo un status code {string}")
