@@ -1,5 +1,6 @@
 package co.edu.uniquindio.ingesis.microprofile.ejemplo.test.steps;
 
+import co.edu.uniquindio.ingesis.microprofile.ejemplo.test.dtos.ErrorDTO;
 import co.edu.uniquindio.ingesis.microprofile.ejemplo.test.dtos.LoginDTO;
 import co.edu.uniquindio.ingesis.microprofile.ejemplo.test.dtos.TokenDTO;
 import io.cucumber.java.en.And;
@@ -12,6 +13,7 @@ import io.restassured.response.Response;
 import static io.restassured.RestAssured.*;
 import static io.restassured.matcher.RestAssuredMatchers.*;
 import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class LoginSteps {
@@ -47,4 +49,30 @@ public class LoginSteps {
                 .extract().body().as(TokenDTO.class);
         assertNotNull(tokenDTO);
     }
+
+    @Given("Soy un usuario registrado del sistema usando credenciales invalidas")
+    public void soyUnUsuarioRegistradoDelSistemaUsandoCredencialesInvalidas() {
+        loginDTO = LoginDTO.builder().usuario("pedro").clave("juan").build();
+    }
+
+    @And("un mensaje que indica que el {string}")
+    public void unMensajeQueIndicaQueEl(String mensaje) {
+        ErrorDTO[] errores = response.then()
+                .body("error",response->notNullValue())
+                .body("error", hasItems(mensaje))
+                .extract().body().as(ErrorDTO[].class);
+        assertEquals(mensaje,errores[0].getError());
+    }
+
+    @Given("Soy un usuario registrado del sistema omitiendo el {string}")
+    public void soyUnUsuarioRegistradoDelSistemaOmitiendoEl(String campo) {
+        if( "usuario".equals(campo) ) {
+            loginDTO = LoginDTO.builder().clave("pedro").build();
+        } else if ("clave".equals(campo)){
+            loginDTO = LoginDTO.builder().usuario("pedro").build();
+        } else {
+            loginDTO = LoginDTO.builder().build();
+        }
+    }
+
 }
