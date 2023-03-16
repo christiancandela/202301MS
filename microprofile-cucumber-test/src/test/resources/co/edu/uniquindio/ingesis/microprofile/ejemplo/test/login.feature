@@ -28,3 +28,4 @@ Feature: The Login API provide to user the function for Login and Logout of appl
       |  usuario | El nombre de usuario es obligatorio. |
       |  clave   | La clave es obligatoria.             |
       |          | La clave es obligatoria.             |
+      |          | El nombre de usuario es obligatorio. |

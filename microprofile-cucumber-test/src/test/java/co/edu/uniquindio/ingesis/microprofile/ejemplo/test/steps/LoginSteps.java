@@ -10,11 +10,12 @@ import io.cucumber.java.en.When;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 
-import static io.restassured.RestAssured.*;
-import static io.restassured.matcher.RestAssuredMatchers.*;
-import static org.hamcrest.Matchers.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static io.restassured.RestAssured.baseURI;
+import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.hasItems;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class LoginSteps {
 
@@ -61,7 +62,7 @@ public class LoginSteps {
                 .body("error",response->notNullValue())
                 .body("error", hasItems(mensaje))
                 .extract().body().as(ErrorDTO[].class);
-        assertEquals(mensaje,errores[0].getError());
+        assertTrue(errores.length>0);
     }
 
     @Given("Soy un usuario registrado del sistema omitiendo el {string}")
