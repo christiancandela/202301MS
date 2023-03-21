@@ -20,7 +20,11 @@ public class LoginSteps {
     private Response response;
     @Given("Soy un usuario registrado del sistema usando credenciales validas")
     public void soyUnUsuarioRegistradoDelSistemaUsandoCredencialesValidas() {
-        usuario = UsuarioDTO.of("pedro","pedro");
+        usuario = UsuarioDTO
+                .builder()
+                .usuario("pedro")
+                .clave("pedro")
+                .build();
     }
 
     @When("invoco el servicio de autenticación")

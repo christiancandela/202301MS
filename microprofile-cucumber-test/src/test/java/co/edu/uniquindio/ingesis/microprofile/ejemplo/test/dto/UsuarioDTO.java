@@ -1,29 +1,16 @@
 package co.edu.uniquindio.ingesis.microprofile.ejemplo.test.dto;
 
+import lombok.Builder;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
 import java.beans.ConstructorProperties;
 import java.io.Serializable;
 
+@Getter
+@RequiredArgsConstructor(onConstructor_={@ConstructorProperties({"usuario","clave"})} )
+@Builder
 public class UsuarioDTO implements Serializable {
     private final String usuario;
     private final String clave;
-
-
-
-    @ConstructorProperties({"usuario","clave"})
-    private UsuarioDTO(String usuario, String clave) {
-        this.usuario = usuario;
-        this.clave = clave;
-    }
-
-    public static UsuarioDTO of(String usuario, String clave) {
-        return new UsuarioDTO(usuario, clave);
-    }
-
-    public String getUsuario() {
-        return usuario;
-    }
-
-    public String getClave() {
-        return clave;
-    }
 }
