@@ -26,7 +26,6 @@ public class Token implements Serializable {
     private Token(String userName) {
         this.userName = userName;
         expirationDate = LocalDateTime.now().plusMinutes(TIME_LIVE_LIMIT);
-        this.token = UUID.randomUUID().toString();
         this.token = TokenUtil.create(userName, Set.of("user"),
                 Date.from(expirationDate.atZone(ZoneId.systemDefault()).toInstant())
         );
