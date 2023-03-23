@@ -1,9 +1,13 @@
 package co.edu.uniquindio.ingesis.autenticacion.token;
 
+import co.edu.uniquindio.ingesis.autenticacion.seguridad.TokenUtil;
 import jakarta.json.bind.annotation.JsonbProperty;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
+import java.util.Set;
 import java.util.UUID;
 
 public class Token implements Serializable {
@@ -21,8 +25,11 @@ public class Token implements Serializable {
 
     private Token(String userName) {
         this.userName = userName;
-        this.token = UUID.randomUUID().toString();
         expirationDate = LocalDateTime.now().plusMinutes(TIME_LIVE_LIMIT);
+        this.token = UUID.randomUUID().toString();
+        this.token = TokenUtil.create(userName, Set.of("user"),
+                Date.from(expirationDate.atZone(ZoneId.systemDefault()).toInstant())
+        );
     }
 
     public static Token of(String userName){
