@@ -1,0 +1,23 @@
+version: "3.7"
+services:
+  seguridad_api_service:
+    build: autenticacion-api
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      - server_db
+    environment:
+      url: jdbc:mysql://server_db:3306/seguridad
+      user: seguridad_dev
+      password: 12345
+  server_db:
+    image: 'mariadb:10.5.8'
+    restart: always
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_DATABASE: seguridad
+      MYSQL_USER: seguridad_dev
+      MYSQL_PASSWORD: 12345
+      MYSQL_ROOT_PASSWORD: 12345
