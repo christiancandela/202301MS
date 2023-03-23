@@ -8,6 +8,8 @@ import io.jsonwebtoken.security.Keys;
 
 import jakarta.security.enterprise.identitystore.CredentialValidationResult;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -24,13 +26,14 @@ import static jakarta.security.enterprise.identitystore.CredentialValidationResu
 public class TokenUtil {
     private static final String ROLES_KEY = "groups";
     private static final long VALID_TIME = TimeUnit.SECONDS.toMillis(60);
-//    private static final Key MY_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS512);
+    //    private static final Key MY_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS512);
     private static final Key MY_KEY = loadKey();
 
+    private static final String KEY_FILE_NAME = "mykey.pem";
     public static String create(String username, Set<String> roles,Date expiration){
 
         if( expiration == null ){
-           expiration = getExpiration();
+            expiration = getExpiration();
         }
         return Jwts.builder()
                 .setSubject(username)
@@ -58,23 +61,36 @@ public class TokenUtil {
         }
     }
 
-    public static void main(String[] args) throws IOException {
-//        saveKey(MY_KEY);
-        Key key = loadKey();
-
+    private static Key loadKey() {
+        Key key;
+        try{
+            Path path = getPathToKeyFile();
+            if( path.toFile().exists() ){
+                key = Keys.hmacShaKeyFor( Files.readAllBytes(path) );
+            } else{
+                key = generateKey();
+            }
+        }catch (IOException | URISyntaxException exception){
+            throw new RuntimeException("No se pudo cargar la llave",exception);
+        }
+        return key;
     }
 
-    private static Key loadKey()  {
-        Path path = Paths.get("mykey.pem");
-
-//        String read = Files.readAllLines(path).get(0);
-        try {
-            return Keys.hmacShaKeyFor( Files.readAllBytes(path) );
-        } catch (IOException e) {
-            Key key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
-            saveKey(key);
-            return key;
+    private static Path getPathToKeyFile() throws URISyntaxException {
+        Path path;
+        URL url = TokenUtil.class.getResource("/"+KEY_FILE_NAME);
+        if( url != null ) {
+            path = Paths.get(url.toURI());
+        } else {
+            path = Paths.get(KEY_FILE_NAME);
         }
+        return path;
+    }
+
+    public static Key generateKey(){
+        Key key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
+        saveKey(key);
+        return key;
     }
 
     public static void saveKey(Key key) {
