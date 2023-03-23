@@ -23,13 +23,14 @@ El comando genera un jar denominado  **autenticacion-microbundle.jar** tipicamen
 
 ## Run
 
-Finalmente se puede proceder con la ejecución de la aplicación.
+Finalmente, se puede proceder con la ejecución de la aplicación.
 
-```shell  
+```shell
+export url=jdbc:mysql://localhost:3306/seguridad
+export user=root
+export password=12345678      
 java -jar target/autenticacion-microbundle.jar --nocluster
 ```
-
-
 
 
 Puede ver la aplicación en la URL
