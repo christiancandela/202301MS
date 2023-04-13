@@ -10,7 +10,7 @@
     <maven.compiler.target>11</maven.compiler.target>
     <failOnMissingWebXml>false</failOnMissingWebXml>
     <maven.compiler.source>11</maven.compiler.source>
-    <payaraVersion>6.2023.2</payaraVersion>
+    <payaraVersion>6.2023.3</payaraVersion>
     <microprofileVersion>6.0</microprofileVersion>
     <final.name>autenticacion</final.name>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -29,7 +29,12 @@
       <artifactId>jakarta.validation-api</artifactId>
       <version>3.0.2</version>
     </dependency>
-
+    <!-- https://mvnrepository.com/artifact/org.microprofile-ext.openapi-ext/openapi-ui -->
+    <dependency>
+      <groupId>org.microprofile-ext.openapi-ext</groupId>
+      <artifactId>openapi-ui</artifactId>
+      <version>2.0.0</version>
+    </dependency>
   </dependencies>
   <build>
     <finalName>autenticacion</finalName>
@@ -58,6 +63,16 @@
               <payaraVersion>${payaraVersion}</payaraVersion>
             </configuration>
           </plugin>
+          <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-war-plugin -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-war-plugin</artifactId>
+            <version>3.3.2</version>
+            <configuration>
+              <failOnMissingWebXml>false</failOnMissingWebXml>
+            </configuration>
+          </plugin>
+
         </plugins>
       </build>
     </profile>

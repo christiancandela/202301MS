@@ -1,4 +1,4 @@
-package co.edu.uniquindio.ingesis.autenticacion.token;
+package co.edu.uniquindio.ingesis.autenticacion.producto;
 
 import co.edu.uniquindio.ingesis.autenticacion.util.Message;
 import jakarta.inject.Inject;
@@ -20,7 +20,6 @@ import java.util.logging.Logger;
  */
 @Path("/tokens")
 @Produces(MediaType.APPLICATION_JSON+"; charset=UTF-8")
-@Consumes(MediaType.APPLICATION_JSON)
 @Singleton
 public class TokenController {
 
