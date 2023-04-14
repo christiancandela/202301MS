@@ -1,137 +1,51 @@
 {
   "openapi": "3.0.3",
   "info": {
-    "title": "Deployed Resources",
+    "title": "Autenticación",
     "version": "1.0.0"
   },
   "servers": [
     {
       "url": "http://localhost:8080/",
-      "description": "Default Server."
+      "description": "Servidor de desarrollo."
     }
   ],
   "paths": {
-    "/api/hello": {
-      "get": {
-        "operationId": "sayHello",
+    "/api/tokens": {
+      "post": {
+        "requestBody": {
+          "description": "Se envian las credenciales de acceso",
+          "content": {
+           "application/json": {
+             "schema": {
+               "$ref": "#/components/schemas/Credential"
+             }
+           } 
+          }
+        },
         "responses": {
-          "default": {
-            "description": "Default Response.",
-            "content": {
-              "*/*": {
+          "201": {
+            "headers": {
+              "Authorization": {
                 "schema": {
                   "type": "string"
                 }
               }
-            }
-          }
-        }
-      }
-    },
-    "/api/tokens": {
-      "get": {
-        "operationId": "list",
-        "responses": {
-          "default": {
-            "description": "Default Response.",
+            },
             "content": {
-              "application/json;charset=UTF-8": {
+              "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Token"
-                  }
+                  "$ref": "#/components/schemas/Token"
                 }
               }
-            }
-          }
-        }
-      },
-      "post": {
-        "operationId": "create",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Credential"
-              }
-            }
-          }
-        },
-        "responses": {
-          "default": {
-            "description": "Default Response.",
-            "content": {
-              "application/json;charset=UTF-8": {
-                "schema": {
-                  "type": "object"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/tokens/{token}": {
-      "get": {
-        "operationId": "check",
-        "parameters": [
-          {
-            "name": "token",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": "Default Response.",
-            "content": {
-              "application/json;charset=UTF-8": {
-                "schema": {
-                  "type": "object"
-                }
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "operationId": "delete",
-        "parameters": [
-          {
-            "name": "token",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "Authorization",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": "Default Response.",
-            "content": {
-              "application/json;charset=UTF-8": {
-                "schema": {
-                  "type": "object"
-                }
-              }
-            }
+            },
+            "description": "Respues exitosa"
           }
         }
       }
     }
   },
+  
   "components": {
     "schemas": {
       "Credential": {
@@ -144,6 +58,7 @@
             "type": "string"
           }
         },
+        "required": ["usuario","clave"],
         "example": {
           "usuario": "pedro",
           "clave": "pedro"
@@ -156,18 +71,13 @@
             "type": "string"
           },
           "vigencia": {
-            "type": "string",
-            "format": "dateTime"
+            "type": "object"
           },
           "usuario": {
             "type": "string"
           }
         },
-        "example": {
-          "token": "2383b10e-073b-4b5c-a8f6-de590b684f61",
-          "usuario": "pedro",
-          "vigencia": "2023-04-13T15:47:10.826325"
-        }
+        "required": ["usuario","token","vigencia"]
       }
     }
   }
