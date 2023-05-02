@@ -1,10 +1,12 @@
 package co.edu.uniquindio.ingesis.autenticacion.token;
 
+import co.edu.uniquindio.ingesis.autenticacion.seguridad.TokenUtilFactory;
 import jakarta.json.bind.annotation.JsonbProperty;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.UUID;
+import java.util.Set;
+
 
 public class Token implements Serializable {
     @JsonbProperty("token")
@@ -14,15 +16,15 @@ public class Token implements Serializable {
     @JsonbProperty("usuario")
     private String userName;
 
-    private static final int TIME_LIVE_LIMIT = 5;
+    private static final int TIME_LIVE_LIMIT = 5 * 60;
 
     public Token() {
     }
 
     private Token(String userName) {
         this.userName = userName;
-        this.token = UUID.randomUUID().toString();
-        expirationDate = LocalDateTime.now().plusMinutes(TIME_LIVE_LIMIT);
+        expirationDate = LocalDateTime.now().plusSeconds(TIME_LIVE_LIMIT);
+        this.token = TokenUtilFactory.getDefault().of().create(userName, Set.of("user"));
     }
 
     public static Token of(String userName){

@@ -87,3 +87,31 @@ curl -i -X GET http://localhost:8080/api/tokens/123
 ```shell  
 curl -i -X GET http://localhost:8080/api/tokens/ 
 ```
+
+
+## Keys
+
+### URLs
+https://app.id123.io/free-tools/key-generator/
+
+### Console
+
+```shell  
+openssl genrsa -out private.pem 
+openssl rsa -in private.pem -pubout -out public.pem
+```
+
+De forma opcional puede especificar el número de bits de la llave.
+
+```shell  
+openssl genrsa -out private.pem 2048 
+openssl rsa -in private.pem -pubout -out public.pem
+```
+
+O se puede generar mediante código mediante la librería jjwt
+
+```java
+var keyPar = Keys.keyPairFor(SignatureAlgorithm.RS256);
+Key privateKey = keyPar.getPrivate();
+Key publicKey = keyPar.getPublic();
+```
