@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app
+        xmlns = "https://jakarta.ee/xml/ns/jakartaee"
+        xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation = "https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
+        version = "6.0"
+        metadata-complete = "false"
+>
+    <display-name>autenticacion</display-name>
+    <description>Servicio de autenticación</description>
+
+    <error-page>
+        <error-code>401</error-code>
+        <location>/WEB-INF/401.json</location>
+    </error-page>
+    <error-page>
+        <error-code>403</error-code>
+        <location>/WEB-INF/403.json</location>
+    </error-page>
+</web-app>

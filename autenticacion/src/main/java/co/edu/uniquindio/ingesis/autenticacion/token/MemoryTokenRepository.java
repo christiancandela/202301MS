@@ -24,25 +24,25 @@ public class MemoryTokenRepository implements TokenRepository{
     @Override
     public Token save(Token token) {
         Objects.requireNonNull(token,"El token no puede ser nulo");
-        tokens.put(token.getToken(),token);
+        tokens.put(token.id(),token);
         return token;
     }
 
     @Override
-    public Optional<Token> findById(String token) {
+    public Optional<Token> findById(String id) {
         clear();
-        return Optional.ofNullable( tokens.get(token) );
+        return Optional.ofNullable( tokens.get(id) );
     }
 
     @Override
-    public void deleteById(String token) {
-        tokens.remove(token);
+    public void deleteById(String id) {
+        tokens.remove(id);
     }
 
     private void clear(){
         LocalDateTime time = LocalDateTime.now();
         tokens = tokens.entrySet().stream()
-                .filter( e->time.isBefore(e.getValue().getExpirationDate()) )
+                .filter( e->time.isBefore(e.getValue().expirationDate()) )
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 }

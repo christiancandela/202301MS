@@ -1,6 +1,8 @@
 package co.edu.uniquindio.ingesis.autenticacion.token;
 
+import co.edu.uniquindio.ingesis.autenticacion.seguridad.TokenUtilFactory;
 import co.edu.uniquindio.ingesis.autenticacion.util.Message;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.validation.Valid;
@@ -8,11 +10,13 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriBuilder;
+import org.eclipse.microprofile.jwt.JsonWebToken;
 
 import java.net.URI;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 import java.util.logging.Logger;
 
 /**
@@ -27,6 +31,11 @@ public class TokenController {
     @Inject
     private TokenRepository repository;
 
+
+    @Inject
+    private JsonWebToken principal;
+
+
     @POST
     public Response create( @Valid Credential credential) {
         LOGGER.info("Operacion login");
@@ -34,40 +43,43 @@ public class TokenController {
             LOGGER.warning("Nombre de usuario o clave incorrectas.");
             throw new WebApplicationException("Nombre de usuario o clave incorrectas.", Response.Status.UNAUTHORIZED);
         }
-        Token token = repository.save(Token.of(credential.getUserName()));
-        URI uri = UriBuilder.fromPath("/{id}").build(token.getToken());
+        Token token = repository.save(TokenUtilFactory.getDefault().of().create(credential.getUserName(), Set.of("user")));
+        URI uri = UriBuilder.fromPath("/{id}").build(token.token());
         return Response.created(uri)
-                .entity(token).header("Authorization","Bearer "+token.getToken()).build() ;
+                .entity(token).header("Authorization","Bearer "+token.token()).build() ;
     }
 
     @DELETE
-    @Path("{token}")
-    public Response delete(@PathParam("token") String token,@HeaderParam("Authorization") String authorization){
+    @Path("{id}")
+    @RolesAllowed({"user"})
+    public Response delete(@PathParam("id") String id){
+//        public Response delete(@PathParam("id") String id,@HeaderParam("Authorization") String authorization){
         LOGGER.info("Operacion logout");
-        Objects.requireNonNull(token,"El token no puede ser nulo");
+        Objects.requireNonNull(id,"El id del token no puede ser nulo");
 
-        if( authorization == null || repository.findById(authorization.substring(7)).isEmpty() ){
+        if( principal == null ){
             LOGGER.warning("Usuario no autorizado para realizar la operación.");
             throw new WebApplicationException("Usuario no autorizado para realizar la operación.", Response.Status.UNAUTHORIZED);
         }
-        if(!authorization.substring(7).equals(token)){
+        if(!principal.getTokenID().equals(id)){
             LOGGER.warning("Usuario no posee permisos para realizar la operación.");
             throw new WebApplicationException("Usuario no posee permisos para realizar la operación.", Response.Status.FORBIDDEN);
         }
-        getAndVerify(token);
-        repository.deleteById(token);
+        getAndVerify(id);
+        repository.deleteById(id);
         return Response.noContent().entity(Message.of("Operación exitosa")).build();
     }
 
     @GET
-    @Path("{token}")
-    public Response check(@PathParam("token") String token){
+    @Path("{id}")
+    public Response check(@PathParam("id") String id){
         LOGGER.info("Operacion check");
-        Objects.requireNonNull(token,"El token no puede ser nulo");
-        return Response.ok(getAndVerify(token)).build();
+        Objects.requireNonNull(id,"El token no puede ser nulo");
+        return Response.ok(getAndVerify(id)).build();
     }
 
     @GET
+    @RolesAllowed({"user"})
     public Collection<Token> list(){
         LOGGER.info("Operacion list");
         return repository.getAll();
@@ -75,7 +87,6 @@ public class TokenController {
 
     private Token getAndVerify(String id){
         Optional<Token> token = repository.findById(id);
-        LOGGER.warning("Token no encontrado.");
         return token.orElseThrow(()->new WebApplicationException("Token no encontrado.", Response.Status.NOT_FOUND));
     }
 }

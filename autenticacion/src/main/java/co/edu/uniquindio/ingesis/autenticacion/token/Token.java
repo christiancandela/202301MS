@@ -1,57 +1,24 @@
 package co.edu.uniquindio.ingesis.autenticacion.token;
 
-import co.edu.uniquindio.ingesis.autenticacion.seguridad.TokenUtilFactory;
 import jakarta.json.bind.annotation.JsonbProperty;
+import lombok.Builder;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Map;
 import java.util.Set;
 
-
-public class Token implements Serializable {
-    @JsonbProperty("token")
-    private String token;
-    @JsonbProperty("vigencia")
-    private LocalDateTime expirationDate;
-    @JsonbProperty("usuario")
-    private String userName;
-
-    private static final int TIME_LIVE_LIMIT = 5 * 60;
-
-    public Token() {
-    }
-
-    private Token(String userName) {
-        this.userName = userName;
-        expirationDate = LocalDateTime.now().plusSeconds(TIME_LIVE_LIMIT);
-        this.token = TokenUtilFactory.getDefault().of().create(userName, Set.of("user"));
-    }
-
-    public static Token of(String userName){
-        return new Token(userName);
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
-
-    public LocalDateTime getExpirationDate() {
-        return expirationDate;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setExpirationDate(LocalDateTime expirationDate) {
-        this.expirationDate = expirationDate;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
+@Builder
+public record Token (String id,
+                     @JsonbProperty("token") String token,
+                     @JsonbProperty("vigencia") LocalDateTime expirationDate,
+                     @JsonbProperty("usuario") String userName,
+                     @JsonbProperty("roles") Set<String> rols,
+                     @JsonbProperty("emisor") String issuer,
+                     @JsonbProperty("emision") LocalDateTime issuerDate,
+                     @JsonbProperty("propiedades") Map<String,Object> attributes
+) implements Serializable {
+    public static TokenBuilder builder() {
+        return new TokenBuilder();
     }
 }

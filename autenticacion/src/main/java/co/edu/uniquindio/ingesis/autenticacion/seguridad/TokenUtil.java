@@ -1,5 +1,6 @@
 package co.edu.uniquindio.ingesis.autenticacion.seguridad;
 
+import co.edu.uniquindio.ingesis.autenticacion.token.Token;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -13,7 +14,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.Key;
-import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -44,35 +46,48 @@ public abstract class TokenUtil {
         this.algorithm = algorithm;
     }
 
-    public String create(String username, Set<String> roles) {
+    public Token create(String username, Set<String> roles) {
         return create(username, roles, getExpiration());
     }
 
-    public String create(String username, Set<String> roles, Date expiration) {
+    public Token create(String username, Set<String> roles, LocalDateTime expiration) {
         return create(username, roles, expiration, Collections.EMPTY_MAP);
     }
 
-    public String create(String username, Set<String> roles, Date expiration, Map<String, Object> claims) {
+    public Token create(String username, Set<String> roles, LocalDateTime expiration, Map<String, Object> claims) {
         if (expiration == null) {
             expiration = getExpiration();
         }
 
-        return Jwts.builder()
+        LocalDateTime issueDate = LocalDateTime.now();
+
+        final var id = UUID.randomUUID().toString();
+        final String token = Jwts.builder()
                 .signWith(signatureKey, algorithm)
                 .setClaims(claims)
                 .setHeaderParam("typ", "JWT")
                 .setSubject(username)
                 .claim(ROLES_KEY, String.join(",", roles))
-                .setExpiration(expiration)
-                .setId( UUID.randomUUID().toString() )
+                .setExpiration(Date.from(expiration.atZone(ZoneId.systemDefault()).toInstant()))
+                .setId( id )
                 .setIssuer(issuer)
-                .setIssuedAt(Date.from(Instant.now()))
+                .setIssuedAt(Date.from(issueDate.atZone(ZoneId.systemDefault()).toInstant()))
                 .compact();
+
+        return Token.builder()
+                .id( id )
+                .token(token)
+                .rols(roles)
+                .issuer(issuer)
+                .userName(username)
+                .attributes(claims)
+                .expirationDate(expiration)
+                .issuerDate(issueDate)
+                .build();
     }
 
-    private Date getExpiration() {
-        Instant now = Instant.now().plusSeconds(timeOfLife);
-        return Date.from(now);
+    private LocalDateTime getExpiration() {
+        return LocalDateTime.now().plusSeconds(timeOfLife);
     }
 
 //    public CredentialValidationResult parseToken(String token){
