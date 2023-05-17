@@ -44,6 +44,7 @@ public class TokenController {
             throw new WebApplicationException("Nombre de usuario o clave incorrectas.", Response.Status.UNAUTHORIZED);
         }
         Token token = repository.save(TokenUtilFactory.getDefault().of().create(credential.getUserName(), Set.of("user")));
+        TokenEvent.NEW.createEvent(token);
         URI uri = UriBuilder.fromPath("/{id}").build(token.token());
         return Response.created(uri)
                 .entity(token).header("Authorization","Bearer "+token.token()).build() ;
@@ -65,8 +66,9 @@ public class TokenController {
             LOGGER.warning("Usuario no posee permisos para realizar la operación.");
             throw new WebApplicationException("Usuario no posee permisos para realizar la operación.", Response.Status.FORBIDDEN);
         }
-        getAndVerify(id);
+        var token = getAndVerify(id);
         repository.deleteById(id);
+        TokenEvent.REMOVE.createEvent(token);
         return Response.noContent().entity(Message.of("Operación exitosa")).build();
     }
 

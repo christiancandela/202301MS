@@ -1,0 +1,41 @@
+version: "3.7"
+services:
+  autenticacion_api_service:
+    build: autenticacion
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      - rabbitmq
+    environment:
+      MESSAGE_BUS: amqp://rabbitmq:5672
+      TOKEN_ADD_QUEUE_NAME: token.added
+      TOKEN_REMOVE_QUEUE_NAME: token.removed
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+  autenticacion_api_listener:
+    build: autenticacion-listener
+    restart: always
+    ports:
+      - "8081:8080"
+    depends_on:
+      - mongo_db
+      - rabbitmq
+    environment:
+      MONGODB_URI: mongodb://seguridad_dev:12345@mongo_db:27017
+      MONGODB_NAME: tokens
+      MESSAGE_BUS: amqp://rabbitmq:5672
+      TOKEN_ADD_QUEUE_NAME: token.added
+      TOKEN_REMOVE_QUEUE_NAME: token.removed
+  mongo_db:
+    image: mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: seguridad_dev
+      MONGO_INITDB_ROOT_PASSWORD: 12345
+      MONGO_INITDB_DATABASE: tokens
