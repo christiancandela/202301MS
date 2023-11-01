@@ -1,0 +1,206 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "autentication",
+    "description": "Api de autenticación",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {"url": "http://localhost:8080"},
+    {"url": "http://localhost:8090"}
+  ],
+
+  "paths": {
+    "/api/tokens": {
+      "post": {
+        "summary": "Crear token",
+        "description": "Permite crear un token a partir de las credenciales del usuario",
+        "requestBody": {
+          "description": "Credenciales de acceso",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Credential"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Operación exitosa",
+            "headers": {
+              "Authorization": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Origin": {
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Token"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No autorizado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errores"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "No autorizado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errores"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "Listar token",
+        "description": "Permite Listar los tokens registrados",
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "description": "Arreglo de tokens",
+                  "items": {
+                    "$ref": "#/components/schemas/Token"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/tokens/{id}": {
+      "get": {
+        "operationId": "Obtener Token",
+        "parameters": [{"name": "id", "in": "path", "required": true, "schema": {"type": "string"}}],
+        "responses": {
+          "200": {
+            "content":{
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/Token"
+                }
+              }
+            },
+            "description": "Default Response."
+          }
+        }
+      },
+      "delete": {
+        "operationId": "Borrar Token",
+        "parameters": [{"name": "id", "in": "path", "required": true, "schema": {"type": "string"}}],
+        "responses": {
+          "default": {
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            },
+          "description": "Default Response."
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "securitySchemes":{
+      "BearerAuth":{
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "Token": {
+        "properties": {
+          "Token": {
+            "description": "Token generado",
+            "type": "string"
+          },
+          "usuario": {
+            "description": "Usuario que genero el token",
+            "type": "string"
+          },
+          "vigencia": {
+            "description": "Vigencia del token",
+            "type": "string",
+            "format": "date"
+          }
+        },
+        "required": ["token","usuario","vigencia"],
+        "example": {
+          "Token":"be410ae8-0469-43cb-8196-0084189d258c",
+          "usuario":"pedro",
+          "vigencia":"2023-04-12T19:32:28.357385"
+        }
+      },
+      "Credential": {
+        "properties": {
+          "usuario": {
+            "description": "Nombre de usuario",
+            "type": "string"
+          },
+          "clave": {
+            "description": "Clave de usuario usada para autenticación",
+            "type": "string"
+          }
+        },
+        "required": ["usuario","clave"],
+        "example": {
+          "usuario":"pedro",
+          "clave":"pedro"
+        }
+      },
+      "error": {
+        "properties": {
+          "error": {
+            "description": "Descripción del error generado",
+            "type": "string"
+          }
+        },
+        "required": ["error"],
+        "example": {
+          "error": "Nombre de usuario o clave incorrectas."
+        }
+      },
+      "errores": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/error"
+        },
+        "minimum": 1
+      }
+    }
+  }
+}

@@ -25,7 +25,7 @@ public class MessageSender {
     }
 
     public void initialize() throws URISyntaxException, NoSuchAlgorithmException, IOException, KeyManagementException, TimeoutException {
-        if( !initialize ) {
+        if( !initialize && url != null) {
             ConnectionFactory factory = new ConnectionFactory();
             factory.setUri(url);
             connection = factory.newConnection();
@@ -36,7 +36,9 @@ public class MessageSender {
     }
 
     public void send(JsonObject jsonObject) throws IOException {
-        channel.basicPublish(chanelName, "", null, jsonObject.toString().getBytes(StandardCharsets.UTF_8));
+        if( initialize ) {
+            channel.basicPublish(chanelName, "", null, jsonObject.toString().getBytes(StandardCharsets.UTF_8));
+        }
     }
 }
 

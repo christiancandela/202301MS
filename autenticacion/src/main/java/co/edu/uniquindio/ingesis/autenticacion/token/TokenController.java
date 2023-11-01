@@ -39,13 +39,13 @@ public class TokenController {
     @POST
     public Response create( @Valid Credential credential) {
         LOGGER.info("Operacion login");
-        if( !credential.getUserName().equals(credential.getPassword()) ){
+        if( !credential.userName().equals(credential.password()) ){
             LOGGER.warning("Nombre de usuario o clave incorrectas.");
             throw new WebApplicationException("Nombre de usuario o clave incorrectas.", Response.Status.UNAUTHORIZED);
         }
-        Token token = repository.save(TokenUtilFactory.getDefault().of().create(credential.getUserName(), Set.of("user")));
+        Token token = repository.save(TokenUtilFactory.getDefault().of().create(credential.userName(), Set.of("user")));
         TokenEvent.NEW.createEvent(token);
-        URI uri = UriBuilder.fromPath("/{id}").build(token.token());
+        URI uri = UriBuilder.fromPath("/{id}").build(token.id());
         return Response.created(uri)
                 .entity(token).header("Authorization","Bearer "+token.token()).build() ;
     }

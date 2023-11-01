@@ -7,10 +7,10 @@
   <version>1.0-SNAPSHOT</version>
   <packaging>war</packaging>
   <properties>
-    <maven.compiler.target>17</maven.compiler.target>
+    <maven.compiler.target>21</maven.compiler.target>
     <failOnMissingWebXml>false</failOnMissingWebXml>
-    <maven.compiler.source>17</maven.compiler.source>
-    <payaraVersion>6.2023.4</payaraVersion>
+    <maven.compiler.source>21</maven.compiler.source>
+    <payaraVersion>6.2023.10</payaraVersion>
     <microprofileVersion>6.0</microprofileVersion>
     <final.name>autenticacion</final.name>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -32,7 +32,7 @@
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
-      <version>1.18.26</version>
+      <version>1.18.30</version>
     </dependency>
     <dependency>
       <groupId>io.jsonwebtoken</groupId>
@@ -55,6 +55,11 @@
       <groupId>com.rabbitmq</groupId>
       <artifactId>amqp-client</artifactId>
       <version>5.17.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.microprofile-ext.openapi-ext</groupId>
+      <artifactId>openapi-ui</artifactId>
+      <version>2.0.0</version>
     </dependency>
   </dependencies>
   <build>
