@@ -10,7 +10,7 @@ public enum UsuarioUtil {
     }
 
     public Predicate<Usuario> findByRol(String rol){
-        return usuario->usuario.rols().contains(rol);
+        return usuario->usuario.roles().contains(rol);
     }
 
     public Predicate<Usuario> find(String username,String rol){

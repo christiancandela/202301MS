@@ -1,22 +1,21 @@
 package co.edu.uniquindio.ingesis.autenticacion.usuario;
 
 import co.edu.uniquindio.ingesis.autenticacion.util.Message;
+import jakarta.annotation.Nonnull;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
-import jakarta.security.enterprise.identitystore.PasswordHash;
+import jakarta.security.enterprise.SecurityContext;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriBuilder;
-import org.eclipse.microprofile.jwt.JsonWebToken;
 
 import java.net.URI;
+import java.security.Principal;
 import java.util.Collection;
 import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
 import java.util.logging.Logger;
 
 /**
@@ -29,68 +28,54 @@ public class UsuarioController {
 
     private static final Logger LOGGER = Logger.getLogger(UsuarioController.class.getName());
     @Inject
-    private UsuarioRepository repository;
-
-
-    @Inject
-    private JsonWebToken principal;
+    private Principal principal;
 
     @Inject
-    private PasswordHash passwordHash;
+    private SecurityContext securityContext;
+    @Inject
+    private UsuarioService service;
 
     @POST
     public Response create( @Valid Usuario usuario) {
         LOGGER.info("Operacion registrar usuario");
-        var rols = Optional.ofNullable( usuario.rols() ).orElse(Set.of("user"));
-        var nuevoUsuario = repository.save(
-                Usuario.builder().id(usuario.id()).username(usuario.username())
-                        .password(passwordHash.generate(usuario.password().toCharArray()))
-                        .rols(rols).build());
-        URI uri = UriBuilder.fromPath("/{id}").build(nuevoUsuario.id());
+        if( usuario == null ){
+            throw new WebApplicationException("El usuario es requerido", Response.Status.BAD_REQUEST);
+        }
+        var nuevoUsuario = service.register(usuario);
+        if( nuevoUsuario.isEmpty() ){
+            throw new WebApplicationException("No se pudo registrar el usuario", Response.Status.INTERNAL_SERVER_ERROR);
+        }
+        URI uri = UriBuilder.fromPath("/{id}").build(nuevoUsuario.get().id());
         return Response.created(uri)
-                .entity(nuevoUsuario).build() ;
+                .entity(nuevoUsuario.get()).build() ;
     }
 
     @DELETE
     @Path("{username}")
-    @RolesAllowed({"user"})
-    public Response delete(@PathParam("username") String username){
-//        public Response delete(@PathParam("id") String id,@HeaderParam("Authorization") String authorization){
+    @RolesAllowed({"user","admin"})
+    public Response delete(@PathParam("username") @Nonnull String username){
         LOGGER.info("Operacion delete user");
-        Objects.requireNonNull(username,"El id del usuario no puede ser nulo");
-
-        if( principal == null ){
-            LOGGER.warning("Usuario no autorizado para realizar la operación.");
-            throw new WebApplicationException("Usuario no autorizado para realizar la operación.", Response.Status.UNAUTHORIZED);
+        if( securityContext.isCallerInRole("admin") ){
+            service.unregister(username);
+        } else {
+            service.unregister(username, principal.getName());
         }
-        if(!principal.getName().equalsIgnoreCase(username)){
-            LOGGER.warning("Usuario no posee permisos para realizar la operación.");
-            throw new WebApplicationException("Usuario no posee permisos para realizar la operación.", Response.Status.FORBIDDEN);
-        }
-        var usuario = getAndVerify(username);
-
-        repository.deleteById(usuario.id());
         return Response.noContent().entity(Message.of("Operación exitosa")).build();
     }
 
     @GET
     @Path("{username}")
-    @RolesAllowed({"user"})
+    @RolesAllowed({"user","admin"})
     public Response get(@PathParam("username") String username){
         LOGGER.info("Operacion get usuario");
         Objects.requireNonNull(username,"El nombre de usuario no puede ser nulo");
-        return Response.ok(getAndVerify(username)).build();
+        return Response.ok(service.get(username)).build();
     }
 
     @GET
-    @RolesAllowed({"user"})
+    @RolesAllowed({"admin"})
     public Collection<Usuario> list(@QueryParam("usuario") String username,@QueryParam("rol") String rol,@QueryParam("order") String order){
         LOGGER.info("Operacion list");
-        return repository.find(UsuarioUtil.INSTANCE.find(username,rol), UsuarioUtil.INSTANCE.order(order));
-    }
-
-    private Usuario getAndVerify(String username){
-        Optional<Usuario> usuario = repository.findByUsername(username);
-        return usuario.orElseThrow(()->new WebApplicationException("Usuario no encontrado.", Response.Status.NOT_FOUND));
+        return service.get(username, rol, order);
     }
 }

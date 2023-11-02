@@ -1,10 +1,13 @@
 package co.edu.uniquindio.ingesis.autenticacion.repository;
 
+import lombok.extern.java.Log;
+
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-public class MemoryAsbtractRepository<T extends Entity> implements StreamRepository<T>{
+@Log
+public abstract class MemoryAsbtractRepository<T extends Entity> implements StreamRepository<T>{
     private final Map<String, T> data;
 
     public MemoryAsbtractRepository() {
@@ -19,7 +22,9 @@ public class MemoryAsbtractRepository<T extends Entity> implements StreamReposit
     @Override
     public T save(T item) {
         Objects.requireNonNull(item,"El elemento a almacenar no puede ser nulo");
-        return data.put(item.id(),item);
+        data.put(item.id(),item);
+        log.info("Se adicionó elemento"+item);
+        return item;
     }
 
     @Override

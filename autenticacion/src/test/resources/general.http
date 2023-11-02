@@ -1,7 +1,7 @@
 POST http://localhost:8090/api/usuarios
 Content-Type: application/json
 
-{"id":null,"usuario": "{{username}}","clave":"{{password}}","roles": ["user"]}
+{"id":null,"usuario": "{{username}}","clave":"{{password}}","roles": ["{{roles}}"]}
 
 ###
 
@@ -12,7 +12,10 @@ Content-Type: application/json
   "usuario": "{{username}}",
   "clave": "{{password}}"
 }
-> {% client.global.set("auth_token", response.body.token); %}
+> {%
+    client.global.set("auth_token", response.body.token);
+    client.global.set("token_id", response.body.id);
+%}
 ###
 
 
@@ -52,3 +55,14 @@ Accept: application/json
 
 ###
 
+GET http://localhost:8090/api/tokens/{{token_id}}
+Authorization: Bearer {{auth_token}}
+Accept: application/json
+
+###
+
+DELETE http://localhost:8090/api/tokens/{{token_id}}
+Authorization: Bearer {{auth_token}}
+Accept: application/json
+
+###
