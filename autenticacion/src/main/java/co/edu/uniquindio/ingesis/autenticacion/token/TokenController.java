@@ -21,7 +21,7 @@ import java.util.logging.Logger;
 @Path("/tokens")
 @Produces(MediaType.APPLICATION_JSON+"; charset=UTF-8")
 @Singleton
-public class TokenController {
+public class TokenController implements TokenAPI {
     private static final Logger LOGGER = Logger.getLogger(TokenController.class.getName());
 
 //    private JsonWebToken principal;
@@ -35,8 +35,9 @@ public class TokenController {
         this.service = service;
     }
 
+    @Override
     @POST
-    public Response create( @Valid Credential credential) {
+    public Response create(@Valid Credential credential) {
         LOGGER.info("Operacion login");
         var token = service.generate(credential);
         if(token.isEmpty()){
@@ -48,6 +49,7 @@ public class TokenController {
                 .entity(token).header("Authorization","Bearer "+token.get().token()).build() ;
     }
 
+    @Override
     @DELETE
     @Path("{id}")
     @RolesAllowed({"user","admin"})
@@ -60,6 +62,7 @@ public class TokenController {
         return Response.noContent().entity(Message.of("Operación exitosa")).build();
     }
 
+    @Override
     @GET
     @Path("{id}")
     @RolesAllowed({"user","admin"})
@@ -71,6 +74,7 @@ public class TokenController {
         return Response.ok(service.get(id)).build();
     }
 
+    @Override
     @GET
     @RolesAllowed({"admin"})
     public Collection<Token> list(){

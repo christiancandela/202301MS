@@ -1,58 +1,22 @@
 {
-  "openapi": "3.1.0",
+  "openapi": "3.0.0",
   "info": {
     "title": "autentication",
-    "description": "Api de autenticaciÃ³n",
+    "description": "Api de autenticación",
     "version": "1.0.0"
   },
   "servers": [
-    {
-      "url": "http://localhost:8080"
-    },
-    {
-      "url": "http://localhost:8090"
-    }
+    {"url": "http://localhost:8080"},
+    {"url": "http://localhost:8090"}
   ],
+
   "paths": {
-    "/api/hello": {
-      "get": {
-        "operationId": "sayHello",
-        "responses": {
-          "default": {
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            },
-            "description": "Default Response."
-          }
-        }
-      }
-    },
     "/api/tokens": {
-      "get": {
-        "operationId": "list",
-        "responses": {
-          "default": {
-            "content": {
-              "application/json;charset=UTF-8": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Token"
-                  }
-                }
-              }
-            },
-            "description": "Default Response."
-          }
-        }
-      },
       "post": {
-        "operationId": "create",
+        "summary": "Crear token",
+        "description": "Permite crear un token a partir de las credenciales del usuario",
         "requestBody": {
+          "description": "Credenciales de acceso",
           "content": {
             "application/json": {
               "schema": {
@@ -62,38 +26,83 @@
           }
         },
         "responses": {
-          "default": {
-            "content": {
-              "application/json;charset=UTF-8": {
+          "201": {
+            "description": "Operación exitosa",
+            "headers": {
+              "Authorization": {
                 "schema": {
-                  "type": "object"
+                  "type": "string"
                 }
+              },
+              "Access-Control-Allow-Origin": {
               }
             },
-            "description": "Default Response."
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Token"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No autorizado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errores"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "No autorizado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errores"
+                }
+              }
+            }
           }
         }
+      },
+      "get": {
+        "summary": "Listar token",
+        "description": "Permite Listar los tokens registrados",
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "description": "Arreglo de tokens",
+                  "items": {
+                    "$ref": "#/components/schemas/Token"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
       }
     },
     "/api/tokens/{id}": {
       "get": {
-        "operationId": "check",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
+        "operationId": "Obtener Token",
+        "parameters": [{"name": "id", "in": "path", "required": true, "schema": {"type": "string"}}],
         "responses": {
-          "default": {
-            "content": {
+          "200": {
+            "content":{
               "application/json;charset=UTF-8": {
                 "schema": {
-                  "type": "object"
+                  "$ref": "#/components/schemas/Token"
                 }
               }
             },
@@ -102,17 +111,8 @@
         }
       },
       "delete": {
-        "operationId": "delete",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
+        "operationId": "Borrar Token",
+        "parameters": [{"name": "id", "in": "path", "required": true, "schema": {"type": "string"}}],
         "responses": {
           "default": {
             "content": {
@@ -122,442 +122,84 @@
                 }
               }
             },
-            "description": "Default Response."
-          }
-        }
-      }
-    },
-    "/api/usuarios": {
-      "get": {
-        "operationId": "list",
-        "parameters": [
-          {
-            "name": "usuario",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "rol",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "order",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "default": {
-            "content": {
-              "application/json;charset=UTF-8": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Usuario"
-                  }
-                }
-              }
-            },
-            "description": "Default Response."
-          }
-        }
-      },
-      "post": {
-        "summary": "Registrar usuario",
-        "description": "Permite registrar un usuario en el sistema",
-        "operationId": "create",
-        "requestBody": {
-          "description": "Usuario a registrar",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Usuario"
-              }
-            },
-            "*/*": {
-              "schema": {
-                "exclusiveMaximum": false,
-                "exclusiveMinimum": false,
-                "minLength": 0,
-                "uniqueItems": false,
-                "maxProperties": 0,
-                "minProperties": 0,
-                "type": "object",
-                "properties": {
-                  "id": {
-                    "type": "string"
-                  },
-                  "roles": {
-                    "exclusiveMaximum": false,
-                    "exclusiveMinimum": false,
-                    "minLength": 0,
-                    "uniqueItems": false,
-                    "maxProperties": 0,
-                    "minProperties": 0,
-                    "type": "array",
-                    "nullable": false,
-                    "readOnly": false,
-                    "writeOnly": false,
-                    "deprecated": false,
-                    "items": {
-                      "type": "array"
-                    }
-                  },
-                  "usuario": {
-                    "exclusiveMaximum": false,
-                    "exclusiveMinimum": false,
-                    "minLength": 0,
-                    "uniqueItems": false,
-                    "maxProperties": 0,
-                    "minProperties": 0,
-                    "type": "string",
-                    "nullable": false,
-                    "readOnly": false,
-                    "writeOnly": false,
-                    "deprecated": false
-                  },
-                  "clave": {
-                    "exclusiveMaximum": false,
-                    "exclusiveMinimum": false,
-                    "minLength": 0,
-                    "uniqueItems": false,
-                    "maxProperties": 0,
-                    "minProperties": 0,
-                    "type": "string",
-                    "nullable": false,
-                    "readOnly": false,
-                    "writeOnly": false,
-                    "deprecated": false
-                  }
-                },
-                "nullable": false,
-                "readOnly": false,
-                "writeOnly": false,
-                "example": "{\n    \"usuario\":\"pedro\",\n    \"clave\":\"12345\"\n    \"roles\":[\"user\"]\n}\n",
-                "deprecated": false
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "201": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "exclusiveMaximum": false,
-                  "exclusiveMinimum": false,
-                  "minLength": 0,
-                  "uniqueItems": false,
-                  "maxProperties": 0,
-                  "minProperties": 0,
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "string"
-                    },
-                    "roles": {
-                      "exclusiveMaximum": false,
-                      "exclusiveMinimum": false,
-                      "minLength": 0,
-                      "uniqueItems": false,
-                      "maxProperties": 0,
-                      "minProperties": 0,
-                      "type": "array",
-                      "nullable": false,
-                      "readOnly": false,
-                      "writeOnly": false,
-                      "deprecated": false,
-                      "items": {
-                        "type": "array"
-                      }
-                    },
-                    "usuario": {
-                      "exclusiveMaximum": false,
-                      "exclusiveMinimum": false,
-                      "minLength": 0,
-                      "uniqueItems": false,
-                      "maxProperties": 0,
-                      "minProperties": 0,
-                      "type": "string",
-                      "nullable": false,
-                      "readOnly": false,
-                      "writeOnly": false,
-                      "deprecated": false
-                    },
-                    "clave": {
-                      "exclusiveMaximum": false,
-                      "exclusiveMinimum": false,
-                      "minLength": 0,
-                      "uniqueItems": false,
-                      "maxProperties": 0,
-                      "minProperties": 0,
-                      "type": "string",
-                      "nullable": false,
-                      "readOnly": false,
-                      "writeOnly": false,
-                      "deprecated": false
-                    }
-                  },
-                  "nullable": false,
-                  "readOnly": false,
-                  "writeOnly": false,
-                  "example": "{\n    \"usuario\":\"pedro\",\n    \"clave\":\"12345\"\n    \"roles\":[\"user\"]\n}\n",
-                  "deprecated": false
-                }
-              }
-            },
-            "description": "OperaciÃ³n exitosa"
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "exclusiveMaximum": false,
-                  "exclusiveMinimum": false,
-                  "minLength": 0,
-                  "uniqueItems": false,
-                  "maxProperties": 0,
-                  "minProperties": 0,
-                  "type": "array",
-                  "nullable": false,
-                  "readOnly": false,
-                  "writeOnly": false,
-                  "deprecated": false
-                }
-              }
-            },
-            "description": "La solicitud estÃ¡ incompleta"
+          "description": "Default Response."
           }
         },
-        "deprecated": false
-      }
-    },
-    "/api/usuarios/{username}": {
-      "get": {
-        "operationId": "get",
-        "parameters": [
+        "security": [
           {
-            "name": "username",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "BearerAuth": []
           }
-        ],
-        "responses": {
-          "default": {
-            "content": {
-              "application/json;charset=UTF-8": {
-                "schema": {
-                  "type": "object"
-                }
-              }
-            },
-            "description": "Default Response."
-          }
-        }
-      },
-      "delete": {
-        "operationId": "delete",
-        "parameters": [
-          {
-            "name": "username",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "default": {
-            "content": {
-              "application/json;charset=UTF-8": {
-                "schema": {
-                  "type": "object"
-                }
-              }
-            },
-            "description": "Default Response."
-          }
-        }
+        ]
       }
     }
   },
-  "endpoints": {
-    "/": [
-      "/api/hello",
-      "/api/tokens",
-      "/api/tokens/{id}",
-      "/api/usuarios",
-      "/api/usuarios/{username}"
-    ]
-  },
   "components": {
+    "securitySchemes":{
+      "BearerAuth":{
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
     "schemas": {
-      "Credential": {
-        "required": [
-          "usuario",
-          "clave"
-        ],
-        "properties": {
-          "usuario": {
-            "type": "string",
-            "description": "Nombre de usuario"
-          },
-          "clave": {
-            "type": "string",
-            "description": "Clave de usuario usada para autenticaciÃ³n"
-          }
-        },
-        "example": {
-          "usuario": "pedro",
-          "clave": "pedro"
-        }
-      },
-      "Error": {
-        "exclusiveMaximum": false,
-        "exclusiveMinimum": false,
-        "minLength": 0,
-        "uniqueItems": false,
-        "maxProperties": 0,
-        "minProperties": 0,
-        "type": "object",
-        "properties": {
-          "messages": {
-            "type": "string"
-          }
-        },
-        "nullable": false,
-        "readOnly": false,
-        "writeOnly": false,
-        "example": "{\n    \"error\":\"Se produjo un error al procesar la solicitud\"\n}\n",
-        "deprecated": false
-      },
       "Token": {
-        "required": [
-          "token",
-          "usuario",
-          "vigencia"
-        ],
         "properties": {
           "Token": {
-            "type": "string",
-            "description": "Token generado"
+            "description": "Token generado",
+            "type": "string"
           },
           "usuario": {
-            "type": "string",
-            "description": "Usuario que genero el token"
+            "description": "Usuario que genero el token",
+            "type": "string"
           },
           "vigencia": {
-            "type": "string",
             "description": "Vigencia del token",
+            "type": "string",
             "format": "date"
           }
         },
+        "required": ["token","usuario","vigencia"],
         "example": {
-          "Token": "be410ae8-0469-43cb-8196-0084189d258c",
-          "usuario": "pedro",
-          "vigencia": "2023-04-12T19:32:28.357385"
+          "Token":"be410ae8-0469-43cb-8196-0084189d258c",
+          "usuario":"pedro",
+          "vigencia":"2023-04-12T19:32:28.357385"
         }
       },
-      "Usuario": {
-        "exclusiveMaximum": false,
-        "exclusiveMinimum": false,
-        "minLength": 0,
-        "uniqueItems": false,
-        "maxProperties": 0,
-        "minProperties": 0,
-        "type": "object",
+      "Credential": {
         "properties": {
-          "id": {
+          "usuario": {
+            "description": "Nombre de usuario",
             "type": "string"
           },
-          "roles": {
-            "exclusiveMaximum": false,
-            "exclusiveMinimum": false,
-            "minLength": 0,
-            "uniqueItems": false,
-            "maxProperties": 0,
-            "minProperties": 0,
-            "type": "array",
-            "nullable": false,
-            "readOnly": false,
-            "writeOnly": false,
-            "deprecated": false,
-            "items": {
-              "type": "array"
-            }
-          },
-          "usuario": {
-            "exclusiveMaximum": false,
-            "exclusiveMinimum": false,
-            "minLength": 0,
-            "uniqueItems": false,
-            "maxProperties": 0,
-            "minProperties": 0,
-            "type": "string",
-            "nullable": false,
-            "readOnly": false,
-            "writeOnly": false,
-            "deprecated": false
-          },
           "clave": {
-            "exclusiveMaximum": false,
-            "exclusiveMinimum": false,
-            "minLength": 0,
-            "uniqueItems": false,
-            "maxProperties": 0,
-            "minProperties": 0,
-            "type": "string",
-            "nullable": false,
-            "readOnly": false,
-            "writeOnly": false,
-            "deprecated": false
+            "description": "Clave de usuario usada para autenticación",
+            "type": "string"
           }
         },
-        "nullable": false,
-        "readOnly": false,
-        "writeOnly": false,
-        "example": "{\n    \"usuario\":\"pedro\",\n    \"clave\":\"12345\"\n    \"roles\":[\"user\"]\n}\n",
-        "deprecated": false
+        "required": ["usuario","clave"],
+        "example": {
+          "usuario":"pedro",
+          "clave":"pedro"
+        }
       },
       "error": {
-        "required": [
-          "error"
-        ],
         "properties": {
           "error": {
-            "type": "string",
-            "description": "DescripciÃ³n del error generado"
+            "description": "Descripción del error generado",
+            "type": "string"
           }
         },
+        "required": ["error"],
         "example": {
           "error": "Nombre de usuario o clave incorrectas."
         }
       },
       "errores": {
-        "minimum": 1,
         "type": "array",
         "items": {
           "$ref": "#/components/schemas/error"
-        }
-      }
-    },
-    "securitySchemes": {
-      "BearerAuth": {
-        "type": "http",
-        "scheme": "bearer",
-        "bearerFormat": "JWT"
+        },
+        "minimum": 1
       }
     }
   }
