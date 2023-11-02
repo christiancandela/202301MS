@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.Optional;
 
 public interface Repository<T> {
-
     Collection<T> getAll();
 
     T save(T item);

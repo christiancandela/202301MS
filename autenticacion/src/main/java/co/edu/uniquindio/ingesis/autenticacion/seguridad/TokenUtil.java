@@ -101,7 +101,7 @@ public abstract class TokenUtil {
 //    }
 
     public Map<String, ?> parseToken(String token) {
-        Claims body = Jwts.parserBuilder().setSigningKey(parseKey).build().parseClaimsJws(token).getBody();
+        Claims body = Jwts.parser().setSigningKey(parseKey).build().parseClaimsJws(token).getBody();
         return body.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 

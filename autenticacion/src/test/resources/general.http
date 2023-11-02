@@ -1,0 +1,54 @@
+POST http://localhost:8090/api/usuarios
+Content-Type: application/json
+
+{"id":null,"usuario": "{{username}}","clave":"{{password}}","roles": ["user"]}
+
+###
+
+POST http://localhost:8090/api/tokens
+Content-Type: application/json
+
+{
+  "usuario": "{{username}}",
+  "clave": "{{password}}"
+}
+> {% client.global.set("auth_token", response.body.token); %}
+###
+
+
+GET http://localhost:8090/api/usuarios/{{username}}
+Authorization: Bearer {{auth_token}}
+Accept: application/json
+
+###
+
+GET http://localhost:8090/api/usuarios
+Authorization: Bearer {{auth_token}}
+Accept: application/json
+
+###
+
+GET http://localhost:8090/api/usuarios?rol=admin
+Authorization: Bearer {{auth_token}}
+Accept: application/json
+
+###
+
+GET http://localhost:8090/api/usuarios?usuario={{username}}
+Authorization: Bearer {{auth_token}}
+Accept: application/json
+
+###
+
+GET http://localhost:8090/api/tokens
+Authorization: Bearer {{auth_token}}
+Accept: application/json
+
+###
+
+DELETE http://localhost:8090/api/usuarios/{{username}}
+Authorization: Bearer {{auth_token}}
+Accept: application/json
+
+###
+

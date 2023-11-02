@@ -16,6 +16,7 @@ public class GeneralExceptionMapper
     @Override
     public Response toResponse(final Throwable exception) {
         List<Error> errorMessages = Collections.singletonList( Error.of("Se ha presentado un error inesperado en el sistema: "+exception.getMessage()) );
+        exception.printStackTrace();
         return Response
                 .status(Response.Status.INTERNAL_SERVER_ERROR)
                 .type(MediaType.APPLICATION_JSON_TYPE)

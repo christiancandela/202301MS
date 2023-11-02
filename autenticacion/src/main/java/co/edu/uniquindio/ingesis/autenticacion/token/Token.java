@@ -1,5 +1,6 @@
 package co.edu.uniquindio.ingesis.autenticacion.token;
 
+import co.edu.uniquindio.ingesis.autenticacion.repository.Entity;
 import jakarta.json.bind.annotation.JsonbProperty;
 import lombok.Builder;
 
@@ -17,7 +18,7 @@ public record Token (String id,
                      @JsonbProperty("emisor") String issuer,
                      @JsonbProperty("emision") LocalDateTime issuerDate,
                      @JsonbProperty("propiedades") Map<String,Object> attributes
-) implements Serializable {
+) implements Entity {
     public static TokenBuilder builder() {
         return new TokenBuilder();
     }

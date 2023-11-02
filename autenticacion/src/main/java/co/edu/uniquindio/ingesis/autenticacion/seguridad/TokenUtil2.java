@@ -114,7 +114,7 @@ RwIDAQAB
     }
 
     public static Claims parseToken(String token){
-        Claims body = Jwts.parserBuilder().setSigningKey(PUBLIC_KEY).build().parseClaimsJws(token).getBody();
+        Claims body = Jwts.parser().setSigningKey(PUBLIC_KEY).build().parseClaimsJws(token).getBody();
         return body;
     }
 

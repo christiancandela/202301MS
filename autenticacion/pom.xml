@@ -14,6 +14,8 @@
     <microprofileVersion>6.0</microprofileVersion>
     <final.name>autenticacion</final.name>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <jjwt.version>0.12.3</jjwt.version>
+    <jakarta.ee.version>10.0.0</jakarta.ee.version>
   </properties>
   <dependencies>
     <dependency>
@@ -30,6 +32,11 @@
       <version>3.0.2</version>
     </dependency>
     <dependency>
+      <groupId>jakarta.platform</groupId>
+      <artifactId>jakarta.jakartaee-web-api</artifactId>
+      <version>${jakarta.ee.version}</version>
+    </dependency>
+    <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
       <version>1.18.30</version>
@@ -37,18 +44,18 @@
     <dependency>
       <groupId>io.jsonwebtoken</groupId>
       <artifactId>jjwt-api</artifactId>
-      <version>0.11.5</version>
+      <version>${jjwt.version}</version>
     </dependency>
     <dependency>
       <groupId>io.jsonwebtoken</groupId>
       <artifactId>jjwt-impl</artifactId>
-      <version>0.11.5</version>
+      <version>${jjwt.version}</version>
       <scope>runtime</scope>
     </dependency>
     <dependency>
       <groupId>io.jsonwebtoken</groupId>
       <artifactId>jjwt-gson</artifactId> <!-- or jjwt-gson if Gson is preferred -->
-      <version>0.11.5</version>
+      <version>${jjwt.version}</version>
       <scope>runtime</scope>
     </dependency>
     <dependency>

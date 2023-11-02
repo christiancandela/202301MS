@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 public record  Credential (
     @JsonbProperty("usuario")
     @NotBlank(message = "El nombre de usuario es obligatorio.")
-    String userName,
+    String username,
     @JsonbProperty("clave")
     @NotBlank(message = "La clave es obligatoria.")
     String password ) {

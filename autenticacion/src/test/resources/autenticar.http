@@ -2,7 +2,8 @@ POST http://localhost:8090/api/tokens
 Content-Type: application/json
 
 {
-  "usuario": "Pedro",
-  "clave": "Juan"
+  "usuario": "pedro",
+  "clave": "pedro"
 }
+> {% client.global.set("auth_token", response.body.token); %}
 ###

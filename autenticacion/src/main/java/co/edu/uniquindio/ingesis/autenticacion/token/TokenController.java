@@ -1,10 +1,13 @@
 package co.edu.uniquindio.ingesis.autenticacion.token;
 
 import co.edu.uniquindio.ingesis.autenticacion.seguridad.TokenUtilFactory;
+import co.edu.uniquindio.ingesis.autenticacion.usuario.UsuarioRepository;
+import co.edu.uniquindio.ingesis.autenticacion.usuario.UsuarioUtil;
 import co.edu.uniquindio.ingesis.autenticacion.util.Message;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
+import jakarta.security.enterprise.identitystore.PasswordHash;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -13,6 +16,7 @@ import jakarta.ws.rs.core.UriBuilder;
 import org.eclipse.microprofile.jwt.JsonWebToken;
 
 import java.net.URI;
+import java.security.Principal;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;
@@ -31,23 +35,28 @@ public class TokenController {
     @Inject
     private TokenRepository repository;
 
+    @Inject
+    private UsuarioRepository usuarioRepository;
 
     @Inject
-    private JsonWebToken principal;
+//    private JsonWebToken principal;
+    private Principal principal;
+    @Inject
+    private PasswordHash passwordHash;
 
+    private TokenService service;
 
     @POST
     public Response create( @Valid Credential credential) {
         LOGGER.info("Operacion login");
-        if( !credential.userName().equals(credential.password()) ){
+        var token = service.generate(credential);
+        if(token.isEmpty()){
             LOGGER.warning("Nombre de usuario o clave incorrectas.");
             throw new WebApplicationException("Nombre de usuario o clave incorrectas.", Response.Status.UNAUTHORIZED);
         }
-        Token token = repository.save(TokenUtilFactory.getDefault().of().create(credential.userName(), Set.of("user")));
-        TokenEvent.NEW.createEvent(token);
-        URI uri = UriBuilder.fromPath("/{id}").build(token.id());
+        URI uri = UriBuilder.fromPath("/{id}").build(token.get().id());
         return Response.created(uri)
-                .entity(token).header("Authorization","Bearer "+token.token()).build() ;
+                .entity(token).header("Authorization","Bearer "+token.get().token()).build() ;
     }
 
     @DELETE
@@ -58,17 +67,17 @@ public class TokenController {
         LOGGER.info("Operacion logout");
         Objects.requireNonNull(id,"El id del token no puede ser nulo");
 
-        if( principal == null ){
-            LOGGER.warning("Usuario no autorizado para realizar la operación.");
-            throw new WebApplicationException("Usuario no autorizado para realizar la operación.", Response.Status.UNAUTHORIZED);
-        }
-        if(!principal.getTokenID().equals(id)){
-            LOGGER.warning("Usuario no posee permisos para realizar la operación.");
-            throw new WebApplicationException("Usuario no posee permisos para realizar la operación.", Response.Status.FORBIDDEN);
-        }
-        var token = getAndVerify(id);
-        repository.deleteById(id);
-        TokenEvent.REMOVE.createEvent(token);
+//        if( principal == null ){
+//            LOGGER.warning("Usuario no autorizado para realizar la operación.");
+//            throw new WebApplicationException("Usuario no autorizado para realizar la operación.", Response.Status.UNAUTHORIZED);
+//        }
+//        if(!principal.getTokenID().equals(id)){
+//            LOGGER.warning("Usuario no posee permisos para realizar la operación.");
+//            throw new WebApplicationException("Usuario no posee permisos para realizar la operación.", Response.Status.FORBIDDEN);
+//        }
+
+        service.invalidate(id,principal.getName());
+
         return Response.noContent().entity(Message.of("Operación exitosa")).build();
     }
 
