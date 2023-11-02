@@ -77,7 +77,7 @@ public abstract class TokenUtil {
         return Token.builder()
                 .id( id )
                 .token(token)
-                .rols(roles)
+                .roles(roles)
                 .issuer(issuer)
                 .userName(username)
                 .attributes(claims)

@@ -28,7 +28,7 @@ public enum TokenEvent {
                         .add("token",token.token())
                         .add("usuario",token.userName())
                         .add("vigencia",token.expirationDate().toString())
-                        .add("roles", Json.createArrayBuilder(token.rols()))
+                        .add("roles", Json.createArrayBuilder(token.roles()))
                         .add("emisor",token.issuer())
                         .add("fechaEmision",token.issuerDate().toString())
                         .build();

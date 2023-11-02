@@ -24,7 +24,7 @@ import java.util.logging.Logger;
 @Path("/usuarios")
 @Produces(MediaType.APPLICATION_JSON+"; charset=UTF-8")
 @Singleton
-public class UsuarioController {
+public class UsuarioController implements UsuarioAPI {
 
     private static final Logger LOGGER = Logger.getLogger(UsuarioController.class.getName());
     @Inject
@@ -35,8 +35,9 @@ public class UsuarioController {
     @Inject
     private UsuarioService service;
 
+    @Override
     @POST
-    public Response create( @Valid Usuario usuario) {
+    public Response create(@Valid Usuario usuario) {
         LOGGER.info("Operacion registrar usuario");
         if( usuario == null ){
             throw new WebApplicationException("El usuario es requerido", Response.Status.BAD_REQUEST);
@@ -50,6 +51,7 @@ public class UsuarioController {
                 .entity(nuevoUsuario.get()).build() ;
     }
 
+    @Override
     @DELETE
     @Path("{username}")
     @RolesAllowed({"user","admin"})
@@ -63,6 +65,7 @@ public class UsuarioController {
         return Response.noContent().entity(Message.of("Operación exitosa")).build();
     }
 
+    @Override
     @GET
     @Path("{username}")
     @RolesAllowed({"user","admin"})
@@ -72,9 +75,10 @@ public class UsuarioController {
         return Response.ok(service.get(username)).build();
     }
 
+    @Override
     @GET
     @RolesAllowed({"admin"})
-    public Collection<Usuario> list(@QueryParam("usuario") String username,@QueryParam("rol") String rol,@QueryParam("order") String order){
+    public Collection<Usuario> list(@QueryParam("usuario") String username, @QueryParam("rol") String rol, @QueryParam("order") String order){
         LOGGER.info("Operacion list");
         return service.get(username, rol, order);
     }

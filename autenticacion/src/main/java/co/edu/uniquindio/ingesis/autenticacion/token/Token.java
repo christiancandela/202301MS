@@ -4,7 +4,6 @@ import co.edu.uniquindio.ingesis.autenticacion.repository.Entity;
 import jakarta.json.bind.annotation.JsonbProperty;
 import lombok.Builder;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Set;
@@ -14,7 +13,7 @@ public record Token (String id,
                      @JsonbProperty("token") String token,
                      @JsonbProperty("vigencia") LocalDateTime expirationDate,
                      @JsonbProperty("usuario") String userName,
-                     @JsonbProperty("roles") Set<String> rols,
+                     @JsonbProperty("roles") Set<String> roles,
                      @JsonbProperty("emisor") String issuer,
                      @JsonbProperty("emision") LocalDateTime issuerDate,
                      @JsonbProperty("propiedades") Map<String,Object> attributes

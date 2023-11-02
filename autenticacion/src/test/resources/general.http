@@ -1,11 +1,11 @@
-POST http://localhost:8090/api/usuarios
+POST http://localhost:{{port}}/api/usuarios
 Content-Type: application/json
 
 {"id":null,"usuario": "{{username}}","clave":"{{password}}","roles": ["{{roles}}"]}
 
 ###
 
-POST http://localhost:8090/api/tokens
+POST http://localhost:{{port}}/api/tokens
 Content-Type: application/json
 
 {
@@ -19,49 +19,49 @@ Content-Type: application/json
 ###
 
 
-GET http://localhost:8090/api/usuarios/{{username}}
+GET http://localhost:{{port}}/api/usuarios/{{username}}
 Authorization: Bearer {{auth_token}}
 Accept: application/json
 
 ###
 
-GET http://localhost:8090/api/usuarios
+GET http://localhost:{{port}}/api/usuarios
 Authorization: Bearer {{auth_token}}
 Accept: application/json
 
 ###
 
-GET http://localhost:8090/api/usuarios?rol=admin
+GET http://localhost:{{port}}/api/usuarios?rol=admin
 Authorization: Bearer {{auth_token}}
 Accept: application/json
 
 ###
 
-GET http://localhost:8090/api/usuarios?usuario={{username}}
+GET http://localhost:{{port}}/api/usuarios?usuario={{username}}
 Authorization: Bearer {{auth_token}}
 Accept: application/json
 
 ###
 
-GET http://localhost:8090/api/tokens
+GET http://localhost:{{port}}/api/tokens
 Authorization: Bearer {{auth_token}}
 Accept: application/json
 
 ###
 
-DELETE http://localhost:8090/api/usuarios/{{username}}
+DELETE http://localhost:{{port}}/api/usuarios/{{username}}
 Authorization: Bearer {{auth_token}}
 Accept: application/json
 
 ###
 
-GET http://localhost:8090/api/tokens/{{token_id}}
+GET http://localhost:{{port}}/api/tokens/{{token_id}}
 Authorization: Bearer {{auth_token}}
 Accept: application/json
 
 ###
 
-DELETE http://localhost:8090/api/tokens/{{token_id}}
+DELETE http://localhost:{{port}}/api/tokens/{{token_id}}
 Authorization: Bearer {{auth_token}}
 Accept: application/json
 
