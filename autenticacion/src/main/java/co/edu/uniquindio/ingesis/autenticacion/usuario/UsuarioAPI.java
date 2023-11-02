@@ -9,7 +9,10 @@ import jakarta.ws.rs.core.Response;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
+import org.eclipse.microprofile.openapi.annotations.media.Encoding;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
+import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
+import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponseSchema;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
@@ -20,6 +23,7 @@ public interface UsuarioAPI {
     @Operation(
             summary = "Registrar usuario",
             description = "Permite registrar un usuario en el sistema"
+
     )
     @APIResponses(value = {
             @APIResponse(responseCode = "201",description = "Operación exitosa",
@@ -31,7 +35,8 @@ public interface UsuarioAPI {
                             schema = @Schema(type = SchemaType.ARRAY,oneOf = Error.class))
             )
     })
-    Response create(@Valid Usuario usuario);
+    Response create(@RequestBody(description = "Usuario a registrar", required = true,
+            content = @Content(schema = @Schema(implementation = Usuario.class))) @Valid Usuario usuario);
 
     @RolesAllowed({"user", "admin"})
     Response delete(@PathParam("username") @Nonnull String username);

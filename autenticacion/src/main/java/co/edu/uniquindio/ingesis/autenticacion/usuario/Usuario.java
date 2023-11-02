@@ -22,9 +22,11 @@ import java.util.UUID;
                 """
         )
 public record Usuario(String id,
-                      @SchemaProperty(name = "usuario",type = SchemaType.STRING) @JsonbProperty("usuario") String username,
-                      @SchemaProperty(name = "clave",type = SchemaType.STRING) @JsonbProperty("clave") String password,
-                      @SchemaProperty(name = "roles",type = SchemaType.ARRAY) @JsonbProperty("roles") Set<String> roles
+                      @Schema(name = "usuario",example = "pedro") @JsonbProperty("usuario") String username,
+                      @Schema(name = "clave",example = "12345") @JsonbProperty("clave") String password,
+                      @SchemaProperty(name ="roles", example = """
+                              ["user"]
+                              """) @JsonbProperty("roles") Set<String> roles
 ) implements Entity {
     public Usuario{
         if( id == null){
