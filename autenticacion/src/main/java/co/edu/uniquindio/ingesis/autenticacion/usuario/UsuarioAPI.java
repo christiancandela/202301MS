@@ -55,7 +55,7 @@ public interface UsuarioAPI {
 
     )
     @APIResponses(value = {
-            @APIResponse(responseCode = "203",description = "Operación exitosa",
+            @APIResponse(responseCode = "204",description = "Operación exitosa",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON,
                             schema = @Schema(implementation = Message.class))
             ),
