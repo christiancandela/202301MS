@@ -49,18 +49,18 @@ public class TokenController implements TokenAPI {
                 .entity(token).header("Authorization","Bearer "+token.get().token()).build() ;
     }
 
-    @Override
-    @DELETE
-    @Path("{id}")
-    @RolesAllowed({"user","admin"})
-    public Response delete(@PathParam("id") String id){
-        LOGGER.info("Operacion logout");
-        if( id == null ){
-            throw new WebApplicationException("El id es requerido", Response.Status.BAD_REQUEST);
-        }
-        service.invalidate(id,principal.getName());
-        return Response.noContent().entity(Message.of("Operación exitosa")).build();
-    }
+//    @Override
+//    @DELETE
+//    @Path("{id}")
+//    @RolesAllowed({"user","admin"})
+//    public Response delete(@PathParam("id") String id){
+//        LOGGER.info("Operacion logout");
+//        if( id == null ){
+//            throw new WebApplicationException("El id es requerido", Response.Status.BAD_REQUEST);
+//        }
+//        service.invalidate(id,principal.getName());
+//        return Response.noContent().entity(Message.of("Operación exitosa")).build();
+//    }
 
     @Override
     @GET
