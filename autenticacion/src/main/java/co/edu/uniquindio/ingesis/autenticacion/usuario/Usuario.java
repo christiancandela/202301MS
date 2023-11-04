@@ -5,10 +5,7 @@ import jakarta.json.bind.annotation.JsonbProperty;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
-import org.eclipse.microprofile.openapi.annotations.media.DiscriminatorMapping;
-import org.eclipse.microprofile.openapi.annotations.media.ExampleObject;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
-import org.eclipse.microprofile.openapi.annotations.media.SchemaProperty;
 
 import java.util.Set;
 import java.util.UUID;
@@ -31,3 +28,6 @@ public record Usuario(String id,
         return new Usuario.UsuarioBuilder();
     }
 }
+
+@Schema(name = "Usuarios", type = SchemaType.ARRAY,implementation = Usuario.class, example = "[{\"usuario\":\"pedro\",\"clave\":\"12345\",\"roles\":[\"user\"]}]")
+record Usuarios(){}

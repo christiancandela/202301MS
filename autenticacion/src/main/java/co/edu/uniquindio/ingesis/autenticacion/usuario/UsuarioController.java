@@ -7,6 +7,7 @@ import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.security.enterprise.SecurityContext;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -15,7 +16,7 @@ import jakarta.ws.rs.core.UriBuilder;
 import java.net.URI;
 import java.security.Principal;
 import java.util.Collection;
-import java.util.Objects;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 /**
@@ -52,6 +53,51 @@ public class UsuarioController implements UsuarioAPI {
     }
 
     @Override
+    @PUT
+    @Path("{username}")
+    @RolesAllowed({"user","admin"})
+    public Response update(@PathParam("username") @Nonnull String username,@Nonnull Usuario usuario) {
+        LOGGER.info("Operacion actualizar user");
+        Optional<Usuario> resultado;
+        if( securityContext.isCallerInRole("admin") ){
+            resultado = service.update(usuario);
+        } else if(username.equalsIgnoreCase(usuario.username())){
+            resultado = service.update(usuario, principal.getName());
+        } else {
+            throw new WebApplicationException("Solicitud invalida", Response.Status.BAD_REQUEST);
+        }
+
+        return Response
+                .ok(resultado
+                        .orElseThrow(
+                                ()->new WebApplicationException("No se pudo actualizar el usuario", Response.Status.INTERNAL_SERVER_ERROR)
+                        )
+                )
+                .build();
+    }
+
+    @Override
+    @PATCH
+    @Path("{username}")
+    @RolesAllowed({"user","admin"})
+    public Response updatePassword(@PathParam("username") @Nonnull String username, @Nonnull PasswordUpdateDTO passwordUpdateDTO) {
+        LOGGER.info("Operacion actualizar password");
+        Optional<Usuario> resultado;
+        if( securityContext.isCallerInRole("admin") ){
+            resultado = service.updatePassword(username,passwordUpdateDTO.newPassword());
+        } else {
+            resultado = service.updatePassword(username,passwordUpdateDTO, principal.getName());
+        }
+        return Response
+                .ok(resultado
+                        .orElseThrow(
+                                ()->new WebApplicationException("No se pudo actualizar el usuario", Response.Status.INTERNAL_SERVER_ERROR)
+                        )
+                )
+                .build();
+    }
+
+    @Override
     @DELETE
     @Path("{username}")
     @RolesAllowed({"user","admin"})
@@ -69,10 +115,15 @@ public class UsuarioController implements UsuarioAPI {
     @GET
     @Path("{username}")
     @RolesAllowed({"user","admin"})
-    public Response get(@PathParam("username") String username){
+    public Response get(@PathParam("username") @NotBlank String username){
         LOGGER.info("Operacion get usuario");
-        Objects.requireNonNull(username,"El nombre de usuario no puede ser nulo");
-        return Response.ok(service.get(username)).build();
+        Usuario resultado;
+        if( securityContext.isCallerInRole("admin") ){
+            resultado = service.get(username);
+        } else {
+            resultado = service.get(username, principal.getName());
+        }
+        return Response.ok(resultado).build();
     }
 
     @Override

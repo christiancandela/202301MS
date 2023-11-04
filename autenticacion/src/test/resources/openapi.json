@@ -11,261 +11,18 @@
     }
   ],
   "paths": {
-    "/api/hello": {
-      "get": {
-        "operationId": "sayHello",
-        "responses": {
-          "default": {
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            },
-            "description": "Default Response."
-          }
-        }
-      }
-    },
     "/api/tokens": {
       "get": {
         "summary": "Listar tokens",
         "description": "Permite obtener un listado de los token validos",
-        "operationId": "list",
+        "operationId": "TokenAPI :: listar tokens",
         "responses": {
           "200": {
             "content": {
               "application/json": {
                 "schema": {
-                  "exclusiveMaximum": false,
-                  "exclusiveMinimum": false,
-                  "minLength": 0,
-                  "uniqueItems": false,
-                  "maxProperties": 0,
-                  "minProperties": 0,
-                  "type": "array",
-                  "properties": {
-                    "id": {
-                      "type": "string"
-                    },
-                    "token": {
-                      "type": "string"
-                    },
-                    "roles": {
-                      "exclusiveMaximum": false,
-                      "exclusiveMinimum": false,
-                      "minLength": 0,
-                      "uniqueItems": false,
-                      "maxProperties": 0,
-                      "minProperties": 0,
-                      "type": "array",
-                      "description": "Contiene el listado de roles del usuario",
-                      "nullable": false,
-                      "readOnly": false,
-                      "writeOnly": false,
-                      "example": "[\"user\"]",
-                      "deprecated": false,
-                      "items": {
-                        "type": "string"
-                      }
-                    },
-                    "vigencia": {
-                      "exclusiveMaximum": false,
-                      "exclusiveMinimum": false,
-                      "minLength": 0,
-                      "uniqueItems": false,
-                      "maxProperties": 0,
-                      "minProperties": 0,
-                      "type": "object",
-                      "description": "Contiene el momento en que el token perderÃ¡ su validez",
-                      "nullable": false,
-                      "readOnly": false,
-                      "writeOnly": false,
-                      "example": "2023-11-02T16:00:47.933367",
-                      "deprecated": false
-                    },
-                    "usuario": {
-                      "exclusiveMaximum": false,
-                      "exclusiveMinimum": false,
-                      "minLength": 0,
-                      "uniqueItems": false,
-                      "maxProperties": 0,
-                      "minProperties": 0,
-                      "type": "string",
-                      "description": "Usuario para el que se genero el token",
-                      "nullable": false,
-                      "readOnly": false,
-                      "writeOnly": false,
-                      "example": "pedro",
-                      "deprecated": false
-                    },
-                    "emisor": {
-                      "exclusiveMaximum": false,
-                      "exclusiveMinimum": false,
-                      "minLength": 0,
-                      "uniqueItems": false,
-                      "maxProperties": 0,
-                      "minProperties": 0,
-                      "type": "string",
-                      "description": "Nombre de la entidad que emite el token",
-                      "nullable": false,
-                      "readOnly": false,
-                      "writeOnly": false,
-                      "example": "grid.uniquindio.edu.co",
-                      "deprecated": false
-                    },
-                    "emision": {
-                      "exclusiveMaximum": false,
-                      "exclusiveMinimum": false,
-                      "minLength": 0,
-                      "uniqueItems": false,
-                      "maxProperties": 0,
-                      "minProperties": 0,
-                      "type": "object",
-                      "description": "Contiene el momento en que el token fue emitido",
-                      "nullable": false,
-                      "readOnly": false,
-                      "writeOnly": false,
-                      "example": "2023-11-02T16:00:47.933367",
-                      "deprecated": false
-                    },
-                    "propiedades": {
-                      "exclusiveMaximum": false,
-                      "exclusiveMinimum": false,
-                      "minLength": 0,
-                      "uniqueItems": false,
-                      "maxProperties": 0,
-                      "minProperties": 0,
-                      "type": "object",
-                      "description": "Conjunto de propiedades adicionales que se almacenan en el token",
-                      "nullable": false,
-                      "readOnly": false,
-                      "writeOnly": false,
-                      "deprecated": false
-                    }
-                  },
-                  "nullable": false,
-                  "readOnly": false,
-                  "writeOnly": false,
-                  "example": "{\n  \"emision\": \"2023-11-02T15:55:47.933451\",\n  \"emisor\": \"https://grid.uniquindio.edu.co\",\n  \"id\": \"247b340c-74ee-4c89-8186-7013ede207bf\",\n  \"propiedades\": {},\n  \"roles\": [\n    \"admin\"\n  ],\n  \"token\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImdyb3VwcyI6ImFkbWluIiwiZXhwIjoxNjk4OTU4ODQ3LCJqdGkiOiIyNDdiMzQwYy03NGVlLTRjODktODE4Ni03MDEzZWRlMjA3YmYiLCJpc3MiOiJodHRwczovL2dyaWQudW5pcXVpbmRpby5lZHUuY28iLCJpYXQiOjE2OTg5NTg1NDd9.D6DF_It32Vk07TX7RSjSA17CK170nDutm7DqX-AVyQ--uloSKkWD0Daj3nlPYntjz0gX8vqUGE9nec-Fy5si2PLW-Ke_J12x4O7_NzMA3uoD2ILuz5kT6U5dcB6tACX58A1Vg69ifW8NCngl_1FD5iN3HWEq5rMCAWnbqpPKA3n-MQwLHnBz7qqviV-Nw8JkRvhrCzM5ptO177dMV-9dMeKReilp1kKcLHGX6QzDveHZTFJTtmNSgbJ_HjEv23KRtErX1V9C1asqDWZupgG7VwPvcUj88FD-ej2AaSK3JLd-fBYNutS_TE9dFZdmfR1KLQrcVGJYgs5iCv7qhzQm9w\",\n  \"usuario\": \"admin\",\n  \"vigencia\": \"2023-11-02T16:00:47.933367\"\n}",
-                  "deprecated": false,
-                  "items": {
-                    "exclusiveMaximum": false,
-                    "exclusiveMinimum": false,
-                    "minLength": 0,
-                    "uniqueItems": false,
-                    "maxProperties": 0,
-                    "minProperties": 0,
-                    "type": "object",
-                    "properties": {
-                      "id": {
-                        "type": "string"
-                      },
-                      "token": {
-                        "type": "string"
-                      },
-                      "roles": {
-                        "exclusiveMaximum": false,
-                        "exclusiveMinimum": false,
-                        "minLength": 0,
-                        "uniqueItems": false,
-                        "maxProperties": 0,
-                        "minProperties": 0,
-                        "type": "array",
-                        "description": "Contiene el listado de roles del usuario",
-                        "nullable": false,
-                        "readOnly": false,
-                        "writeOnly": false,
-                        "example": "[\"user\"]",
-                        "deprecated": false,
-                        "items": {
-                          "type": "string"
-                        }
-                      },
-                      "vigencia": {
-                        "exclusiveMaximum": false,
-                        "exclusiveMinimum": false,
-                        "minLength": 0,
-                        "uniqueItems": false,
-                        "maxProperties": 0,
-                        "minProperties": 0,
-                        "type": "object",
-                        "description": "Contiene el momento en que el token perderÃ¡ su validez",
-                        "nullable": false,
-                        "readOnly": false,
-                        "writeOnly": false,
-                        "example": "2023-11-02T16:00:47.933367",
-                        "deprecated": false
-                      },
-                      "usuario": {
-                        "exclusiveMaximum": false,
-                        "exclusiveMinimum": false,
-                        "minLength": 0,
-                        "uniqueItems": false,
-                        "maxProperties": 0,
-                        "minProperties": 0,
-                        "type": "string",
-                        "description": "Usuario para el que se genero el token",
-                        "nullable": false,
-                        "readOnly": false,
-                        "writeOnly": false,
-                        "example": "pedro",
-                        "deprecated": false
-                      },
-                      "emisor": {
-                        "exclusiveMaximum": false,
-                        "exclusiveMinimum": false,
-                        "minLength": 0,
-                        "uniqueItems": false,
-                        "maxProperties": 0,
-                        "minProperties": 0,
-                        "type": "string",
-                        "description": "Nombre de la entidad que emite el token",
-                        "nullable": false,
-                        "readOnly": false,
-                        "writeOnly": false,
-                        "example": "grid.uniquindio.edu.co",
-                        "deprecated": false
-                      },
-                      "emision": {
-                        "exclusiveMaximum": false,
-                        "exclusiveMinimum": false,
-                        "minLength": 0,
-                        "uniqueItems": false,
-                        "maxProperties": 0,
-                        "minProperties": 0,
-                        "type": "object",
-                        "description": "Contiene el momento en que el token fue emitido",
-                        "nullable": false,
-                        "readOnly": false,
-                        "writeOnly": false,
-                        "example": "2023-11-02T16:00:47.933367",
-                        "deprecated": false
-                      },
-                      "propiedades": {
-                        "exclusiveMaximum": false,
-                        "exclusiveMinimum": false,
-                        "minLength": 0,
-                        "uniqueItems": false,
-                        "maxProperties": 0,
-                        "minProperties": 0,
-                        "type": "object",
-                        "description": "Conjunto de propiedades adicionales que se almacenan en el token",
-                        "nullable": false,
-                        "readOnly": false,
-                        "writeOnly": false,
-                        "deprecated": false
-                      }
-                    },
-                    "nullable": false,
-                    "readOnly": false,
-                    "writeOnly": false,
-                    "example": "{\n  \"emision\": \"2023-11-02T15:55:47.933451\",\n  \"emisor\": \"https://grid.uniquindio.edu.co\",\n  \"id\": \"247b340c-74ee-4c89-8186-7013ede207bf\",\n  \"propiedades\": {},\n  \"roles\": [\n    \"admin\"\n  ],\n  \"token\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImdyb3VwcyI6ImFkbWluIiwiZXhwIjoxNjk4OTU4ODQ3LCJqdGkiOiIyNDdiMzQwYy03NGVlLTRjODktODE4Ni03MDEzZWRlMjA3YmYiLCJpc3MiOiJodHRwczovL2dyaWQudW5pcXVpbmRpby5lZHUuY28iLCJpYXQiOjE2OTg5NTg1NDd9.D6DF_It32Vk07TX7RSjSA17CK170nDutm7DqX-AVyQ--uloSKkWD0Daj3nlPYntjz0gX8vqUGE9nec-Fy5si2PLW-Ke_J12x4O7_NzMA3uoD2ILuz5kT6U5dcB6tACX58A1Vg69ifW8NCngl_1FD5iN3HWEq5rMCAWnbqpPKA3n-MQwLHnBz7qqviV-Nw8JkRvhrCzM5ptO177dMV-9dMeKReilp1kKcLHGX6QzDveHZTFJTtmNSgbJ_HjEv23KRtErX1V9C1asqDWZupgG7VwPvcUj88FD-ej2AaSK3JLd-fBYNutS_TE9dFZdmfR1KLQrcVGJYgs5iCv7qhzQm9w\",\n  \"usuario\": \"admin\",\n  \"vigencia\": \"2023-11-02T16:00:47.933367\"\n}",
-                    "deprecated": false
-                  }
-                },
-                "example": "[{\n  \"emision\": \"2023-11-02T15:55:47.933451\",\n  \"emisor\": \"https://grid.uniquindio.edu.co\",\n  \"id\": \"247b340c-74ee-4c89-8186-7013ede207bf\",\n  \"propiedades\": {},\n  \"roles\": [\n    \"admin\"\n  ],\n  \"token\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImdyb3VwcyI6ImFkbWluIiwiZXhwIjoxNjk4OTU4ODQ3LCJqdGkiOiIyNDdiMzQwYy03NGVlLTRjODktODE4Ni03MDEzZWRlMjA3YmYiLCJpc3MiOiJodHRwczovL2dyaWQudW5pcXVpbmRpby5lZHUuY28iLCJpYXQiOjE2OTg5NTg1NDd9.D6DF_It32Vk07TX7RSjSA17CK170nDutm7DqX-AVyQ--uloSKkWD0Daj3nlPYntjz0gX8vqUGE9nec-Fy5si2PLW-Ke_J12x4O7_NzMA3uoD2ILuz5kT6U5dcB6tACX58A1Vg69ifW8NCngl_1FD5iN3HWEq5rMCAWnbqpPKA3n-MQwLHnBz7qqviV-Nw8JkRvhrCzM5ptO177dMV-9dMeKReilp1kKcLHGX6QzDveHZTFJTtmNSgbJ_HjEv23KRtErX1V9C1asqDWZupgG7VwPvcUj88FD-ej2AaSK3JLd-fBYNutS_TE9dFZdmfR1KLQrcVGJYgs5iCv7qhzQm9w\",\n  \"usuario\": \"admin\",\n  \"vigencia\": \"2023-11-02T16:00:47.933367\"\n}]"
+                  "$ref": "#/components/schemas/Tokens"
+                }
               }
             },
             "description": "OperaciÃ³n exitosa"
@@ -274,42 +31,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "exclusiveMaximum": false,
-                  "exclusiveMinimum": false,
-                  "minLength": 0,
-                  "uniqueItems": false,
-                  "maxProperties": 0,
-                  "minProperties": 0,
-                  "type": "array",
-                  "properties": {
-                    "messages": {
-                      "type": "string"
-                    }
-                  },
-                  "nullable": false,
-                  "readOnly": false,
-                  "writeOnly": false,
-                  "example": "{\"error\":\"Se produjo un error al procesar la solicitud\"}",
-                  "deprecated": false,
-                  "items": {
-                    "exclusiveMaximum": false,
-                    "exclusiveMinimum": false,
-                    "minLength": 0,
-                    "uniqueItems": false,
-                    "maxProperties": 0,
-                    "minProperties": 0,
-                    "type": "object",
-                    "properties": {
-                      "messages": {
-                        "type": "string"
-                      }
-                    },
-                    "nullable": false,
-                    "readOnly": false,
-                    "writeOnly": false,
-                    "example": "{\"error\":\"Se produjo un error al procesar la solicitud\"}",
-                    "deprecated": false
-                  }
+                  "$ref": "#/components/schemas/Errores"
                 }
               }
             },
@@ -319,42 +41,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "exclusiveMaximum": false,
-                  "exclusiveMinimum": false,
-                  "minLength": 0,
-                  "uniqueItems": false,
-                  "maxProperties": 0,
-                  "minProperties": 0,
-                  "type": "array",
-                  "properties": {
-                    "messages": {
-                      "type": "string"
-                    }
-                  },
-                  "nullable": false,
-                  "readOnly": false,
-                  "writeOnly": false,
-                  "example": "{\"error\":\"Se produjo un error al procesar la solicitud\"}",
-                  "deprecated": false,
-                  "items": {
-                    "exclusiveMaximum": false,
-                    "exclusiveMinimum": false,
-                    "minLength": 0,
-                    "uniqueItems": false,
-                    "maxProperties": 0,
-                    "minProperties": 0,
-                    "type": "object",
-                    "properties": {
-                      "messages": {
-                        "type": "string"
-                      }
-                    },
-                    "nullable": false,
-                    "readOnly": false,
-                    "writeOnly": false,
-                    "example": "{\"error\":\"Se produjo un error al procesar la solicitud\"}",
-                    "deprecated": false
-                  }
+                  "$ref": "#/components/schemas/Errores"
                 }
               }
             },
@@ -364,42 +51,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "exclusiveMaximum": false,
-                  "exclusiveMinimum": false,
-                  "minLength": 0,
-                  "uniqueItems": false,
-                  "maxProperties": 0,
-                  "minProperties": 0,
-                  "type": "array",
-                  "properties": {
-                    "messages": {
-                      "type": "string"
-                    }
-                  },
-                  "nullable": false,
-                  "readOnly": false,
-                  "writeOnly": false,
-                  "example": "{\"error\":\"Se produjo un error al procesar la solicitud\"}",
-                  "deprecated": false,
-                  "items": {
-                    "exclusiveMaximum": false,
-                    "exclusiveMinimum": false,
-                    "minLength": 0,
-                    "uniqueItems": false,
-                    "maxProperties": 0,
-                    "minProperties": 0,
-                    "type": "object",
-                    "properties": {
-                      "messages": {
-                        "type": "string"
-                      }
-                    },
-                    "nullable": false,
-                    "readOnly": false,
-                    "writeOnly": false,
-                    "example": "{\"error\":\"Se produjo un error al procesar la solicitud\"}",
-                    "deprecated": false
-                  }
+                  "$ref": "#/components/schemas/Errores"
                 }
               }
             },
@@ -409,42 +61,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "exclusiveMaximum": false,
-                  "exclusiveMinimum": false,
-                  "minLength": 0,
-                  "uniqueItems": false,
-                  "maxProperties": 0,
-                  "minProperties": 0,
-                  "type": "array",
-                  "properties": {
-                    "messages": {
-                      "type": "string"
-                    }
-                  },
-                  "nullable": false,
-                  "readOnly": false,
-                  "writeOnly": false,
-                  "example": "{\"error\":\"Se produjo un error al procesar la solicitud\"}",
-                  "deprecated": false,
-                  "items": {
-                    "exclusiveMaximum": false,
-                    "exclusiveMinimum": false,
-                    "minLength": 0,
-                    "uniqueItems": false,
-                    "maxProperties": 0,
-                    "minProperties": 0,
-                    "type": "object",
-                    "properties": {
-                      "messages": {
-                        "type": "string"
-                      }
-                    },
-                    "nullable": false,
-                    "readOnly": false,
-                    "writeOnly": false,
-                    "example": "{\"error\":\"Se produjo un error al procesar la solicitud\"}",
-                    "deprecated": false
-                  }
+                  "$ref": "#/components/schemas/Errores"
                 }
               }
             },
@@ -464,7 +81,7 @@
       "post": {
         "summary": "Generar Token",
         "description": "Permite generar un token a partir de las credenciales (usuario y clave) de un usuario registrado en el sistema",
-        "operationId": "create",
+        "operationId": "TokenAPI :: generar",
         "requestBody": {
           "description": "Credenciales del usuario que desea que se cree el token",
           "content": {
@@ -475,48 +92,7 @@
             },
             "*/*": {
               "schema": {
-                "exclusiveMaximum": false,
-                "exclusiveMinimum": false,
-                "minLength": 0,
-                "uniqueItems": false,
-                "maxProperties": 0,
-                "minProperties": 0,
-                "type": "object",
-                "properties": {
-                  "usuario": {
-                    "exclusiveMaximum": false,
-                    "exclusiveMinimum": false,
-                    "minLength": 0,
-                    "uniqueItems": false,
-                    "maxProperties": 0,
-                    "minProperties": 0,
-                    "type": "string",
-                    "nullable": false,
-                    "readOnly": false,
-                    "writeOnly": false,
-                    "example": "pedro",
-                    "deprecated": false
-                  },
-                  "clave": {
-                    "exclusiveMaximum": false,
-                    "exclusiveMinimum": false,
-                    "minLength": 0,
-                    "uniqueItems": false,
-                    "maxProperties": 0,
-                    "minProperties": 0,
-                    "type": "string",
-                    "nullable": false,
-                    "readOnly": false,
-                    "writeOnly": false,
-                    "example": "12345",
-                    "deprecated": false
-                  }
-                },
-                "nullable": false,
-                "readOnly": false,
-                "writeOnly": false,
-                "example": "{\"usuario\":\"pedro\",\"clave\":\"12345\"}",
-                "deprecated": false
+                "$ref": "#/components/schemas/Credential"
               }
             }
           },
@@ -527,118 +103,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "exclusiveMaximum": false,
-                  "exclusiveMinimum": false,
-                  "minLength": 0,
-                  "uniqueItems": false,
-                  "maxProperties": 0,
-                  "minProperties": 0,
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "string"
-                    },
-                    "token": {
-                      "type": "string"
-                    },
-                    "roles": {
-                      "exclusiveMaximum": false,
-                      "exclusiveMinimum": false,
-                      "minLength": 0,
-                      "uniqueItems": false,
-                      "maxProperties": 0,
-                      "minProperties": 0,
-                      "type": "array",
-                      "description": "Contiene el listado de roles del usuario",
-                      "nullable": false,
-                      "readOnly": false,
-                      "writeOnly": false,
-                      "example": "[\"user\"]",
-                      "deprecated": false,
-                      "items": {
-                        "type": "string"
-                      }
-                    },
-                    "vigencia": {
-                      "exclusiveMaximum": false,
-                      "exclusiveMinimum": false,
-                      "minLength": 0,
-                      "uniqueItems": false,
-                      "maxProperties": 0,
-                      "minProperties": 0,
-                      "type": "object",
-                      "description": "Contiene el momento en que el token perderÃ¡ su validez",
-                      "nullable": false,
-                      "readOnly": false,
-                      "writeOnly": false,
-                      "example": "2023-11-02T16:00:47.933367",
-                      "deprecated": false
-                    },
-                    "usuario": {
-                      "exclusiveMaximum": false,
-                      "exclusiveMinimum": false,
-                      "minLength": 0,
-                      "uniqueItems": false,
-                      "maxProperties": 0,
-                      "minProperties": 0,
-                      "type": "string",
-                      "description": "Usuario para el que se genero el token",
-                      "nullable": false,
-                      "readOnly": false,
-                      "writeOnly": false,
-                      "example": "pedro",
-                      "deprecated": false
-                    },
-                    "emisor": {
-                      "exclusiveMaximum": false,
-                      "exclusiveMinimum": false,
-                      "minLength": 0,
-                      "uniqueItems": false,
-                      "maxProperties": 0,
-                      "minProperties": 0,
-                      "type": "string",
-                      "description": "Nombre de la entidad que emite el token",
-                      "nullable": false,
-                      "readOnly": false,
-                      "writeOnly": false,
-                      "example": "grid.uniquindio.edu.co",
-                      "deprecated": false
-                    },
-                    "emision": {
-                      "exclusiveMaximum": false,
-                      "exclusiveMinimum": false,
-                      "minLength": 0,
-                      "uniqueItems": false,
-                      "maxProperties": 0,
-                      "minProperties": 0,
-                      "type": "object",
-                      "description": "Contiene el momento en que el token fue emitido",
-                      "nullable": false,
-                      "readOnly": false,
-                      "writeOnly": false,
-                      "example": "2023-11-02T16:00:47.933367",
-                      "deprecated": false
-                    },
-                    "propiedades": {
-                      "exclusiveMaximum": false,
-                      "exclusiveMinimum": false,
-                      "minLength": 0,
-                      "uniqueItems": false,
-                      "maxProperties": 0,
-                      "minProperties": 0,
-                      "type": "object",
-                      "description": "Conjunto de propiedades adicionales que se almacenan en el token",
-                      "nullable": false,
-                      "readOnly": false,
-                      "writeOnly": false,
-                      "deprecated": false
-                    }
-                  },
-                  "nullable": false,
-                  "readOnly": false,
-                  "writeOnly": false,
-                  "example": "{\n  \"emision\": \"2023-11-02T15:55:47.933451\",\n  \"emisor\": \"https://grid.uniquindio.edu.co\",\n  \"id\": \"247b340c-74ee-4c89-8186-7013ede207bf\",\n  \"propiedades\": {},\n  \"roles\": [\n    \"admin\"\n  ],\n  \"token\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImdyb3VwcyI6ImFkbWluIiwiZXhwIjoxNjk4OTU4ODQ3LCJqdGkiOiIyNDdiMzQwYy03NGVlLTRjODktODE4Ni03MDEzZWRlMjA3YmYiLCJpc3MiOiJodHRwczovL2dyaWQudW5pcXVpbmRpby5lZHUuY28iLCJpYXQiOjE2OTg5NTg1NDd9.D6DF_It32Vk07TX7RSjSA17CK170nDutm7DqX-AVyQ--uloSKkWD0Daj3nlPYntjz0gX8vqUGE9nec-Fy5si2PLW-Ke_J12x4O7_NzMA3uoD2ILuz5kT6U5dcB6tACX58A1Vg69ifW8NCngl_1FD5iN3HWEq5rMCAWnbqpPKA3n-MQwLHnBz7qqviV-Nw8JkRvhrCzM5ptO177dMV-9dMeKReilp1kKcLHGX6QzDveHZTFJTtmNSgbJ_HjEv23KRtErX1V9C1asqDWZupgG7VwPvcUj88FD-ej2AaSK3JLd-fBYNutS_TE9dFZdmfR1KLQrcVGJYgs5iCv7qhzQm9w\",\n  \"usuario\": \"admin\",\n  \"vigencia\": \"2023-11-02T16:00:47.933367\"\n}",
-                  "deprecated": false
+                  "$ref": "#/components/schemas/Token"
                 }
               }
             },
@@ -648,42 +113,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "exclusiveMaximum": false,
-                  "exclusiveMinimum": false,
-                  "minLength": 0,
-                  "uniqueItems": false,
-                  "maxProperties": 0,
-                  "minProperties": 0,
-                  "type": "array",
-                  "properties": {
-                    "messages": {
-                      "type": "string"
-                    }
-                  },
-                  "nullable": false,
-                  "readOnly": false,
-                  "writeOnly": false,
-                  "example": "{\"error\":\"Se produjo un error al procesar la solicitud\"}",
-                  "deprecated": false,
-                  "items": {
-                    "exclusiveMaximum": false,
-                    "exclusiveMinimum": false,
-                    "minLength": 0,
-                    "uniqueItems": false,
-                    "maxProperties": 0,
-                    "minProperties": 0,
-                    "type": "object",
-                    "properties": {
-                      "messages": {
-                        "type": "string"
-                      }
-                    },
-                    "nullable": false,
-                    "readOnly": false,
-                    "writeOnly": false,
-                    "example": "{\"error\":\"Se produjo un error al procesar la solicitud\"}",
-                    "deprecated": false
-                  }
+                  "$ref": "#/components/schemas/Errores"
                 }
               }
             },
@@ -693,42 +123,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "exclusiveMaximum": false,
-                  "exclusiveMinimum": false,
-                  "minLength": 0,
-                  "uniqueItems": false,
-                  "maxProperties": 0,
-                  "minProperties": 0,
-                  "type": "array",
-                  "properties": {
-                    "messages": {
-                      "type": "string"
-                    }
-                  },
-                  "nullable": false,
-                  "readOnly": false,
-                  "writeOnly": false,
-                  "example": "{\"error\":\"Se produjo un error al procesar la solicitud\"}",
-                  "deprecated": false,
-                  "items": {
-                    "exclusiveMaximum": false,
-                    "exclusiveMinimum": false,
-                    "minLength": 0,
-                    "uniqueItems": false,
-                    "maxProperties": 0,
-                    "minProperties": 0,
-                    "type": "object",
-                    "properties": {
-                      "messages": {
-                        "type": "string"
-                      }
-                    },
-                    "nullable": false,
-                    "readOnly": false,
-                    "writeOnly": false,
-                    "example": "{\"error\":\"Se produjo un error al procesar la solicitud\"}",
-                    "deprecated": false
-                  }
+                  "$ref": "#/components/schemas/Errores"
                 }
               }
             },
@@ -738,42 +133,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "exclusiveMaximum": false,
-                  "exclusiveMinimum": false,
-                  "minLength": 0,
-                  "uniqueItems": false,
-                  "maxProperties": 0,
-                  "minProperties": 0,
-                  "type": "array",
-                  "properties": {
-                    "messages": {
-                      "type": "string"
-                    }
-                  },
-                  "nullable": false,
-                  "readOnly": false,
-                  "writeOnly": false,
-                  "example": "{\"error\":\"Se produjo un error al procesar la solicitud\"}",
-                  "deprecated": false,
-                  "items": {
-                    "exclusiveMaximum": false,
-                    "exclusiveMinimum": false,
-                    "minLength": 0,
-                    "uniqueItems": false,
-                    "maxProperties": 0,
-                    "minProperties": 0,
-                    "type": "object",
-                    "properties": {
-                      "messages": {
-                        "type": "string"
-                      }
-                    },
-                    "nullable": false,
-                    "readOnly": false,
-                    "writeOnly": false,
-                    "example": "{\"error\":\"Se produjo un error al procesar la solicitud\"}",
-                    "deprecated": false
-                  }
+                  "$ref": "#/components/schemas/Errores"
                 }
               }
             },
@@ -786,14 +146,14 @@
     "/api/tokens/{id}": {
       "get": {
         "summary": "Verificar token",
-        "description": "Permite obtener los datos de un token, permitiendo verficiar su validez",
-        "operationId": "check",
+        "description": "Permite obtener los datos de un token, permitiendo verificar su validez",
+        "operationId": "TokenAPI :: verificar token",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "description": "Identificador UUID del token que se desea obtener",
-            "required": false,
+            "required": true,
             "deprecated": false,
             "allowEmptyValue": false,
             "allowReserved": false,
@@ -807,68 +167,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "exclusiveMaximum": false,
-                  "exclusiveMinimum": false,
-                  "minLength": 0,
-                  "uniqueItems": false,
-                  "maxProperties": 0,
-                  "minProperties": 0,
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "string"
-                    },
-                    "roles": {
-                      "exclusiveMaximum": false,
-                      "exclusiveMinimum": false,
-                      "minLength": 0,
-                      "uniqueItems": false,
-                      "maxProperties": 0,
-                      "minProperties": 0,
-                      "type": "array",
-                      "nullable": false,
-                      "readOnly": false,
-                      "writeOnly": false,
-                      "example": "[\"user\"]",
-                      "deprecated": false,
-                      "items": {
-                        "type": "string"
-                      }
-                    },
-                    "usuario": {
-                      "exclusiveMaximum": false,
-                      "exclusiveMinimum": false,
-                      "minLength": 0,
-                      "uniqueItems": false,
-                      "maxProperties": 0,
-                      "minProperties": 0,
-                      "type": "string",
-                      "nullable": false,
-                      "readOnly": false,
-                      "writeOnly": false,
-                      "example": "pedro",
-                      "deprecated": false
-                    },
-                    "clave": {
-                      "exclusiveMaximum": false,
-                      "exclusiveMinimum": false,
-                      "minLength": 0,
-                      "uniqueItems": false,
-                      "maxProperties": 0,
-                      "minProperties": 0,
-                      "type": "string",
-                      "nullable": false,
-                      "readOnly": false,
-                      "writeOnly": false,
-                      "example": "12345",
-                      "deprecated": false
-                    }
-                  },
-                  "nullable": false,
-                  "readOnly": false,
-                  "writeOnly": false,
-                  "example": "{\"usuario\":\"pedro\",\"clave\":\"12345\",\"roles\":[\"user\"]}",
-                  "deprecated": false
+                  "$ref": "#/components/schemas/Token"
                 }
               }
             },
@@ -878,42 +177,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "exclusiveMaximum": false,
-                  "exclusiveMinimum": false,
-                  "minLength": 0,
-                  "uniqueItems": false,
-                  "maxProperties": 0,
-                  "minProperties": 0,
-                  "type": "array",
-                  "properties": {
-                    "messages": {
-                      "type": "string"
-                    }
-                  },
-                  "nullable": false,
-                  "readOnly": false,
-                  "writeOnly": false,
-                  "example": "{\"error\":\"Se produjo un error al procesar la solicitud\"}",
-                  "deprecated": false,
-                  "items": {
-                    "exclusiveMaximum": false,
-                    "exclusiveMinimum": false,
-                    "minLength": 0,
-                    "uniqueItems": false,
-                    "maxProperties": 0,
-                    "minProperties": 0,
-                    "type": "object",
-                    "properties": {
-                      "messages": {
-                        "type": "string"
-                      }
-                    },
-                    "nullable": false,
-                    "readOnly": false,
-                    "writeOnly": false,
-                    "example": "{\"error\":\"Se produjo un error al procesar la solicitud\"}",
-                    "deprecated": false
-                  }
+                  "$ref": "#/components/schemas/Errores"
                 }
               }
             },
@@ -923,42 +187,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "exclusiveMaximum": false,
-                  "exclusiveMinimum": false,
-                  "minLength": 0,
-                  "uniqueItems": false,
-                  "maxProperties": 0,
-                  "minProperties": 0,
-                  "type": "array",
-                  "properties": {
-                    "messages": {
-                      "type": "string"
-                    }
-                  },
-                  "nullable": false,
-                  "readOnly": false,
-                  "writeOnly": false,
-                  "example": "{\"error\":\"Se produjo un error al procesar la solicitud\"}",
-                  "deprecated": false,
-                  "items": {
-                    "exclusiveMaximum": false,
-                    "exclusiveMinimum": false,
-                    "minLength": 0,
-                    "uniqueItems": false,
-                    "maxProperties": 0,
-                    "minProperties": 0,
-                    "type": "object",
-                    "properties": {
-                      "messages": {
-                        "type": "string"
-                      }
-                    },
-                    "nullable": false,
-                    "readOnly": false,
-                    "writeOnly": false,
-                    "example": "{\"error\":\"Se produjo un error al procesar la solicitud\"}",
-                    "deprecated": false
-                  }
+                  "$ref": "#/components/schemas/Errores"
                 }
               }
             },
@@ -968,42 +197,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "exclusiveMaximum": false,
-                  "exclusiveMinimum": false,
-                  "minLength": 0,
-                  "uniqueItems": false,
-                  "maxProperties": 0,
-                  "minProperties": 0,
-                  "type": "array",
-                  "properties": {
-                    "messages": {
-                      "type": "string"
-                    }
-                  },
-                  "nullable": false,
-                  "readOnly": false,
-                  "writeOnly": false,
-                  "example": "{\"error\":\"Se produjo un error al procesar la solicitud\"}",
-                  "deprecated": false,
-                  "items": {
-                    "exclusiveMaximum": false,
-                    "exclusiveMinimum": false,
-                    "minLength": 0,
-                    "uniqueItems": false,
-                    "maxProperties": 0,
-                    "minProperties": 0,
-                    "type": "object",
-                    "properties": {
-                      "messages": {
-                        "type": "string"
-                      }
-                    },
-                    "nullable": false,
-                    "readOnly": false,
-                    "writeOnly": false,
-                    "example": "{\"error\":\"Se produjo un error al procesar la solicitud\"}",
-                    "deprecated": false
-                  }
+                  "$ref": "#/components/schemas/Errores"
                 }
               }
             },
@@ -1013,42 +207,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "exclusiveMaximum": false,
-                  "exclusiveMinimum": false,
-                  "minLength": 0,
-                  "uniqueItems": false,
-                  "maxProperties": 0,
-                  "minProperties": 0,
-                  "type": "array",
-                  "properties": {
-                    "messages": {
-                      "type": "string"
-                    }
-                  },
-                  "nullable": false,
-                  "readOnly": false,
-                  "writeOnly": false,
-                  "example": "{\"error\":\"Se produjo un error al procesar la solicitud\"}",
-                  "deprecated": false,
-                  "items": {
-                    "exclusiveMaximum": false,
-                    "exclusiveMinimum": false,
-                    "minLength": 0,
-                    "uniqueItems": false,
-                    "maxProperties": 0,
-                    "minProperties": 0,
-                    "type": "object",
-                    "properties": {
-                      "messages": {
-                        "type": "string"
-                      }
-                    },
-                    "nullable": false,
-                    "readOnly": false,
-                    "writeOnly": false,
-                    "example": "{\"error\":\"Se produjo un error al procesar la solicitud\"}",
-                    "deprecated": false
-                  }
+                  "$ref": "#/components/schemas/Errores"
                 }
               }
             },
@@ -1070,7 +229,7 @@
       "get": {
         "summary": "lista los usuarios",
         "description": "Permite obtener un listado de los usuarios registrados en el sistema, es posible filtrarlos por rol y por el nombre de usuario, de igual forma es posible ordenarlos ASC o DESC",
-        "operationId": "list",
+        "operationId": "UsuarioAPI :: listar usuario",
         "parameters": [
           {
             "name": "usuario",
@@ -1117,68 +276,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "exclusiveMaximum": false,
-                  "exclusiveMinimum": false,
-                  "minLength": 0,
-                  "uniqueItems": false,
-                  "maxProperties": 0,
-                  "minProperties": 0,
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "string"
-                    },
-                    "roles": {
-                      "exclusiveMaximum": false,
-                      "exclusiveMinimum": false,
-                      "minLength": 0,
-                      "uniqueItems": false,
-                      "maxProperties": 0,
-                      "minProperties": 0,
-                      "type": "array",
-                      "nullable": false,
-                      "readOnly": false,
-                      "writeOnly": false,
-                      "example": "[\"user\"]",
-                      "deprecated": false,
-                      "items": {
-                        "type": "string"
-                      }
-                    },
-                    "usuario": {
-                      "exclusiveMaximum": false,
-                      "exclusiveMinimum": false,
-                      "minLength": 0,
-                      "uniqueItems": false,
-                      "maxProperties": 0,
-                      "minProperties": 0,
-                      "type": "string",
-                      "nullable": false,
-                      "readOnly": false,
-                      "writeOnly": false,
-                      "example": "pedro",
-                      "deprecated": false
-                    },
-                    "clave": {
-                      "exclusiveMaximum": false,
-                      "exclusiveMinimum": false,
-                      "minLength": 0,
-                      "uniqueItems": false,
-                      "maxProperties": 0,
-                      "minProperties": 0,
-                      "type": "string",
-                      "nullable": false,
-                      "readOnly": false,
-                      "writeOnly": false,
-                      "example": "12345",
-                      "deprecated": false
-                    }
-                  },
-                  "nullable": false,
-                  "readOnly": false,
-                  "writeOnly": false,
-                  "example": "{\"usuario\":\"pedro\",\"clave\":\"12345\",\"roles\":[\"user\"]}",
-                  "deprecated": false
+                  "$ref": "#/components/schemas/Usuarios"
                 }
               }
             },
@@ -1188,43 +286,9 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "exclusiveMaximum": false,
-                  "exclusiveMinimum": false,
-                  "minLength": 0,
-                  "uniqueItems": false,
-                  "maxProperties": 0,
-                  "minProperties": 0,
-                  "type": "array",
-                  "properties": {
-                    "messages": {
-                      "type": "string"
-                    }
-                  },
-                  "nullable": false,
-                  "readOnly": false,
-                  "writeOnly": false,
-                  "example": "{\"error\":\"Se produjo un error al procesar la solicitud\"}",
-                  "deprecated": false,
-                  "items": {
-                    "exclusiveMaximum": false,
-                    "exclusiveMinimum": false,
-                    "minLength": 0,
-                    "uniqueItems": false,
-                    "maxProperties": 0,
-                    "minProperties": 0,
-                    "type": "object",
-                    "properties": {
-                      "messages": {
-                        "type": "string"
-                      }
-                    },
-                    "nullable": false,
-                    "readOnly": false,
-                    "writeOnly": false,
-                    "example": "{\"error\":\"Se produjo un error al procesar la solicitud\"}",
-                    "deprecated": false
-                  }
-                }
+                  "$ref": "#/components/schemas/Errores"
+                },
+                "example": "[{\"error\":\"Usuario no autorizado\"}]"
               }
             },
             "description": "Usuario no autorizado"
@@ -1233,43 +297,9 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "exclusiveMaximum": false,
-                  "exclusiveMinimum": false,
-                  "minLength": 0,
-                  "uniqueItems": false,
-                  "maxProperties": 0,
-                  "minProperties": 0,
-                  "type": "array",
-                  "properties": {
-                    "messages": {
-                      "type": "string"
-                    }
-                  },
-                  "nullable": false,
-                  "readOnly": false,
-                  "writeOnly": false,
-                  "example": "{\"error\":\"Se produjo un error al procesar la solicitud\"}",
-                  "deprecated": false,
-                  "items": {
-                    "exclusiveMaximum": false,
-                    "exclusiveMinimum": false,
-                    "minLength": 0,
-                    "uniqueItems": false,
-                    "maxProperties": 0,
-                    "minProperties": 0,
-                    "type": "object",
-                    "properties": {
-                      "messages": {
-                        "type": "string"
-                      }
-                    },
-                    "nullable": false,
-                    "readOnly": false,
-                    "writeOnly": false,
-                    "example": "{\"error\":\"Se produjo un error al procesar la solicitud\"}",
-                    "deprecated": false
-                  }
-                }
+                  "$ref": "#/components/schemas/Errores"
+                },
+                "example": "[{\"error\":\"No tiene permitido realizar la operaciÃ³n\"}]"
               }
             },
             "description": "No tiene permitido realizar la operaciÃ³n"
@@ -1278,43 +308,9 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "exclusiveMaximum": false,
-                  "exclusiveMinimum": false,
-                  "minLength": 0,
-                  "uniqueItems": false,
-                  "maxProperties": 0,
-                  "minProperties": 0,
-                  "type": "array",
-                  "properties": {
-                    "messages": {
-                      "type": "string"
-                    }
-                  },
-                  "nullable": false,
-                  "readOnly": false,
-                  "writeOnly": false,
-                  "example": "{\"error\":\"Se produjo un error al procesar la solicitud\"}",
-                  "deprecated": false,
-                  "items": {
-                    "exclusiveMaximum": false,
-                    "exclusiveMinimum": false,
-                    "minLength": 0,
-                    "uniqueItems": false,
-                    "maxProperties": 0,
-                    "minProperties": 0,
-                    "type": "object",
-                    "properties": {
-                      "messages": {
-                        "type": "string"
-                      }
-                    },
-                    "nullable": false,
-                    "readOnly": false,
-                    "writeOnly": false,
-                    "example": "{\"error\":\"Se produjo un error al procesar la solicitud\"}",
-                    "deprecated": false
-                  }
-                }
+                  "$ref": "#/components/schemas/Errores"
+                },
+                "example": "[{\"error\":\"Recurso no encontrado\"}]"
               }
             },
             "description": "Recurso no encontrado"
@@ -1323,43 +319,9 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "exclusiveMaximum": false,
-                  "exclusiveMinimum": false,
-                  "minLength": 0,
-                  "uniqueItems": false,
-                  "maxProperties": 0,
-                  "minProperties": 0,
-                  "type": "array",
-                  "properties": {
-                    "messages": {
-                      "type": "string"
-                    }
-                  },
-                  "nullable": false,
-                  "readOnly": false,
-                  "writeOnly": false,
-                  "example": "{\"error\":\"Se produjo un error al procesar la solicitud\"}",
-                  "deprecated": false,
-                  "items": {
-                    "exclusiveMaximum": false,
-                    "exclusiveMinimum": false,
-                    "minLength": 0,
-                    "uniqueItems": false,
-                    "maxProperties": 0,
-                    "minProperties": 0,
-                    "type": "object",
-                    "properties": {
-                      "messages": {
-                        "type": "string"
-                      }
-                    },
-                    "nullable": false,
-                    "readOnly": false,
-                    "writeOnly": false,
-                    "example": "{\"error\":\"Se produjo un error al procesar la solicitud\"}",
-                    "deprecated": false
-                  }
-                }
+                  "$ref": "#/components/schemas/Errores"
+                },
+                "example": "[{\"error\":\"OcurriÃ³ un error interno al procesar la solicitud\"}]"
               }
             },
             "description": "Error interno"
@@ -1377,7 +339,7 @@
       "post": {
         "summary": "Registrar usuario",
         "description": "Permite registrar un usuario en el sistema",
-        "operationId": "create",
+        "operationId": "UsuarioAPI :: registrar",
         "requestBody": {
           "description": "Usuario a registrar",
           "content": {
@@ -1388,68 +350,7 @@
             },
             "*/*": {
               "schema": {
-                "exclusiveMaximum": false,
-                "exclusiveMinimum": false,
-                "minLength": 0,
-                "uniqueItems": false,
-                "maxProperties": 0,
-                "minProperties": 0,
-                "type": "object",
-                "properties": {
-                  "id": {
-                    "type": "string"
-                  },
-                  "roles": {
-                    "exclusiveMaximum": false,
-                    "exclusiveMinimum": false,
-                    "minLength": 0,
-                    "uniqueItems": false,
-                    "maxProperties": 0,
-                    "minProperties": 0,
-                    "type": "array",
-                    "nullable": false,
-                    "readOnly": false,
-                    "writeOnly": false,
-                    "example": "[\"user\"]",
-                    "deprecated": false,
-                    "items": {
-                      "type": "string"
-                    }
-                  },
-                  "usuario": {
-                    "exclusiveMaximum": false,
-                    "exclusiveMinimum": false,
-                    "minLength": 0,
-                    "uniqueItems": false,
-                    "maxProperties": 0,
-                    "minProperties": 0,
-                    "type": "string",
-                    "nullable": false,
-                    "readOnly": false,
-                    "writeOnly": false,
-                    "example": "pedro",
-                    "deprecated": false
-                  },
-                  "clave": {
-                    "exclusiveMaximum": false,
-                    "exclusiveMinimum": false,
-                    "minLength": 0,
-                    "uniqueItems": false,
-                    "maxProperties": 0,
-                    "minProperties": 0,
-                    "type": "string",
-                    "nullable": false,
-                    "readOnly": false,
-                    "writeOnly": false,
-                    "example": "12345",
-                    "deprecated": false
-                  }
-                },
-                "nullable": false,
-                "readOnly": false,
-                "writeOnly": false,
-                "example": "{\"usuario\":\"pedro\",\"clave\":\"12345\",\"roles\":[\"user\"]}",
-                "deprecated": false
+                "$ref": "#/components/schemas/Usuario"
               }
             }
           },
@@ -1460,68 +361,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "exclusiveMaximum": false,
-                  "exclusiveMinimum": false,
-                  "minLength": 0,
-                  "uniqueItems": false,
-                  "maxProperties": 0,
-                  "minProperties": 0,
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "string"
-                    },
-                    "roles": {
-                      "exclusiveMaximum": false,
-                      "exclusiveMinimum": false,
-                      "minLength": 0,
-                      "uniqueItems": false,
-                      "maxProperties": 0,
-                      "minProperties": 0,
-                      "type": "array",
-                      "nullable": false,
-                      "readOnly": false,
-                      "writeOnly": false,
-                      "example": "[\"user\"]",
-                      "deprecated": false,
-                      "items": {
-                        "type": "string"
-                      }
-                    },
-                    "usuario": {
-                      "exclusiveMaximum": false,
-                      "exclusiveMinimum": false,
-                      "minLength": 0,
-                      "uniqueItems": false,
-                      "maxProperties": 0,
-                      "minProperties": 0,
-                      "type": "string",
-                      "nullable": false,
-                      "readOnly": false,
-                      "writeOnly": false,
-                      "example": "pedro",
-                      "deprecated": false
-                    },
-                    "clave": {
-                      "exclusiveMaximum": false,
-                      "exclusiveMinimum": false,
-                      "minLength": 0,
-                      "uniqueItems": false,
-                      "maxProperties": 0,
-                      "minProperties": 0,
-                      "type": "string",
-                      "nullable": false,
-                      "readOnly": false,
-                      "writeOnly": false,
-                      "example": "12345",
-                      "deprecated": false
-                    }
-                  },
-                  "nullable": false,
-                  "readOnly": false,
-                  "writeOnly": false,
-                  "example": "{\"usuario\":\"pedro\",\"clave\":\"12345\",\"roles\":[\"user\"]}",
-                  "deprecated": false
+                  "$ref": "#/components/schemas/Usuario"
                 }
               }
             },
@@ -1531,43 +371,9 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "exclusiveMaximum": false,
-                  "exclusiveMinimum": false,
-                  "minLength": 0,
-                  "uniqueItems": false,
-                  "maxProperties": 0,
-                  "minProperties": 0,
-                  "type": "array",
-                  "properties": {
-                    "messages": {
-                      "type": "string"
-                    }
-                  },
-                  "nullable": false,
-                  "readOnly": false,
-                  "writeOnly": false,
-                  "example": "{\"error\":\"Se produjo un error al procesar la solicitud\"}",
-                  "deprecated": false,
-                  "items": {
-                    "exclusiveMaximum": false,
-                    "exclusiveMinimum": false,
-                    "minLength": 0,
-                    "uniqueItems": false,
-                    "maxProperties": 0,
-                    "minProperties": 0,
-                    "type": "object",
-                    "properties": {
-                      "messages": {
-                        "type": "string"
-                      }
-                    },
-                    "nullable": false,
-                    "readOnly": false,
-                    "writeOnly": false,
-                    "example": "{\"error\":\"Se produjo un error al procesar la solicitud\"}",
-                    "deprecated": false
-                  }
-                }
+                  "$ref": "#/components/schemas/Errores"
+                },
+                "example": "[{\"error\":\"El usuario y la contraseÃ±a son requeridos\"}]"
               }
             },
             "description": "La solicitud estÃ¡ incompleta"
@@ -1576,43 +382,9 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "exclusiveMaximum": false,
-                  "exclusiveMinimum": false,
-                  "minLength": 0,
-                  "uniqueItems": false,
-                  "maxProperties": 0,
-                  "minProperties": 0,
-                  "type": "array",
-                  "properties": {
-                    "messages": {
-                      "type": "string"
-                    }
-                  },
-                  "nullable": false,
-                  "readOnly": false,
-                  "writeOnly": false,
-                  "example": "{\"error\":\"Se produjo un error al procesar la solicitud\"}",
-                  "deprecated": false,
-                  "items": {
-                    "exclusiveMaximum": false,
-                    "exclusiveMinimum": false,
-                    "minLength": 0,
-                    "uniqueItems": false,
-                    "maxProperties": 0,
-                    "minProperties": 0,
-                    "type": "object",
-                    "properties": {
-                      "messages": {
-                        "type": "string"
-                      }
-                    },
-                    "nullable": false,
-                    "readOnly": false,
-                    "writeOnly": false,
-                    "example": "{\"error\":\"Se produjo un error al procesar la solicitud\"}",
-                    "deprecated": false
-                  }
-                }
+                  "$ref": "#/components/schemas/Errores"
+                },
+                "example": "[{\"error\":\"El usuario ya existe\"}]"
               }
             },
             "description": "El usuario ya existe"
@@ -1621,43 +393,9 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "exclusiveMaximum": false,
-                  "exclusiveMinimum": false,
-                  "minLength": 0,
-                  "uniqueItems": false,
-                  "maxProperties": 0,
-                  "minProperties": 0,
-                  "type": "array",
-                  "properties": {
-                    "messages": {
-                      "type": "string"
-                    }
-                  },
-                  "nullable": false,
-                  "readOnly": false,
-                  "writeOnly": false,
-                  "example": "{\"error\":\"Se produjo un error al procesar la solicitud\"}",
-                  "deprecated": false,
-                  "items": {
-                    "exclusiveMaximum": false,
-                    "exclusiveMinimum": false,
-                    "minLength": 0,
-                    "uniqueItems": false,
-                    "maxProperties": 0,
-                    "minProperties": 0,
-                    "type": "object",
-                    "properties": {
-                      "messages": {
-                        "type": "string"
-                      }
-                    },
-                    "nullable": false,
-                    "readOnly": false,
-                    "writeOnly": false,
-                    "example": "{\"error\":\"Se produjo un error al procesar la solicitud\"}",
-                    "deprecated": false
-                  }
-                }
+                  "$ref": "#/components/schemas/Errores"
+                },
+                "example": "[{\"error\":\"OcurriÃ³ un error interno al procesar la solicitud\"}]"
               }
             },
             "description": "Error interno"
@@ -1670,13 +408,13 @@
       "get": {
         "summary": "obtener datos de usuario",
         "description": "Permite obtener los datos de un usuario",
-        "operationId": "get",
+        "operationId": "UsuarioAPI :: consultar usuario",
         "parameters": [
           {
             "name": "username",
             "in": "path",
             "description": "nombre del usuario del que se desea obtener los datos",
-            "required": false,
+            "required": true,
             "deprecated": false,
             "allowEmptyValue": false,
             "allowReserved": false,
@@ -1691,68 +429,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "exclusiveMaximum": false,
-                  "exclusiveMinimum": false,
-                  "minLength": 0,
-                  "uniqueItems": false,
-                  "maxProperties": 0,
-                  "minProperties": 0,
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "string"
-                    },
-                    "roles": {
-                      "exclusiveMaximum": false,
-                      "exclusiveMinimum": false,
-                      "minLength": 0,
-                      "uniqueItems": false,
-                      "maxProperties": 0,
-                      "minProperties": 0,
-                      "type": "array",
-                      "nullable": false,
-                      "readOnly": false,
-                      "writeOnly": false,
-                      "example": "[\"user\"]",
-                      "deprecated": false,
-                      "items": {
-                        "type": "string"
-                      }
-                    },
-                    "usuario": {
-                      "exclusiveMaximum": false,
-                      "exclusiveMinimum": false,
-                      "minLength": 0,
-                      "uniqueItems": false,
-                      "maxProperties": 0,
-                      "minProperties": 0,
-                      "type": "string",
-                      "nullable": false,
-                      "readOnly": false,
-                      "writeOnly": false,
-                      "example": "pedro",
-                      "deprecated": false
-                    },
-                    "clave": {
-                      "exclusiveMaximum": false,
-                      "exclusiveMinimum": false,
-                      "minLength": 0,
-                      "uniqueItems": false,
-                      "maxProperties": 0,
-                      "minProperties": 0,
-                      "type": "string",
-                      "nullable": false,
-                      "readOnly": false,
-                      "writeOnly": false,
-                      "example": "12345",
-                      "deprecated": false
-                    }
-                  },
-                  "nullable": false,
-                  "readOnly": false,
-                  "writeOnly": false,
-                  "example": "{\"usuario\":\"pedro\",\"clave\":\"12345\",\"roles\":[\"user\"]}",
-                  "deprecated": false
+                  "$ref": "#/components/schemas/Usuario"
                 }
               }
             },
@@ -1762,43 +439,9 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "exclusiveMaximum": false,
-                  "exclusiveMinimum": false,
-                  "minLength": 0,
-                  "uniqueItems": false,
-                  "maxProperties": 0,
-                  "minProperties": 0,
-                  "type": "array",
-                  "properties": {
-                    "messages": {
-                      "type": "string"
-                    }
-                  },
-                  "nullable": false,
-                  "readOnly": false,
-                  "writeOnly": false,
-                  "example": "{\"error\":\"Se produjo un error al procesar la solicitud\"}",
-                  "deprecated": false,
-                  "items": {
-                    "exclusiveMaximum": false,
-                    "exclusiveMinimum": false,
-                    "minLength": 0,
-                    "uniqueItems": false,
-                    "maxProperties": 0,
-                    "minProperties": 0,
-                    "type": "object",
-                    "properties": {
-                      "messages": {
-                        "type": "string"
-                      }
-                    },
-                    "nullable": false,
-                    "readOnly": false,
-                    "writeOnly": false,
-                    "example": "{\"error\":\"Se produjo un error al procesar la solicitud\"}",
-                    "deprecated": false
-                  }
-                }
+                  "$ref": "#/components/schemas/Errores"
+                },
+                "example": "[{\"error\":\"Usuario no autorizado\"}]"
               }
             },
             "description": "Usuario no autorizado"
@@ -1807,43 +450,9 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "exclusiveMaximum": false,
-                  "exclusiveMinimum": false,
-                  "minLength": 0,
-                  "uniqueItems": false,
-                  "maxProperties": 0,
-                  "minProperties": 0,
-                  "type": "array",
-                  "properties": {
-                    "messages": {
-                      "type": "string"
-                    }
-                  },
-                  "nullable": false,
-                  "readOnly": false,
-                  "writeOnly": false,
-                  "example": "{\"error\":\"Se produjo un error al procesar la solicitud\"}",
-                  "deprecated": false,
-                  "items": {
-                    "exclusiveMaximum": false,
-                    "exclusiveMinimum": false,
-                    "minLength": 0,
-                    "uniqueItems": false,
-                    "maxProperties": 0,
-                    "minProperties": 0,
-                    "type": "object",
-                    "properties": {
-                      "messages": {
-                        "type": "string"
-                      }
-                    },
-                    "nullable": false,
-                    "readOnly": false,
-                    "writeOnly": false,
-                    "example": "{\"error\":\"Se produjo un error al procesar la solicitud\"}",
-                    "deprecated": false
-                  }
-                }
+                  "$ref": "#/components/schemas/Errores"
+                },
+                "example": "[{\"error\":\"No tiene permitido realizar la operaciÃ³n\"}]"
               }
             },
             "description": "No tiene permitido realizar la operaciÃ³n"
@@ -1852,43 +461,9 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "exclusiveMaximum": false,
-                  "exclusiveMinimum": false,
-                  "minLength": 0,
-                  "uniqueItems": false,
-                  "maxProperties": 0,
-                  "minProperties": 0,
-                  "type": "array",
-                  "properties": {
-                    "messages": {
-                      "type": "string"
-                    }
-                  },
-                  "nullable": false,
-                  "readOnly": false,
-                  "writeOnly": false,
-                  "example": "{\"error\":\"Se produjo un error al procesar la solicitud\"}",
-                  "deprecated": false,
-                  "items": {
-                    "exclusiveMaximum": false,
-                    "exclusiveMinimum": false,
-                    "minLength": 0,
-                    "uniqueItems": false,
-                    "maxProperties": 0,
-                    "minProperties": 0,
-                    "type": "object",
-                    "properties": {
-                      "messages": {
-                        "type": "string"
-                      }
-                    },
-                    "nullable": false,
-                    "readOnly": false,
-                    "writeOnly": false,
-                    "example": "{\"error\":\"Se produjo un error al procesar la solicitud\"}",
-                    "deprecated": false
-                  }
-                }
+                  "$ref": "#/components/schemas/Errores"
+                },
+                "example": "[{\"error\":\"Recurso no encontrado\"}]"
               }
             },
             "description": "Recurso no encontrado"
@@ -1897,43 +472,120 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "exclusiveMaximum": false,
-                  "exclusiveMinimum": false,
-                  "minLength": 0,
-                  "uniqueItems": false,
-                  "maxProperties": 0,
-                  "minProperties": 0,
-                  "type": "array",
-                  "properties": {
-                    "messages": {
-                      "type": "string"
-                    }
-                  },
-                  "nullable": false,
-                  "readOnly": false,
-                  "writeOnly": false,
-                  "example": "{\"error\":\"Se produjo un error al procesar la solicitud\"}",
-                  "deprecated": false,
-                  "items": {
-                    "exclusiveMaximum": false,
-                    "exclusiveMinimum": false,
-                    "minLength": 0,
-                    "uniqueItems": false,
-                    "maxProperties": 0,
-                    "minProperties": 0,
-                    "type": "object",
-                    "properties": {
-                      "messages": {
-                        "type": "string"
-                      }
-                    },
-                    "nullable": false,
-                    "readOnly": false,
-                    "writeOnly": false,
-                    "example": "{\"error\":\"Se produjo un error al procesar la solicitud\"}",
-                    "deprecated": false
-                  }
+                  "$ref": "#/components/schemas/Errores"
+                },
+                "example": "[{\"error\":\"OcurriÃ³ un error interno al procesar la solicitud\"}]"
+              }
+            },
+            "description": "Error interno"
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "JWT": [
+              "user",
+              "admin"
+            ]
+          }
+        ]
+      },
+      "put": {
+        "summary": "Actualizar usuario",
+        "description": "Permite actualizar los datos de un usuario en el sistema",
+        "operationId": "UsuarioAPI :: actualizar",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "description": "nombre del usuario que se desea actualizar",
+            "required": true,
+            "deprecated": false,
+            "allowEmptyValue": false,
+            "allowReserved": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "pedro"
+          }
+        ],
+        "requestBody": {
+          "description": "Datos del usuario a actualizar",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Usuario"
+              }
+            },
+            "*/*": {
+              "schema": {
+                "$ref": "#/components/schemas/Usuario"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Usuario"
                 }
+              }
+            },
+            "description": "OperaciÃ³n exitosa"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errores"
+                }
+              }
+            },
+            "description": "Datos incompletos"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errores"
+                },
+                "example": "[{\"error\":\"Usuario no autorizado\"}]"
+              }
+            },
+            "description": "Usuario no autorizado"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errores"
+                },
+                "example": "[{\"error\":\"No tiene permitido realizar la operaciÃ³n\"}]"
+              }
+            },
+            "description": "No tiene permitido realizar la operaciÃ³n"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errores"
+                },
+                "example": "[{\"error\":\"Recurso no encontrado\"}]"
+              }
+            },
+            "description": "Recurso no encontrado"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errores"
+                },
+                "example": "[{\"error\":\"OcurriÃ³ un error interno al procesar la solicitud\"}]"
               }
             },
             "description": "Error interno"
@@ -1952,13 +604,13 @@
       "delete": {
         "summary": "Dar de baja un usuario",
         "description": "Permite dar de baja (borrar) un usuario en el sistema",
-        "operationId": "delete",
+        "operationId": "UsuarioAPI :: unregister",
         "parameters": [
           {
             "name": "username",
             "in": "path",
             "description": "nombre del usuario que se desea dar de baja",
-            "required": false,
+            "required": true,
             "deprecated": false,
             "allowEmptyValue": false,
             "allowReserved": false,
@@ -1973,23 +625,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "exclusiveMaximum": false,
-                  "exclusiveMinimum": false,
-                  "minLength": 0,
-                  "uniqueItems": false,
-                  "maxProperties": 0,
-                  "minProperties": 0,
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string"
-                    }
-                  },
-                  "nullable": false,
-                  "readOnly": false,
-                  "writeOnly": false,
-                  "example": "{\"error\":\"Se produjo un error al procesar la solicitud\"}",
-                  "deprecated": false
+                  "$ref": "#/components/schemas/Message"
                 }
               }
             },
@@ -1999,43 +635,9 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "exclusiveMaximum": false,
-                  "exclusiveMinimum": false,
-                  "minLength": 0,
-                  "uniqueItems": false,
-                  "maxProperties": 0,
-                  "minProperties": 0,
-                  "type": "array",
-                  "properties": {
-                    "messages": {
-                      "type": "string"
-                    }
-                  },
-                  "nullable": false,
-                  "readOnly": false,
-                  "writeOnly": false,
-                  "example": "{\"error\":\"Se produjo un error al procesar la solicitud\"}",
-                  "deprecated": false,
-                  "items": {
-                    "exclusiveMaximum": false,
-                    "exclusiveMinimum": false,
-                    "minLength": 0,
-                    "uniqueItems": false,
-                    "maxProperties": 0,
-                    "minProperties": 0,
-                    "type": "object",
-                    "properties": {
-                      "messages": {
-                        "type": "string"
-                      }
-                    },
-                    "nullable": false,
-                    "readOnly": false,
-                    "writeOnly": false,
-                    "example": "{\"error\":\"Se produjo un error al procesar la solicitud\"}",
-                    "deprecated": false
-                  }
-                }
+                  "$ref": "#/components/schemas/Errores"
+                },
+                "example": "[{\"error\":\"Usuario no autorizado\"}]"
               }
             },
             "description": "Usuario no autorizado"
@@ -2044,43 +646,9 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "exclusiveMaximum": false,
-                  "exclusiveMinimum": false,
-                  "minLength": 0,
-                  "uniqueItems": false,
-                  "maxProperties": 0,
-                  "minProperties": 0,
-                  "type": "array",
-                  "properties": {
-                    "messages": {
-                      "type": "string"
-                    }
-                  },
-                  "nullable": false,
-                  "readOnly": false,
-                  "writeOnly": false,
-                  "example": "{\"error\":\"Se produjo un error al procesar la solicitud\"}",
-                  "deprecated": false,
-                  "items": {
-                    "exclusiveMaximum": false,
-                    "exclusiveMinimum": false,
-                    "minLength": 0,
-                    "uniqueItems": false,
-                    "maxProperties": 0,
-                    "minProperties": 0,
-                    "type": "object",
-                    "properties": {
-                      "messages": {
-                        "type": "string"
-                      }
-                    },
-                    "nullable": false,
-                    "readOnly": false,
-                    "writeOnly": false,
-                    "example": "{\"error\":\"Se produjo un error al procesar la solicitud\"}",
-                    "deprecated": false
-                  }
-                }
+                  "$ref": "#/components/schemas/Errores"
+                },
+                "example": "[{\"error\":\"No tiene permitido realizar la operaciÃ³n\"}]"
               }
             },
             "description": "No tiene permitido realizar la operaciÃ³n"
@@ -2089,43 +657,9 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "exclusiveMaximum": false,
-                  "exclusiveMinimum": false,
-                  "minLength": 0,
-                  "uniqueItems": false,
-                  "maxProperties": 0,
-                  "minProperties": 0,
-                  "type": "array",
-                  "properties": {
-                    "messages": {
-                      "type": "string"
-                    }
-                  },
-                  "nullable": false,
-                  "readOnly": false,
-                  "writeOnly": false,
-                  "example": "{\"error\":\"Se produjo un error al procesar la solicitud\"}",
-                  "deprecated": false,
-                  "items": {
-                    "exclusiveMaximum": false,
-                    "exclusiveMinimum": false,
-                    "minLength": 0,
-                    "uniqueItems": false,
-                    "maxProperties": 0,
-                    "minProperties": 0,
-                    "type": "object",
-                    "properties": {
-                      "messages": {
-                        "type": "string"
-                      }
-                    },
-                    "nullable": false,
-                    "readOnly": false,
-                    "writeOnly": false,
-                    "example": "{\"error\":\"Se produjo un error al procesar la solicitud\"}",
-                    "deprecated": false
-                  }
-                }
+                  "$ref": "#/components/schemas/Errores"
+                },
+                "example": "[{\"error\":\"Recurso no encontrado\"}]"
               }
             },
             "description": "Recurso no encontrado"
@@ -2134,43 +668,120 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "exclusiveMaximum": false,
-                  "exclusiveMinimum": false,
-                  "minLength": 0,
-                  "uniqueItems": false,
-                  "maxProperties": 0,
-                  "minProperties": 0,
-                  "type": "array",
-                  "properties": {
-                    "messages": {
-                      "type": "string"
-                    }
-                  },
-                  "nullable": false,
-                  "readOnly": false,
-                  "writeOnly": false,
-                  "example": "{\"error\":\"Se produjo un error al procesar la solicitud\"}",
-                  "deprecated": false,
-                  "items": {
-                    "exclusiveMaximum": false,
-                    "exclusiveMinimum": false,
-                    "minLength": 0,
-                    "uniqueItems": false,
-                    "maxProperties": 0,
-                    "minProperties": 0,
-                    "type": "object",
-                    "properties": {
-                      "messages": {
-                        "type": "string"
-                      }
-                    },
-                    "nullable": false,
-                    "readOnly": false,
-                    "writeOnly": false,
-                    "example": "{\"error\":\"Se produjo un error al procesar la solicitud\"}",
-                    "deprecated": false
-                  }
+                  "$ref": "#/components/schemas/Errores"
+                },
+                "example": "[{\"error\":\"OcurriÃ³ un error interno al procesar la solicitud\"}]"
+              }
+            },
+            "description": "Error interno"
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "JWT": [
+              "user",
+              "admin"
+            ]
+          }
+        ]
+      },
+      "patch": {
+        "summary": "Actualizar clave",
+        "description": "Permite actualizar la clave de un usuario en el sistema",
+        "operationId": "UsuarioAPI :: actualizar clave",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "description": "nombre del usuario al que se desea actualizar la clave",
+            "required": true,
+            "deprecated": false,
+            "allowEmptyValue": false,
+            "allowReserved": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "pedro"
+          }
+        ],
+        "requestBody": {
+          "description": "Claves necesarias para la actualizaciÃ³n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Clave"
+              }
+            },
+            "*/*": {
+              "schema": {
+                "$ref": "#/components/schemas/Clave"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Usuario"
                 }
+              }
+            },
+            "description": "OperaciÃ³n exitosa"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errores"
+                }
+              }
+            },
+            "description": "La solicitud estÃ¡ incompleta, el clave actual, la nueva clave y la verificaciÃ³n de la nueva clave son requeridas"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errores"
+                },
+                "example": "[{\"error\":\"Usuario no autorizado\"}]"
+              }
+            },
+            "description": "Usuario no autorizado"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errores"
+                },
+                "example": "[{\"error\":\"No tiene permitido realizar la operaciÃ³n\"}]"
+              }
+            },
+            "description": "No tiene permitido realizar la operaciÃ³n"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errores"
+                },
+                "example": "[{\"error\":\"Recurso no encontrado\"}]"
+              }
+            },
+            "description": "Recurso no encontrado"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errores"
+                },
+                "example": "[{\"error\":\"OcurriÃ³ un error interno al procesar la solicitud\"}]"
               }
             },
             "description": "Error interno"
@@ -2188,17 +799,66 @@
       }
     }
   },
-  "endpoints": {
-    "/": [
-      "/api/hello",
-      "/api/tokens",
-      "/api/tokens/{id}",
-      "/api/usuarios",
-      "/api/usuarios/{username}"
-    ]
-  },
   "components": {
     "schemas": {
+      "Clave": {
+        "exclusiveMaximum": false,
+        "exclusiveMinimum": false,
+        "minLength": 0,
+        "uniqueItems": false,
+        "maxProperties": 0,
+        "minProperties": 0,
+        "type": "object",
+        "properties": {
+          "clave": {
+            "exclusiveMaximum": false,
+            "exclusiveMinimum": false,
+            "minLength": 0,
+            "uniqueItems": false,
+            "maxProperties": 0,
+            "minProperties": 0,
+            "type": "string",
+            "description": "Nueva clave a ser asignada al usuario",
+            "nullable": false,
+            "readOnly": false,
+            "writeOnly": false,
+            "deprecated": false
+          },
+          "nueva_clave": {
+            "exclusiveMaximum": false,
+            "exclusiveMinimum": false,
+            "minLength": 0,
+            "uniqueItems": false,
+            "maxProperties": 0,
+            "minProperties": 0,
+            "type": "string",
+            "description": "Nueva clave a ser asignada al usuario",
+            "nullable": false,
+            "readOnly": false,
+            "writeOnly": false,
+            "deprecated": false
+          },
+          "verificacion_clave": {
+            "exclusiveMaximum": false,
+            "exclusiveMinimum": false,
+            "minLength": 0,
+            "uniqueItems": false,
+            "maxProperties": 0,
+            "minProperties": 0,
+            "type": "string",
+            "description": "Nueva clave repetida para verificaciÃ³n",
+            "nullable": false,
+            "readOnly": false,
+            "writeOnly": false,
+            "deprecated": false
+          }
+        },
+        "nullable": false,
+        "readOnly": false,
+        "writeOnly": false,
+        "example": "{\"clave\":\"12345\",\"nueva_clave\":\"ABC123\",\"verificacion_clave\":\"ABC123\"}",
+        "deprecated": false
+      },
       "Credential": {
         "exclusiveMaximum": false,
         "exclusiveMinimum": false,
@@ -2252,8 +912,19 @@
         "minProperties": 0,
         "type": "object",
         "properties": {
-          "messages": {
-            "type": "string"
+          "error": {
+            "exclusiveMaximum": false,
+            "exclusiveMinimum": false,
+            "minLength": 0,
+            "uniqueItems": false,
+            "maxProperties": 0,
+            "minProperties": 0,
+            "type": "string",
+            "description": "DescripciÃ³n del error ocurrido",
+            "nullable": false,
+            "readOnly": false,
+            "writeOnly": false,
+            "deprecated": false
           }
         },
         "nullable": false,
@@ -2261,6 +932,50 @@
         "writeOnly": false,
         "example": "{\"error\":\"Se produjo un error al procesar la solicitud\"}",
         "deprecated": false
+      },
+      "Errores": {
+        "exclusiveMaximum": false,
+        "exclusiveMinimum": false,
+        "minLength": 0,
+        "uniqueItems": false,
+        "maxProperties": 0,
+        "minProperties": 0,
+        "type": "array",
+        "nullable": false,
+        "readOnly": false,
+        "writeOnly": false,
+        "example": "[{\"error\":\"Se produjo un error al procesar la solicitud\"}]",
+        "deprecated": false,
+        "items": {
+          "exclusiveMaximum": false,
+          "exclusiveMinimum": false,
+          "minLength": 0,
+          "uniqueItems": false,
+          "maxProperties": 0,
+          "minProperties": 0,
+          "type": "object",
+          "properties": {
+            "error": {
+              "exclusiveMaximum": false,
+              "exclusiveMinimum": false,
+              "minLength": 0,
+              "uniqueItems": false,
+              "maxProperties": 0,
+              "minProperties": 0,
+              "type": "string",
+              "description": "DescripciÃ³n del error ocurrido",
+              "nullable": false,
+              "readOnly": false,
+              "writeOnly": false,
+              "deprecated": false
+            }
+          },
+          "nullable": false,
+          "readOnly": false,
+          "writeOnly": false,
+          "example": "{\"error\":\"Se produjo un error al procesar la solicitud\"}",
+          "deprecated": false
+        }
       },
       "Message": {
         "exclusiveMaximum": false,
@@ -2291,10 +1006,32 @@
         "type": "object",
         "properties": {
           "id": {
-            "type": "string"
+            "exclusiveMaximum": false,
+            "exclusiveMinimum": false,
+            "minLength": 0,
+            "uniqueItems": false,
+            "maxProperties": 0,
+            "minProperties": 0,
+            "type": "string",
+            "description": "Identificador UUID del token generado",
+            "nullable": false,
+            "readOnly": false,
+            "writeOnly": false,
+            "deprecated": false
           },
           "token": {
-            "type": "string"
+            "exclusiveMaximum": false,
+            "exclusiveMinimum": false,
+            "minLength": 0,
+            "uniqueItems": false,
+            "maxProperties": 0,
+            "minProperties": 0,
+            "type": "string",
+            "description": "Token de seguridad generado para el usuario",
+            "nullable": false,
+            "readOnly": false,
+            "writeOnly": false,
+            "deprecated": false
           },
           "roles": {
             "exclusiveMaximum": false,
@@ -2395,6 +1132,156 @@
         "example": "{\n  \"emision\": \"2023-11-02T15:55:47.933451\",\n  \"emisor\": \"https://grid.uniquindio.edu.co\",\n  \"id\": \"247b340c-74ee-4c89-8186-7013ede207bf\",\n  \"propiedades\": {},\n  \"roles\": [\n    \"admin\"\n  ],\n  \"token\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImdyb3VwcyI6ImFkbWluIiwiZXhwIjoxNjk4OTU4ODQ3LCJqdGkiOiIyNDdiMzQwYy03NGVlLTRjODktODE4Ni03MDEzZWRlMjA3YmYiLCJpc3MiOiJodHRwczovL2dyaWQudW5pcXVpbmRpby5lZHUuY28iLCJpYXQiOjE2OTg5NTg1NDd9.D6DF_It32Vk07TX7RSjSA17CK170nDutm7DqX-AVyQ--uloSKkWD0Daj3nlPYntjz0gX8vqUGE9nec-Fy5si2PLW-Ke_J12x4O7_NzMA3uoD2ILuz5kT6U5dcB6tACX58A1Vg69ifW8NCngl_1FD5iN3HWEq5rMCAWnbqpPKA3n-MQwLHnBz7qqviV-Nw8JkRvhrCzM5ptO177dMV-9dMeKReilp1kKcLHGX6QzDveHZTFJTtmNSgbJ_HjEv23KRtErX1V9C1asqDWZupgG7VwPvcUj88FD-ej2AaSK3JLd-fBYNutS_TE9dFZdmfR1KLQrcVGJYgs5iCv7qhzQm9w\",\n  \"usuario\": \"admin\",\n  \"vigencia\": \"2023-11-02T16:00:47.933367\"\n}",
         "deprecated": false
       },
+      "Tokens": {
+        "exclusiveMaximum": false,
+        "exclusiveMinimum": false,
+        "minLength": 0,
+        "uniqueItems": false,
+        "maxProperties": 0,
+        "minProperties": 0,
+        "type": "array",
+        "nullable": false,
+        "readOnly": false,
+        "writeOnly": false,
+        "example": "[{\n  \"emision\": \"2023-11-02T15:55:47.933451\",\n  \"emisor\": \"https://grid.uniquindio.edu.co\",\n  \"id\": \"247b340c-74ee-4c89-8186-7013ede207bf\",\n  \"propiedades\": {},\n  \"roles\": [\n    \"admin\"\n  ],\n  \"token\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImdyb3VwcyI6ImFkbWluIiwiZXhwIjoxNjk4OTU4ODQ3LCJqdGkiOiIyNDdiMzQwYy03NGVlLTRjODktODE4Ni03MDEzZWRlMjA3YmYiLCJpc3MiOiJodHRwczovL2dyaWQudW5pcXVpbmRpby5lZHUuY28iLCJpYXQiOjE2OTg5NTg1NDd9.D6DF_It32Vk07TX7RSjSA17CK170nDutm7DqX-AVyQ--uloSKkWD0Daj3nlPYntjz0gX8vqUGE9nec-Fy5si2PLW-Ke_J12x4O7_NzMA3uoD2ILuz5kT6U5dcB6tACX58A1Vg69ifW8NCngl_1FD5iN3HWEq5rMCAWnbqpPKA3n-MQwLHnBz7qqviV-Nw8JkRvhrCzM5ptO177dMV-9dMeKReilp1kKcLHGX6QzDveHZTFJTtmNSgbJ_HjEv23KRtErX1V9C1asqDWZupgG7VwPvcUj88FD-ej2AaSK3JLd-fBYNutS_TE9dFZdmfR1KLQrcVGJYgs5iCv7qhzQm9w\",\n  \"usuario\": \"admin\",\n  \"vigencia\": \"2023-11-02T16:00:47.933367\"\n}]",
+        "deprecated": false,
+        "items": {
+          "exclusiveMaximum": false,
+          "exclusiveMinimum": false,
+          "minLength": 0,
+          "uniqueItems": false,
+          "maxProperties": 0,
+          "minProperties": 0,
+          "type": "object",
+          "properties": {
+            "id": {
+              "exclusiveMaximum": false,
+              "exclusiveMinimum": false,
+              "minLength": 0,
+              "uniqueItems": false,
+              "maxProperties": 0,
+              "minProperties": 0,
+              "type": "string",
+              "description": "Identificador UUID del token generado",
+              "nullable": false,
+              "readOnly": false,
+              "writeOnly": false,
+              "deprecated": false
+            },
+            "token": {
+              "exclusiveMaximum": false,
+              "exclusiveMinimum": false,
+              "minLength": 0,
+              "uniqueItems": false,
+              "maxProperties": 0,
+              "minProperties": 0,
+              "type": "string",
+              "description": "Token de seguridad generado para el usuario",
+              "nullable": false,
+              "readOnly": false,
+              "writeOnly": false,
+              "deprecated": false
+            },
+            "roles": {
+              "exclusiveMaximum": false,
+              "exclusiveMinimum": false,
+              "minLength": 0,
+              "uniqueItems": false,
+              "maxProperties": 0,
+              "minProperties": 0,
+              "type": "array",
+              "description": "Contiene el listado de roles del usuario",
+              "nullable": false,
+              "readOnly": false,
+              "writeOnly": false,
+              "example": "[\"user\"]",
+              "deprecated": false,
+              "items": {
+                "type": "string"
+              }
+            },
+            "vigencia": {
+              "exclusiveMaximum": false,
+              "exclusiveMinimum": false,
+              "minLength": 0,
+              "uniqueItems": false,
+              "maxProperties": 0,
+              "minProperties": 0,
+              "type": "object",
+              "description": "Contiene el momento en que el token perderÃ¡ su validez",
+              "nullable": false,
+              "readOnly": false,
+              "writeOnly": false,
+              "example": "2023-11-02T16:00:47.933367",
+              "deprecated": false
+            },
+            "usuario": {
+              "exclusiveMaximum": false,
+              "exclusiveMinimum": false,
+              "minLength": 0,
+              "uniqueItems": false,
+              "maxProperties": 0,
+              "minProperties": 0,
+              "type": "string",
+              "description": "Usuario para el que se genero el token",
+              "nullable": false,
+              "readOnly": false,
+              "writeOnly": false,
+              "example": "pedro",
+              "deprecated": false
+            },
+            "emisor": {
+              "exclusiveMaximum": false,
+              "exclusiveMinimum": false,
+              "minLength": 0,
+              "uniqueItems": false,
+              "maxProperties": 0,
+              "minProperties": 0,
+              "type": "string",
+              "description": "Nombre de la entidad que emite el token",
+              "nullable": false,
+              "readOnly": false,
+              "writeOnly": false,
+              "example": "grid.uniquindio.edu.co",
+              "deprecated": false
+            },
+            "emision": {
+              "exclusiveMaximum": false,
+              "exclusiveMinimum": false,
+              "minLength": 0,
+              "uniqueItems": false,
+              "maxProperties": 0,
+              "minProperties": 0,
+              "type": "object",
+              "description": "Contiene el momento en que el token fue emitido",
+              "nullable": false,
+              "readOnly": false,
+              "writeOnly": false,
+              "example": "2023-11-02T16:00:47.933367",
+              "deprecated": false
+            },
+            "propiedades": {
+              "exclusiveMaximum": false,
+              "exclusiveMinimum": false,
+              "minLength": 0,
+              "uniqueItems": false,
+              "maxProperties": 0,
+              "minProperties": 0,
+              "type": "object",
+              "description": "Conjunto de propiedades adicionales que se almacenan en el token",
+              "nullable": false,
+              "readOnly": false,
+              "writeOnly": false,
+              "deprecated": false
+            }
+          },
+          "nullable": false,
+          "readOnly": false,
+          "writeOnly": false,
+          "example": "{\n  \"emision\": \"2023-11-02T15:55:47.933451\",\n  \"emisor\": \"https://grid.uniquindio.edu.co\",\n  \"id\": \"247b340c-74ee-4c89-8186-7013ede207bf\",\n  \"propiedades\": {},\n  \"roles\": [\n    \"admin\"\n  ],\n  \"token\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImdyb3VwcyI6ImFkbWluIiwiZXhwIjoxNjk4OTU4ODQ3LCJqdGkiOiIyNDdiMzQwYy03NGVlLTRjODktODE4Ni03MDEzZWRlMjA3YmYiLCJpc3MiOiJodHRwczovL2dyaWQudW5pcXVpbmRpby5lZHUuY28iLCJpYXQiOjE2OTg5NTg1NDd9.D6DF_It32Vk07TX7RSjSA17CK170nDutm7DqX-AVyQ--uloSKkWD0Daj3nlPYntjz0gX8vqUGE9nec-Fy5si2PLW-Ke_J12x4O7_NzMA3uoD2ILuz5kT6U5dcB6tACX58A1Vg69ifW8NCngl_1FD5iN3HWEq5rMCAWnbqpPKA3n-MQwLHnBz7qqviV-Nw8JkRvhrCzM5ptO177dMV-9dMeKReilp1kKcLHGX6QzDveHZTFJTtmNSgbJ_HjEv23KRtErX1V9C1asqDWZupgG7VwPvcUj88FD-ej2AaSK3JLd-fBYNutS_TE9dFZdmfR1KLQrcVGJYgs5iCv7qhzQm9w\",\n  \"usuario\": \"admin\",\n  \"vigencia\": \"2023-11-02T16:00:47.933367\"\n}",
+          "deprecated": false
+        }
+      },
       "Usuario": {
         "exclusiveMaximum": false,
         "exclusiveMinimum": false,
@@ -2458,6 +1345,84 @@
         "writeOnly": false,
         "example": "{\"usuario\":\"pedro\",\"clave\":\"12345\",\"roles\":[\"user\"]}",
         "deprecated": false
+      },
+      "Usuarios": {
+        "exclusiveMaximum": false,
+        "exclusiveMinimum": false,
+        "minLength": 0,
+        "uniqueItems": false,
+        "maxProperties": 0,
+        "minProperties": 0,
+        "type": "array",
+        "nullable": false,
+        "readOnly": false,
+        "writeOnly": false,
+        "example": "[{\"usuario\":\"pedro\",\"clave\":\"12345\",\"roles\":[\"user\"]}]",
+        "deprecated": false,
+        "items": {
+          "exclusiveMaximum": false,
+          "exclusiveMinimum": false,
+          "minLength": 0,
+          "uniqueItems": false,
+          "maxProperties": 0,
+          "minProperties": 0,
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "roles": {
+              "exclusiveMaximum": false,
+              "exclusiveMinimum": false,
+              "minLength": 0,
+              "uniqueItems": false,
+              "maxProperties": 0,
+              "minProperties": 0,
+              "type": "array",
+              "nullable": false,
+              "readOnly": false,
+              "writeOnly": false,
+              "example": "[\"user\"]",
+              "deprecated": false,
+              "items": {
+                "type": "string"
+              }
+            },
+            "usuario": {
+              "exclusiveMaximum": false,
+              "exclusiveMinimum": false,
+              "minLength": 0,
+              "uniqueItems": false,
+              "maxProperties": 0,
+              "minProperties": 0,
+              "type": "string",
+              "nullable": false,
+              "readOnly": false,
+              "writeOnly": false,
+              "example": "pedro",
+              "deprecated": false
+            },
+            "clave": {
+              "exclusiveMaximum": false,
+              "exclusiveMinimum": false,
+              "minLength": 0,
+              "uniqueItems": false,
+              "maxProperties": 0,
+              "minProperties": 0,
+              "type": "string",
+              "nullable": false,
+              "readOnly": false,
+              "writeOnly": false,
+              "example": "12345",
+              "deprecated": false
+            }
+          },
+          "nullable": false,
+          "readOnly": false,
+          "writeOnly": false,
+          "example": "{\"usuario\":\"pedro\",\"clave\":\"12345\",\"roles\":[\"user\"]}",
+          "deprecated": false
+        }
       }
     },
     "securitySchemes": {

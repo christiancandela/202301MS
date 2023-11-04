@@ -43,13 +43,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     public void unregister(String username, String user){
-        var usuario = get(username);
-        if( user == null || user.isBlank() ){
-            throw new LogicalException("Usuario no autorizado para realizar la operación.", Response.Status.UNAUTHORIZED);
-        }
-        if( !username.equalsIgnoreCase(user) ){
-            throw new LogicalException("Usuario no posee permisos para realizar la operación.", Response.Status.FORBIDDEN);
-        }
+        var usuario = get(username,user);
         unregister(usuario);
     }
 
@@ -61,6 +55,54 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     public void unregister(Usuario usuario) {
         repository.deleteById(usuario.id());
+    }
+
+    @Override
+    public Optional<Usuario> update(Usuario usuario, String user) {
+        checkAutorization(usuario.username(), user);
+        return update(usuario);
+    }
+
+    @Override
+    public Optional<Usuario> update(Usuario usuario) {
+        unregister(usuario.username());
+        return register(usuario);
+    }
+
+    @Override
+    public Optional<Usuario> updatePassword(String username, String password) {
+        var usuario = get(username);
+        var usuarioActualizado = Usuario.builder()
+                .id(usuario.id()).username(username).password(password).roles(usuario.roles()).build();
+        return update(usuarioActualizado);
+    }
+
+    @Override
+    public Optional<Usuario> updatePassword(String username, PasswordUpdateDTO passwordUpdateDTO, String user) {
+        checkAutorization(username,user);
+        var usuario = validate(new Credential(username, passwordUpdateDTO.password()));
+        if(!passwordUpdateDTO.newPassword().equals(passwordUpdateDTO.verifyPassword())){
+            throw new LogicalException("La nueva clave y su verificación no coinciden", Response.Status.BAD_REQUEST);
+        }
+        if( usuario.isEmpty() ){
+            throw new LogicalException("Usuario o clave incorrecta", Response.Status.FORBIDDEN);
+        }
+        return updatePassword(username,passwordUpdateDTO.newPassword());
+    }
+
+    public Usuario get(String username,String user){
+        Optional<Usuario> usuario = repository.findByUsername(username);
+        checkAutorization(username, user);
+        return usuario.orElseThrow(()->new LogicalException("Usuario no encontrado.", Response.Status.NOT_FOUND));
+    }
+
+    private static void checkAutorization(String username, String user) {
+        if( user == null || user.isBlank() ){
+            throw new LogicalException("Usuario no autorizado para realizar la operación.", Response.Status.UNAUTHORIZED);
+        }
+        if( !username.equalsIgnoreCase(user) ){
+            throw new LogicalException("Usuario no posee permisos para realizar la operación.", Response.Status.FORBIDDEN);
+        }
     }
 
     @Override
