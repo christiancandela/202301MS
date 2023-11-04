@@ -2,6 +2,16 @@ package co.edu.uniquindio.ingesis.autenticacion.usuario;
 
 import java.util.Comparator;
 import java.util.function.Predicate;
+/**
+ * Clase utilitaria que define las posibles búsquedas a realizar sobre un conjunto de usuarios, basado en sus atributos nombre de usuario y rol
+ *
+ * @author Alexandra Ruiz Gaona
+ * @author Christian A. Candela-Uribe
+ * @author Luis E. Sepúlveda-Rodríguez
+ * @since 2023
+ * <p>
+ * (<a href="https://raw.githubusercontent.com/grid-uq/poo/main/LICENSE">Licencia GNU/GPL V3.0</a>)
+ */
 
 public enum UsuarioUtil {
     INSTANCE;

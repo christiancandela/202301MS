@@ -7,21 +7,27 @@ import jakarta.ws.rs.ext.Provider;
 
 import java.util.Collections;
 import java.util.List;
-
-
+/**
+ * Clase encargada de mapear las excepciones de tipo {@link Throwable}, capturándolas y
+ * cambiando el formato de presentación a json antes de enviarlas como respuesta.
+ *
+ * @author Alexandra Ruiz Gaona
+ * @author Christian A. Candela-Uribe
+ * @author Luis E. Sepúlveda-Rodríguez
+ * @since 2023
+ *
+ * (<a href="https://raw.githubusercontent.com/grid-uq/poo/main/LICENSE">Licencia GNU/GPL V3.0</a>)
+ */
 @Provider
-public class GeneralExceptionMapper
-        implements ExceptionMapper<Throwable> {
+public class GeneralExceptionHandler implements ExceptionMapper<Throwable> {
 
     @Override
     public Response toResponse(final Throwable exception) {
         List<Error> errorMessages = Collections.singletonList( Error.of("Se ha presentado un error inesperado en el sistema: "+exception.getMessage()) );
-        exception.printStackTrace();
         return Response
                 .status(Response.Status.INTERNAL_SERVER_ERROR)
                 .type(MediaType.APPLICATION_JSON_TYPE)
                 .entity(errorMessages)
                 .build();
     }
-
 }

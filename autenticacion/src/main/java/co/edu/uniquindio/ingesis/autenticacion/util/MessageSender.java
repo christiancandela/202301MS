@@ -11,7 +11,16 @@ import java.nio.charset.StandardCharsets;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.util.concurrent.TimeoutException;
-
+/**
+ * Clase usada para la conexión al bus de mensajería y así permitir el envío de eventos a otros microservicios
+ *
+ * @author Alexandra Ruiz Gaona
+ * @author Christian A. Candela-Uribe
+ * @author Luis E. Sepúlveda-Rodríguez
+ * @since 2023
+ * <p>
+ * (<a href="https://raw.githubusercontent.com/grid-uq/poo/main/LICENSE">Licencia GNU/GPL V3.0</a>)
+ */
 public class MessageSender {
     private Connection connection;
     private Channel channel;

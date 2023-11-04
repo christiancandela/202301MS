@@ -5,6 +5,16 @@ import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 
+/**
+ * Registro que representa la información de un error, es usado para representar dichos errores y ser transformado a JSON.
+ *
+ * @author Alexandra Ruiz Gaona
+ * @author Christian A. Candela-Uribe
+ * @author Luis E. Sepúlveda-Rodríguez
+ * @since 2023
+ *
+ * (<a href="https://raw.githubusercontent.com/grid-uq/poo/main/LICENSE">Licencia GNU/GPL V3.0</a>)
+ */
 @Schema(implementation = Error.class,name = "Error",
         example = "{\"error\":\"Se produjo un error al procesar la solicitud\"}"
 )

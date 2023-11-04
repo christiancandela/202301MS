@@ -5,7 +5,6 @@ import jakarta.annotation.Nonnull;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
-import jakarta.security.enterprise.SecurityContext;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.ws.rs.*;
@@ -14,7 +13,6 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriBuilder;
 
 import java.net.URI;
-import java.security.Principal;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.logging.Logger;
@@ -28,11 +26,6 @@ import java.util.logging.Logger;
 public class UsuarioController implements UsuarioAPI {
 
     private static final Logger LOGGER = Logger.getLogger(UsuarioController.class.getName());
-    @Inject
-    private Principal principal;
-
-    @Inject
-    private SecurityContext securityContext;
     @Inject
     private UsuarioService service;
 
@@ -58,15 +51,7 @@ public class UsuarioController implements UsuarioAPI {
     @RolesAllowed({"user","admin"})
     public Response update(@PathParam("username") @Nonnull String username,@Nonnull Usuario usuario) {
         LOGGER.info("Operacion actualizar user");
-        Optional<Usuario> resultado;
-        if( securityContext.isCallerInRole("admin") ){
-            resultado = service.update(usuario);
-        } else if(username.equalsIgnoreCase(usuario.username())){
-            resultado = service.update(usuario, principal.getName());
-        } else {
-            throw new WebApplicationException("Solicitud invalida", Response.Status.BAD_REQUEST);
-        }
-
+        Optional<Usuario> resultado= service.update(usuario);
         return Response
                 .ok(resultado
                         .orElseThrow(
@@ -82,12 +67,7 @@ public class UsuarioController implements UsuarioAPI {
     @RolesAllowed({"user","admin"})
     public Response updatePassword(@PathParam("username") @Nonnull String username, @Nonnull PasswordUpdateDTO passwordUpdateDTO) {
         LOGGER.info("Operacion actualizar password");
-        Optional<Usuario> resultado;
-        if( securityContext.isCallerInRole("admin") ){
-            resultado = service.updatePassword(username,passwordUpdateDTO.newPassword());
-        } else {
-            resultado = service.updatePassword(username,passwordUpdateDTO, principal.getName());
-        }
+        Optional<Usuario> resultado = service.updatePassword(username,passwordUpdateDTO);
         return Response
                 .ok(resultado
                         .orElseThrow(
@@ -103,11 +83,7 @@ public class UsuarioController implements UsuarioAPI {
     @RolesAllowed({"user","admin"})
     public Response delete(@PathParam("username") @Nonnull String username){
         LOGGER.info("Operacion delete user");
-        if( securityContext.isCallerInRole("admin") ){
-            service.unregister(username);
-        } else {
-            service.unregister(username, principal.getName());
-        }
+        service.unregister(username);
         return Response.noContent().entity(Message.of("Operación exitosa")).build();
     }
 
@@ -117,12 +93,7 @@ public class UsuarioController implements UsuarioAPI {
     @RolesAllowed({"user","admin"})
     public Response get(@PathParam("username") @NotBlank String username){
         LOGGER.info("Operacion get usuario");
-        Usuario resultado;
-        if( securityContext.isCallerInRole("admin") ){
-            resultado = service.get(username);
-        } else {
-            resultado = service.get(username, principal.getName());
-        }
+        Usuario resultado= service.get(username);
         return Response.ok(resultado).build();
     }
 

@@ -10,9 +10,19 @@ import jakarta.ws.rs.ext.Provider;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-
+/**
+ * Clase encargada de mapear las excepciones de tipo {@link ConstraintViolationException}, capturándolas y
+ * cambiando el formato de presentación a json antes de enviarlas como respuesta.
+ *
+ * @author Alexandra Ruiz Gaona
+ * @author Christian A. Candela-Uribe
+ * @author Luis E. Sepúlveda-Rodríguez
+ * @since 2023
+ *
+ * (<a href="https://raw.githubusercontent.com/grid-uq/poo/main/LICENSE">Licencia GNU/GPL V3.0</a>)
+ */
 @Provider
-public class BeanValidationExceptionMapper
+public class BeanValidationExceptionHandler
         implements ExceptionMapper<ConstraintViolationException> {
 
     @Override
