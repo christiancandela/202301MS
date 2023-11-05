@@ -14,15 +14,34 @@ import java.util.function.Predicate;
  */
 
 public enum UsuarioUtil {
+    /**
+     * Instancia única de la clase utilitaria
+     */
     INSTANCE;
-    public Predicate<Usuario> findByUsername(String username){
-        return usuario->usuario.username().equals(username);
-    }
 
+    /**
+     * Condición que especifica la búsqueda por nombre de usuario, donde los usuarios deben contener el username dado en su nombre de usuario.
+     * @param username Nombre de usuario buscado
+     * @return Predicate construido como la coincidencia del username búscado con el username del {@link Usuario}
+     */
+    public Predicate<Usuario> findByUsername(String username){
+        return usuario->usuario.username().contains(username);
+    }
+    /**
+     * Condición que especifica la búsqueda de los usuarios que contengan un rol específico
+     * @param rol Rol de usuario a ser usado como condición de búsqueda
+     * @return Predicate construido como la existencia de rol entre el conjunto de roles del {@link Usuario}
+     */
     public Predicate<Usuario> findByRol(String rol){
         return usuario->usuario.roles().contains(rol);
     }
 
+    /**
+     * Permite combinar los {@link Predicate} de findByUsername y findByRol en uno solo dependiendo de los parámetros enviados.
+     * @param username Nombre de usuario buscado
+     * @param rol Rol de usuario a ser usado como condición de búsqueda
+     * @return Predicate que combina la búsqueda por rol y por username.
+     */
     public Predicate<Usuario> find(String username,String rol){
         Predicate<Usuario> predicate = usuario -> true;
         if( username != null && !username.isBlank()  ){
@@ -34,6 +53,12 @@ public enum UsuarioUtil {
         return predicate;
     }
 
+    /**
+     * Retorna un {@link Comparator} a ser usando para ordenar los resultados de las búsquedas.
+     * El comparetor se basa en el nombre de usuario.
+     * @param tipo DESC o ASC, si se especifica DESC se ordena por alfabéticamente en orden descendente, en caso contrario se usa ordenamiento ascendente.
+     * @return Comparetor a usar para el ordenamiento de las búsquedas.
+     */
     public Comparator<Usuario> order(String tipo){
         var comparetor = Comparator.comparing(Usuario::username);
         if( "DESC".equalsIgnoreCase(tipo) ){

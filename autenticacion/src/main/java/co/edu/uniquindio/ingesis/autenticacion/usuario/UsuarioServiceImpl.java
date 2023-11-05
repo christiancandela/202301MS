@@ -35,6 +35,9 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Inject
     private SecurityContext securityContext;
 
+    /**
+     * @see UsuarioService#validate(Credential)
+     */
     @Override
     public Optional<Usuario> validate(Credential credential){
         var password = credential.password().toCharArray();
@@ -43,6 +46,9 @@ public class UsuarioServiceImpl implements UsuarioService {
         return usuario.stream().filter( claveValida ).findAny();
     }
 
+    /**
+     * @see UsuarioService#register(Usuario)
+     */
     @Override
     public Optional<Usuario> register(Usuario usuario) {
         if( repository.findByUsername(usuario.username()).isPresent() ){
@@ -60,28 +66,43 @@ public class UsuarioServiceImpl implements UsuarioService {
         return Optional.ofNullable(nuevoUsuario);
     }
 
+    /**
+     * @see UsuarioService#unregister(String)
+     */
     @Override
     public void unregister(String username){
-        unregister(get(username));
+        repository.deleteById(get(username).id());
     }
 
-    public void unregister(Usuario usuario) {
-        repository.deleteById(usuario.id());
-    }
-
+    /**
+     * @see UsuarioService#update(Usuario)
+     */
     @Override
     public Optional<Usuario> update(Usuario usuario) {
         unregister(usuario.username());
         return register(usuario);
     }
 
-    public Optional<Usuario> updatePassword(String username, String password) {
+    /**
+     * Permite actualizar la clave de un usuario.
+     *
+     * @param username nombre de usuario al que se desea cambiar la clave.
+     * @param password nueva clave a ser asignada.
+     * @return Optional que contiene él {@link Usuario} al que se le modificó la clave, en caso de no haber podido
+     * realizar la operación, retornará un Optional vacío.
+     * @throws LogicalException En caso de que no haya un usuario autenticado o el usuario autenticado cuente
+     * con permisos para realizar la operación, o cuando no se encuentra un Usuario al que pertenezca el username dado.
+     */
+    private Optional<Usuario> updatePassword(String username, String password) {
         var usuario = get(username);
         var usuarioActualizado = Usuario.builder()
                 .id(usuario.id()).username(username).password(password).roles(usuario.roles()).build();
         return update(usuarioActualizado);
     }
 
+    /**
+     * @see UsuarioService#updatePassword(String, PasswordUpdateDTO)
+     */
     @Override
     public Optional<Usuario> updatePassword(String username, PasswordUpdateDTO passwordUpdateDTO) {
         if(isUser()) {
@@ -96,6 +117,15 @@ public class UsuarioServiceImpl implements UsuarioService {
         return updatePassword(username,passwordUpdateDTO.newPassword());
     }
 
+    /**
+     * Verifica que el usuario autenticado pueda realizar operaciones sobre el usuario al que pertenece el username.
+     * Esto es, si es un admin o si es el mismo usuario sobre el que se está realizando la operación.
+     * En caso de no cumplir ninguno de los requisitos se genera una excepción.
+     * @param username Username del usuario que se ve afectado por la operación.
+     *
+     * @throws LogicalException En caso de que no haya un usuario autenticado o el usuario autenticado no sea un
+     * administrador y no sea a el a quien pertenece el username dado.
+     */
     private void checkAutorization(String username) {
         if (isUser()) {
             if( principal == null || principal.getName() == null || principal.getName().isBlank() ){
@@ -107,6 +137,9 @@ public class UsuarioServiceImpl implements UsuarioService {
         }
     }
 
+    /**
+     * @see UsuarioService#get(String)
+     */
     @Override
     public Usuario get(String username){
         checkAutorization(username);
@@ -114,7 +147,9 @@ public class UsuarioServiceImpl implements UsuarioService {
         return usuario.orElseThrow(()->new LogicalException("Usuario no encontrado.", Response.Status.NOT_FOUND));
     }
 
-
+    /**
+     * @see UsuarioService#get(String, String, String)
+     */
     @Override
     public Collection<Usuario> get(String username, String rol, String order){
         return repository.find(UsuarioUtil.INSTANCE.find(username,rol), UsuarioUtil.INSTANCE.order(order));
