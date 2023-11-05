@@ -1,7 +1,5 @@
 package co.edu.uniquindio.ingesis.autenticacion.repository;
 
-import co.edu.uniquindio.ingesis.autenticacion.usuario.Usuario;
-import co.edu.uniquindio.ingesis.autenticacion.usuario.UsuarioService;
 import lombok.extern.java.Log;
 
 import java.util.*;

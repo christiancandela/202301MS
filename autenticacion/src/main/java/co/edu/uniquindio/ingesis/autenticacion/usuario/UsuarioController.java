@@ -29,6 +29,9 @@ public class UsuarioController implements UsuarioAPI {
     @Inject
     private UsuarioService service;
 
+    /**
+     * @see UsuarioAPI#create(Usuario) 
+     */
     @Override
     @POST
     public Response create(@Valid Usuario usuario) {
@@ -45,6 +48,9 @@ public class UsuarioController implements UsuarioAPI {
                 .entity(nuevoUsuario.get()).build() ;
     }
 
+    /**
+     * @see UsuarioAPI#update(String, Usuario) 
+     */
     @Override
     @PUT
     @Path("{username}")
@@ -61,6 +67,9 @@ public class UsuarioController implements UsuarioAPI {
                 .build();
     }
 
+    /**
+     * @see UsuarioAPI#updatePassword(String, PasswordUpdateDTO) 
+     */
     @Override
     @PATCH
     @Path("{username}")
@@ -77,6 +86,9 @@ public class UsuarioController implements UsuarioAPI {
                 .build();
     }
 
+    /**
+     * @see UsuarioAPI#delete(String)
+     */
     @Override
     @DELETE
     @Path("{username}")
@@ -87,6 +99,9 @@ public class UsuarioController implements UsuarioAPI {
         return Response.noContent().entity(Message.of("Operación exitosa")).build();
     }
 
+    /**
+     * @see UsuarioAPI#get(String) 
+     */
     @Override
     @GET
     @Path("{username}")
@@ -97,6 +112,9 @@ public class UsuarioController implements UsuarioAPI {
         return Response.ok(resultado).build();
     }
 
+    /**
+     * @see UsuarioAPI#list(String, String, String) 
+     */
     @Override
     @GET
     @RolesAllowed({"admin"})

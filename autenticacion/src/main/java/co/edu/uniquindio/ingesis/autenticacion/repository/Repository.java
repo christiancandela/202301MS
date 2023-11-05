@@ -3,7 +3,7 @@ package co.edu.uniquindio.ingesis.autenticacion.repository;
 import java.util.Collection;
 import java.util.Optional;
 /**
- * Interfaz que define un elemento el conjunto de operaciones básicas de un repositorio para la gestión de datos.
+ * Interfaz que define para un elemento el conjunto de operaciones básicas de un repositorio para la gestión de datos.
  * @param <T> Tipo de dato a ser gestionado por el repositorio.
  * @author Alexandra Ruiz Gaona
  * @author Christian A. Candela-Uribe

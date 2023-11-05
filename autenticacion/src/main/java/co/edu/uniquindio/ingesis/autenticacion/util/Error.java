@@ -24,6 +24,9 @@ public record Error(@Schema(name = "error", description = "Descripción del erro
     }
 }
 
+/**
+ * Entidad creada solo con propósitos de documentación del API. Modela un arreglo de Errores.
+ */
 @Schema(type = SchemaType.ARRAY,implementation = Error.class,name = "Errores",
         example = "[{\"error\":\"Se produjo un error al procesar la solicitud\"}]"
 )

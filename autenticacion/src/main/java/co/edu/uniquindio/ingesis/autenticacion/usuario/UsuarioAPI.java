@@ -17,8 +17,23 @@ import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 import org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement;
 
 import java.util.Collection;
-
+/**
+ * Interfaz que define el conjunto de operaciones sobre el recurso /usuarios a ser expuesta (registro de usuario,
+ * baja de usuarios, actualización de usuarios, actualización de clave, consulta de datos de usuario y listado de usuarios).
+ *
+ * @author Alexandra Ruiz Gaona
+ * @author Christian A. Candela-Uribe
+ * @author Luis E. Sepúlveda-Rodríguez
+ * @since 2023
+ * <p>
+ * (<a href="https://raw.githubusercontent.com/grid-uq/poo/main/LICENSE">Licencia GNU/GPL V3.0</a>)
+ */
 public interface UsuarioAPI {
+    /**
+     * Operación para el registro de usuarios POST /usuarios
+     * @param usuario Usuario a ser registrado
+     * @return Usuario registrado.
+     */
     @Operation(
             summary = "Registrar usuario",
             description = "Permite registrar un usuario en el sistema",operationId = "UsuarioAPI :: registrar"
@@ -45,6 +60,11 @@ public interface UsuarioAPI {
     Response create(@RequestBody(description = "Usuario a registrar", required = true,
             content = @Content(schema = @Schema(ref = "Usuario"))) @Valid Usuario usuario);
 
+    /**
+     * Operación para dar de baja a un usuario DELETE /usuarios/{username}
+     * @param username username del Usuario a ser dado de baja
+     * @return Message o Error con el resultado de la operación.
+     */
     @Operation(
             summary = "Dar de baja un usuario",
             description = "Permite dar de baja (borrar) un usuario en el sistema",operationId = "UsuarioAPI :: unregister"
@@ -74,6 +94,12 @@ public interface UsuarioAPI {
     @SecurityRequirement(name = "JWT",scopes = {"user","admin"})
     Response delete(@Parameter(description = "nombre del usuario que se desea dar de baja", example = "pedro",required = true) @PathParam("username") @NotBlank String username);
 
+    /**
+     * Operación para actualizar un usuario UPDATE /usuarios/{username}
+     * @param username username del Usuario a ser dado de baja
+     * @param usuario Datos del Usuario qee se actualizarán
+     * @return Usuario o Error con el resultado de la operación.
+     */
     @Operation(
             summary = "Actualizar usuario",
             description = "Permite actualizar los datos de un usuario en el sistema",operationId = "UsuarioAPI :: actualizar"
@@ -111,6 +137,12 @@ public interface UsuarioAPI {
                         content = @Content(schema = @Schema(ref = "Usuario")))
                     @Nonnull @Valid Usuario usuario);
 
+    /**
+     * Operación para actualizar la clave de un Usuario PATCH /usuarios/{username}
+     * @param username username del Usuario a ser dado de baja
+     * @param passwordUpdateDTO Conjunto de elementos necesarios para actualizar la clave (clave actual, nueva clave y confirmación de la nueva clave)
+     * @return Usuario o Error con el resultado de la operación.
+     */
     @Operation(
             summary = "Actualizar clave",
             description = "Permite actualizar la clave de un usuario en el sistema",operationId = "UsuarioAPI :: actualizar clave"
@@ -148,6 +180,11 @@ public interface UsuarioAPI {
                             content = @Content(schema = @Schema(ref = "Clave")))
                     @Nonnull @Valid PasswordUpdateDTO passwordUpdateDTO);
 
+    /**
+     * Operación para obtener los datos de un usuario GET /usuarios/{username}
+     * @param username username del Usuario a ser dado de baja
+     * @return Usuario o Error con el resultado de la operación.
+     */
     @Operation(
             summary = "obtener datos de usuario",
             description = "Permite obtener los datos de un usuario",operationId = "UsuarioAPI :: consultar usuario"
@@ -178,6 +215,13 @@ public interface UsuarioAPI {
     @SecurityRequirement(name = "JWT",scopes = {"user","admin"})
     Response get(@Parameter(description = "nombre del usuario del que se desea obtener los datos", example = "pedro",required = true) @NotBlank @PathParam("username") String username);
 
+    /**
+     * Operación para consultar los usuarios registrados GET /usuarios/, permite filtrar por el username y el rol.
+     * @param username username del Usuario a ser usado como filtro
+     * @param rol Rol a ser usado como filtro
+     * @param order Orden (DESC|ASC) en que se desea obtener los usuarios (por username ascendente, o por username descendente)
+     * @return Conjunto de Usuarios o Error con el resultado de la operación.
+     */
     @Operation(
             summary = "lista los usuarios",
             description = "Permite obtener un listado de los usuarios registrados en el sistema, es posible filtrarlos por rol y por el nombre de usuario, de igual forma es posible ordenarlos ASC o DESC",

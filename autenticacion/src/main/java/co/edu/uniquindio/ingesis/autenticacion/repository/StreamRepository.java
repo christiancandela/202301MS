@@ -6,7 +6,7 @@ import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 /**
- * Interfaz que define un elemento el conjunto de operaciones básicas de un repositorio con soporte de streams.
+ * Interfaz que define para un elemento el conjunto de operaciones básicas de un repositorio con soporte de streams.
  * @param <T> Tipo de dato a ser gestionado por el repositorio.
  * @author Alexandra Ruiz Gaona
  * @author Christian A. Candela-Uribe
