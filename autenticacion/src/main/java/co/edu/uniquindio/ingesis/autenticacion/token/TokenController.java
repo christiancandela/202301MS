@@ -14,8 +14,16 @@ import java.util.Collection;
 import java.util.logging.Logger;
 
 /**
+ * Implementación del API de Tokens {@link TokenAPI} para la gestión de los tokens. Permite registrarlos y obtenerlos.
  *
+ * @author Alexandra Ruiz Gaona
+ * @author Christian A. Candela-Uribe
+ * @author Luis E. Sepúlveda-Rodríguez
+ * @since 2023
+ * <p>
+ * (<a href="https://raw.githubusercontent.com/grid-uq/poo/main/LICENSE">Licencia GNU/GPL V3.0</a>)
  */
+
 @Path("/tokens")
 @Produces(MediaType.APPLICATION_JSON+"; charset=UTF-8")
 @Singleton
@@ -29,6 +37,9 @@ public class TokenController implements TokenAPI {
         this.service = service;
     }
 
+    /**
+     * @see TokenAPI#create(Credential)
+     */
     @Override
     @POST
     public Response create(@Valid Credential credential) {
@@ -43,6 +54,9 @@ public class TokenController implements TokenAPI {
                 .entity(token).header("Authorization","Bearer "+token.get().token()).build() ;
     }
 
+    /**
+     * @see TokenAPI#check(String)
+     */
     @Override
     @GET
     @Path("{id}")
@@ -55,6 +69,9 @@ public class TokenController implements TokenAPI {
         return Response.ok(service.get(id)).build();
     }
 
+    /**
+     * @see TokenAPI#list()
+     */
     @Override
     @GET
     @RolesAllowed({"admin"})
@@ -62,5 +79,4 @@ public class TokenController implements TokenAPI {
         LOGGER.info("Operacion list");
         return service.get();
     }
-
 }

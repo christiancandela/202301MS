@@ -18,7 +18,14 @@ import java.util.Optional;
 import java.util.logging.Logger;
 
 /**
+ * Implementación del API de Usuarios {@link UsuarioAPI} para la gestión de los usuarios. Permite registrarlos, obtenerlos, actualizarlos y borrarlos.
  *
+ * @author Alexandra Ruiz Gaona
+ * @author Christian A. Candela-Uribe
+ * @author Luis E. Sepúlveda-Rodríguez
+ * @since 2023
+ * <p>
+ * (<a href="https://raw.githubusercontent.com/grid-uq/poo/main/LICENSE">Licencia GNU/GPL V3.0</a>)
  */
 @Path("/usuarios")
 @Produces(MediaType.APPLICATION_JSON+"; charset=UTF-8")

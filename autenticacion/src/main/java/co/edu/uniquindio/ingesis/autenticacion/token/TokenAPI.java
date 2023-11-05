@@ -14,8 +14,23 @@ import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 import org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement;
 
 import java.util.Collection;
-
+/**
+ * Interfaz que define el conjunto de operaciones sobre el recurso /tokens a ser expuesta (generación de tokens,
+ * consulta de datos de token y listado de tokens).
+ *
+ * @author Alexandra Ruiz Gaona
+ * @author Christian A. Candela-Uribe
+ * @author Luis E. Sepúlveda-Rodríguez
+ * @since 2023
+ * <p>
+ * (<a href="https://raw.githubusercontent.com/grid-uq/poo/main/LICENSE">Licencia GNU/GPL V3.0</a>)
+ */
 public interface TokenAPI {
+    /**
+     * Operación para la generación del token POST /tokens
+     * @param credential Credenciales del usuario para el que se va a generar el {@link Token}
+     * @return Token generado o Error con el resultado de la operación.
+     */
     @Operation(
             summary = "Generar Token",
             description = "Permite generar un token a partir de las credenciales (usuario y clave) de un usuario registrado en el sistema",
@@ -44,6 +59,11 @@ public interface TokenAPI {
                     content = @Content(schema = @Schema(ref = "Credential")))
             @Valid Credential credential);
 
+    /**
+     * Operación para la verificación del token GET /tokens/{id}
+     * @param id Identificador del token que se quiere verificar.
+     * @return Token registrado o Error con el resultado de la operación.
+     */
     @Operation(
             summary = "Verificar token",
             description = "Permite obtener los datos de un token, permitiendo verificar su validez",
@@ -74,6 +94,10 @@ public interface TokenAPI {
     @SecurityRequirement(name = "JWT",scopes = {"user","admin"})
     Response check(@Parameter(description = "Identificador UUID del token que se desea obtener",required = true) @PathParam("id") String id);
 
+    /**
+     * Operación para listar los tokens registrados en el sistema que aún están vigentes GET /tokens/
+     * @return conjunto de Tokens registrados que aún son vigentes o Error con el resultado de la operación.
+     */
     @Operation(
             summary = "Listar tokens",
             description = "Permite obtener un listado de los token validos",
