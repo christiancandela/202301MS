@@ -1,50 +1,56 @@
 package co.edu.uniquindio.ingesis.autenticacion.seguridad;
 
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
-import org.eclipse.microprofile.config.ConfigProvider;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.security.Key;
-import java.util.Optional;
 
-// https://github.com/jwtk/jjwt/tree/0.11.2
+/**
+ * Clase utilitaria usada para la generación de tokens, de forma particular está clase implementa los tokens mediante el algoritmo SHA.
+ * <p>
+ * <a href="https://github.com/jwtk/jjwt">libraría usada</a>
+ * <p>
+ * @author Alexandra Ruiz Gaona
+ * @author Christian A. Candela-Uribe
+ * @author Luis E. Sepúlveda-Rodríguez
+ * @since 2023
+ * <p>
+ * (<a href="https://raw.githubusercontent.com/grid-uq/poo/main/LICENSE">Licencia GNU/GPL V3.0</a>)
+ */
 public class TokenShaUtil extends TokenUtil {
-
+    /**
+     * Constructor que permite inicializar el tiempo de vida del token y la entidad generadora.
+     * @param timeOfLife Tiempo de vida del token
+     * @param issuer Entidad generadora del token
+     */
     public TokenShaUtil(long timeOfLife, String issuer) {
-        super(timeOfLife, issuer, loadKey(), loadKey(), SignatureAlgorithm.HS512);
+        super(timeOfLife, issuer);
     }
 
+
+    /**
+     * Constructor por defecto.
+     */
     public TokenShaUtil() {
-        super(loadKey(), loadKey(), SignatureAlgorithm.HS512);
+        super();
     }
 
-    private static Key loadKey() {
-        Key key;
-        try {
-            key = keyFromConfiguration().orElse(Keys.secretKeyFor(SignatureAlgorithm.HS512));
-        } catch (Exception exception) {
-            throw new RuntimeException("No se pudo cargar la llave", exception);
-        }
-        return key;
+    /**
+     * @see TokenUtil#loadSignatureKey()
+     */
+    @Override
+    protected Key loadSignatureKey() {
+        var keyLoaderUtil = new KeyLoaderUtil("mp.jwt.verify.publickey",
+                "mp.jwt.verify.publickey.location");
+        return keyLoaderUtil.loadKeyAsString().map(this::parse).orElse( Jwts.SIG.HS512.key().build() );
     }
 
-    private static Optional<Key> keyFromConfiguration() throws URISyntaxException, IOException {
-        var optionalKey = ConfigProvider.getConfig().getOptionalValue("mp.jwt.verify.publickey", String.class);
-        String secretKey = optionalKey.orElse(readFromFile());
-        if (secretKey != null) {
-            var byteKey = removeBeginEnd(secretKey).getBytes();
-            return Optional.of( Keys.hmacShaKeyFor(byteKey) );
-        }
-        return Optional.empty();
-    }
-
-    private static  String readFromFile() throws URISyntaxException, IOException {
-        var optionalKey = ConfigProvider.getConfig().getOptionalValue("mp.jwt.verify.publickey.location", String.class);
-        if (optionalKey.isPresent()) {
-            return readFromFile(optionalKey.get());
-        }
-        return null;
+    /**
+     * Método encargado de transformar la representación String de la llave privada a Key
+     * @return Key que representa la llave privada a ser usada para la generación de los tokens
+     */
+    public Key parse(String keyAsString) {
+        var byteKey = keyAsString.getBytes();
+        return Keys.hmacShaKeyFor(byteKey);
     }
 }
